@@ -1,4 +1,4 @@
-# HALs Store
+# HALs Equipment Store
 ArmA 3 Equipment shop dialog.
 
 ## Maintainers
