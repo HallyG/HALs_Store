@@ -10,6 +10,9 @@ class cfgFunctions {
 
 #include "HALs\Addons\Store\dialog\dialog.hpp"
 
+
+// Configuration below
+
 class cfgHALsMoney {
 	startingFunds = 1337;
 };
