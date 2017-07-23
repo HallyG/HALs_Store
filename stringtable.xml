@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project name="HALs_store">
+    <Package name="General">
+	    <Key ID="STR_HALS_STORE_ACTION">
+		    <Original>Store</Original>
+		    <English>Store</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_ITEM_UNAVALIABLE">
+		    <Original>Item unavaliable</Original>
+		    <English>Item unavaliable</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_ITEM_OUTOFSTOCK">
+		    <Original>Insufficient stock</Original>
+		    <English>Insufficient stock</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_ITEM_TOOEXPENSIVE">
+		    <Original>Insufficient funds</Original>
+		    <English>Insufficient funds</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_ITEM_NOCARGOSPACE">
+		    <Original>Insufficient cargo space</Original>
+		    <English>Insufficient cargo space</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_ITEM_PURCHASED">
+		    <Original>purchased</Original>
+		    <English>purchased</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+	</Package>
+	<Package name="Dialog">
+	    <Key ID="STR_HALS_STORE_CHECKBOX_AFFORD">
+		    <Original>Only show items which the player can afford</Original>
+		    <English>Only show items which the player can afford</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+	    <Key ID="STR_HALS_STORE_CHECKBOX_STOCK">
+		    <Original>Only show items which are in stock</Original>
+		    <English>Only show items which are in stock</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+	    <Key ID="STR_HALS_STORE_CHECKBOX_COMPATIBLE">
+		    <Original>Only show items compatible with the player's equipped weapons</Original>
+		    <English>Only show items compatible with the player's equipped weapons</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+	    <Key ID="STR_HALS_STORE_CHECKBOX_EQUIP">
+		    <Original>Equip item upon purchase (if possible)</Original>
+		    <English>Equip item upon purchase (if possible)</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+	    <Key ID="STR_HALS_STORE_BUTTON_PURCHASE">
+		    <Original>Purchase</Original>
+		    <English>Purchase</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+	</Package>
+</Project>
