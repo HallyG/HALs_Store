@@ -125,7 +125,7 @@ switch (toUpper _mode) do {
 								if (_price > _money) then {
 									_listbox lbSetColorRight [_index, [0.91, 0, 0, 1]];
 									_listbox lbSetSelectColorRight [_index, [0.91, 0, 0, 1]];
-									_listbox lbSetTooltip [_index, format ["%1¢ more required", (_price - _money) call HALs_fnc_numberToString]];	
+									_listbox lbSetTooltip [_index, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];	
 								} else {
 									_listbox lbSetTooltip [_index, _displayName];							
 									_listbox lbSetColorRight [_index, [0.666667, 1, 0.666667, 1]];	
@@ -427,14 +427,15 @@ switch (toUpper _mode) do {
 					
 						_pictureCtrl ctrlSetText (_listbox lbPicture _index);
 						_textCtrl ctrlSetStructuredText parseText format [
-							"<t size='1.3' font ='PuristaMedium'>%1</t><br/>Price:  <t color='#aaffaa'>%2¢</t><br/>%3<t font = 'PuristaMedium'>%4</t>",
+							"<t size='1.3' font ='PuristaMedium'>%1</t><br/>%5:  <t color='#aaffaa'>%2¢</t><br/>%3<t font = 'PuristaMedium'>%4</t>",
 							_listbox lbText _index,
 							(_listbox lbValue _index) call HALs_fnc_numberToString,
 							[
-								"<t color='#DD2626'>OUT OF STOCK</t><br/><br/>",
-								format ["<t color='#A0DF3B'>IN STOCK</t>:  %1<br/><br/>", _stock call HALs_fnc_numberToString]
+								format ["<t color='#DD2626'>%1</t><br/><br/>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
+								format ["<t color='#A0DF3B'>%1</t>:  %2<br/><br/>", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
 							] select (_stock > 0),
-							[(_description select 0), (_description select 1)] select ((_description select 0) isEqualTo "")
+							[(_description select 0), (_description select 1)] select ((_description select 0) isEqualTo ""),
+							localize "STR_HALS_STORE_TEXT_PRICE"
 						];
 						
 						private _pos = ctrlPosition _textCtrl;
