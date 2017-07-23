@@ -1,5 +1,5 @@
 # HALs Store
-ArmA 3 script which adds a GUI to buy stuff.
+ArmA 3 Equipment shop dialog.
 
 ## Maintainers
 The people responsible for merging changes to this component or answering potential questions.
