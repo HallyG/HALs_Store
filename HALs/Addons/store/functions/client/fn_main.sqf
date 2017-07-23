@@ -472,7 +472,7 @@ switch (toUpper _mode) do {
 						_trader = (player getVariable ["HALs_store_trader_current", objNull]);
 						_containers = vehicles select {
 							private _vehicle = _x;
-							({typeof _vehicle isKindOf _x} count HALs_store_containerTypes) > 0
+							({_vehicle isKindOf _x} count HALs_store_containerTypes) > 0
 							&& {_x distance2D _trader <= HALs_store_containerRadius && {speed _x < 1} && {local _x} && {alive _x}}};
 						_playerContainers = [uniformContainer player, vestContainer player, backpackContainer player];
 						_money = [player] call HALs_money_fnc_getFunds;
