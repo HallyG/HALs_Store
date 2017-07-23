@@ -102,5 +102,41 @@
 			<Spanish></Spanish>
 			<Italian></Italian>
 		</Key>
+		<Key ID="STR_HALS_STORE_TEXT_PRICE">
+		    <Original>Price</Original>
+		    <English>Price</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_TEXT_INSTOCK">
+		    <Original>IN STOCK</Original>
+		    <English>IN STOCK</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_TEXT_NOSTOCK">
+		    <Original>OUT OF STOCK</Original>
+		    <English>OUT OF STOCK</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<Key ID="STR_HALS_STORE_LISTBOX_NOMONEY">
+		    <Original>%1¢ more required</Original>
+		    <English>%1¢ more required</English>
+		    <French></French>
+			<German></German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
 	</Package>
 </Project>
