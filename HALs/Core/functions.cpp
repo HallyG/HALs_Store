@@ -8,10 +8,7 @@ class HALs {
 		class getModuleRoot {};
 		class log {};
 		class numberToString {};
-		class players {};
 		class roundNumber {};
-		class shuffleArray {};
 		class sortArray {};
-		class stringFindString {};
 	};
 };
