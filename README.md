@@ -4,7 +4,7 @@ ArmA 3 Equipment shop dialog.
 
 ![](http://i.imgur.com/GndRNIe.png)
 
-## Example Configuration
+## Configuration
 [Example configuration](https://github.com/HallyG/HALs_Store/wiki/Configuration-Example)
 
 
