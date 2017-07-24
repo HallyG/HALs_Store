@@ -8,7 +8,6 @@ class HALs {
 		class getModuleRoot {};
 		class log {};
 		class numberToString {};
-		class roundNumber {};
 		class sortArray {};
 	};
 };
