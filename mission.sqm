@@ -1,0 +1,150 @@
+version=53;
+class EditorData
+{
+	moveGridStep=1;
+	angleGridStep=0.2617994;
+	scaleGridStep=1;
+	autoGroupingDist=10;
+	toggles=1;
+	class ItemIDProvider
+	{
+		nextID=149;
+	};
+	class MarkerIDProvider
+	{
+		nextID=1;
+	};
+	class Camera
+	{
+		pos[]={5406.8545,21.398983,3869.511};
+		dir[]={0.28513888,-0.58480179,0.7594285};
+		up[]={0.20556681,0.81116235,0.54750067};
+		aside[]={0.93619752,1.9372965e-007,-0.35151002};
+	};
+};
+binarizationWanted=0;
+addons[]=
+{
+	"A3_Supplies_F_Heli_CargoNets",
+	"A3_Characters_F"
+};
+class AddonsMetaData
+{
+	class List
+	{
+		items=2;
+		class Item0
+		{
+			className="A3_Supplies_F_Heli";
+			name="Arma 3 Helicopters - Ammoboxes and Supplies";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item1
+		{
+			className="A3_Characters_F";
+			name="Arma 3 Alpha - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+	};
+};
+randomSeed=11091526;
+class ScenarioData
+{
+	author="HallyG";
+};
+class Mission
+{
+	class Intel
+	{
+		timeOfChanges=1800.0002;
+		startWeather=0;
+		startWind=0.1;
+		startWaves=0.1;
+		forecastWeather=0;
+		forecastWind=0.1;
+		forecastWaves=0.1;
+		forecastLightnings=0.1;
+		year=2035;
+		day=28;
+		hour=13;
+		minute=37;
+		startFogDecay=0.014;
+		forecastFogDecay=0.014;
+	};
+	class Entities
+	{
+		items=2;
+		class Item0
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={5404.2109,5.6349964,3888.3411};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				ammo=0.36464587;
+				init="[trader1, ""weapon""] call HALs_store_fnc_addTrader; [player, 10000] call HALs_money_fnc_addFunds;";
+				name="trader1";
+			};
+			id=8;
+			type="CargoNet_01_box_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="ammoBox";
+					expression="[_this,_value] call bis_fnc_initAmmoBox;";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="[[[[],[]],[[],[]],[[],[]],[[],[]]],true]";
+						};
+					};
+				};
+				nAttributes=1;
+			};
+		};
+		class Item1
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={5404.2251,5.0014391,3886.5759};
+					};
+					side="West";
+					flags=7;
+					class Attributes
+					{
+						isPlayer=1;
+					};
+					id=31;
+					type="B_Soldier_lite_F";
+				};
+			};
+			class Attributes
+			{
+			};
+			id=30;
+		};
+	};
+};
