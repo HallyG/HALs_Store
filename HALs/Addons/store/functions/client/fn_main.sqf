@@ -259,20 +259,20 @@ switch (toUpper _mode) do {
 					[IDC_RscDisplayStore_CHECKBOX2, localize "STR_HALS_STORE_CHECKBOX_STOCK"],
 					[IDC_RscDisplayStore_CHECKBOX3, localize "STR_HALS_STORE_CHECKBOX_COMPATIBLE"]
 				];
+				UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {
+					["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
+				}];
 			};
 		};
 	};
 	case ("BUTTON"): /* DONE */ {
 		params ["_mode", "_this"];
 		
-		private _listbox = UICTRL(IDC_RscDisplayStore_LISTBOX);
-		private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
-		
 		switch (toUpper _mode) do {
 			params ["_mode", "_this"];
 
 			case ("ENABLED"): {
-				if (_index isEqualTo -1) exitWith {
+				if ((uiNamespace getVariable ["HALs_store_lbIndex", -1]) isEqualTo -1) exitWith {
 					UICTRL(IDC_RscDisplayStore_BUTTON_BUY) ctrlEnable false;
 				};
 				
@@ -282,21 +282,21 @@ switch (toUpper _mode) do {
 				};
 				
 				private _amount = floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT));
-				private _price = _listbox lbValue _index;
-				private _sale = (_trader getVariable ["HALs_store_trader_sale", 1]) min 1 max 0;
-				private _saleModifier = if (_sale in [1,0]) then {1} else {1 - _sale};
+				private _price = UIVALUE(IDC_RscDisplayStore_LISTBOX);
+				private _sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
 				private _money = [player] call HALs_money_fnc_getFunds;
-
-				private _classname = _listbox lbData _index;
+				private _classname = UIDATA(IDC_RscDisplayStore_LISTBOX);
 				private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-				private _condition = ((_price * _amount * _saleModifier > _money) || _stock < 1 || _amount > _stock || _amount < 1);
-					
-				UICTRL(IDC_RscDisplayStore_BUTTON_BUY) ctrlEnable ((!_condition) && (_container canAdd [_classname, _amount]));
+				private _condition = ((_price * _amount * _sale > _money) || _stock < 1 || _amount > _stock || _amount < 1);
+				private _canAdd = (_container canAdd [_classname, _amount]);
+				
+				//private _test = !_canAdd && (cbChecked UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY)) && ([player, _classname] call HALs_store_fnc_canEquipItem);
+				UICTRL(IDC_RscDisplayStore_BUTTON_BUY) ctrlEnable (!_condition && _canAdd);
 			};
 			case ("BUY"): {
 				private _amount = floor ((parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT)) max 0);
-				private _price = _listbox lbValue _index;
-				private _classname = _listbox lbData _index;
+				private _price = UIVALUE(IDC_RscDisplayStore_LISTBOX);
+				private _classname = UIDATA(IDC_RscDisplayStore_LISTBOX);
 				private _container = (UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
 				
 				[player, _classname, _price, _amount, _container, cbChecked UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 0];
@@ -341,10 +341,10 @@ switch (toUpper _mode) do {
 						private _textEquip = UICTRL(IDC_RscDisplayStore_ITEM_CANEQUIP);
 						
 						private _money = [player] call HALs_money_fnc_getFunds;
-						private _sale = (_trader getVariable ["HALs_store_trader_sale", 1]) min 1 max 0;
-						private _saleModifier = if (_sale in [1,0]) then {1} else {(1 - _sale) min 1 max 0};
+						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
+						private _saleModifier = (1 - _sale) min 1 max 0;
 						private _total = _amount * _price;
-						private _stock = [_trader, UICTRL(IDC_RscDisplayStore_LISTBOX) lbData _index] call HALs_store_fnc_getTraderStock;
+						private _stock = [_trader, UIDATA(IDC_RscDisplayStore_LISTBOX)] call HALs_store_fnc_getTraderStock;
 						
 						// _textEquip ctrlSetStructuredText parseText format ["<t size = '1' color='#%2' font = 'PuristaMedium' align='center'>%1</t>",
 							// ["CANNOT EQUIP", "CAN EQUIP"] select ([player, UIDATA(IDC_RscDisplayStore_LISTBOX)] call HALs_store_fnc_canEquipItem),
@@ -413,7 +413,7 @@ switch (toUpper _mode) do {
 						
 						if (_index isEqualTo -1) exitWith { 
 							_pictureCtrl ctrlSetText "";
-							_textCtrl ctrlSetStructuredText "";
+							_textCtrl ctrlSetStructuredText parseText format [""];
 						};
 
 						private _listbox = UICTRL(IDC_RscDisplayStore_LISTBOX);
