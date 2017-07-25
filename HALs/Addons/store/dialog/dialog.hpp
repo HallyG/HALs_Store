@@ -136,7 +136,7 @@ class RscDisplayStore {
 					h = GRIDH(1);
 					tooltip = "$STR_HALS_STORE_CHECKBOX_EQUIP";
 					colorBackground[] = {0, 0, 0, 0.8};
-					checked = 1;
+					checked = 0;
 				};
 				class cargo_background: HALsStore_RscText {
 					idc = -1;
