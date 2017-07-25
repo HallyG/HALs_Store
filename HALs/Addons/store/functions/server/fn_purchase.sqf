@@ -39,8 +39,7 @@ try {
 	private _money = [_unit] call HALs_money_fnc_getFunds;
 	private _amount = ([_container, _classname, _amount, true] call HALs_store_fnc_canAddItem);
 	private _categories = (_trader getVariable ["HALs_store_trader_categories", []]) select {isClass (missionConfigFile >> "cfgHALsStore" >> "categories" >> _x >> _classname)};
-	private _sale = (_trader getVariable ["HALs_store_trader_sale", 1]) min 1 max 0;
-	private _saleModifier = if (_sale in [1,0]) then {1} else {(1 - _sale) min 1 max 0};
+	private _sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
 
 	if (_stock <= 0) then {
 		throw [localize "STR_HALS_STORE_ITEM_UNAVALIABLE"] //["Item unavaliable."]
@@ -50,7 +49,7 @@ try {
 		throw [localize "STR_HALS_STORE_ITEM_OUTOFSTOCK"] // throw ["Insufficient stock."]
 	};
 	
-	if (_price * _saleModifier * _amount > _money) then {
+	if (_price * _sale * _amount > _money) then {
 		throw [localize "STR_HALS_STORE_ITEM_TOOEXPENSIVE"] //throw ["Insufficient funds."]
 	};
 	
@@ -67,7 +66,7 @@ try {
 	};
 	
 	[_trader, _classname, -_amount] call HALs_store_fnc_setTraderStock;
-	[_unit, - (_price * _amount * _saleModifier)] call HALs_money_fnc_addFunds;	
+	[_unit, - (_price * _amount * _sale)] call HALs_money_fnc_addFunds;	
 	[_unit, _trader, _categories] remoteExecCall ["HALs_store_fnc_update", 0];
 	
 	
