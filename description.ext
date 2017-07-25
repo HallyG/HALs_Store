@@ -1,5 +1,5 @@
 author = "HallyG";
-onLoadName = "HALs_Store";
+onLoadName = "HALs Store";
 onLoadMission = "HALs Store";
 
 class cfgFunctions {
@@ -10,8 +10,6 @@ class cfgFunctions {
 
 #include "HALs\Addons\Store\dialog\dialog.hpp"
 
-
-// Configuration below
 
 class cfgHALsMoney {
 	startingFunds = 1337;
@@ -50,10 +48,6 @@ class cfgHALsStore {
 			class launch_I_Titan_F {
 				price = 4500;
 				stock = 100;
-			};
-			class handgrenade {
-				price = 100;
-				stock = 1000;
 			};
 			class launch_O_Titan_F {
 				price = 4500;
