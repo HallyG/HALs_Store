@@ -35,6 +35,7 @@ if (_itemCategory isEqualTo "Magazine") then {
 				};
 				case 1: { 
 					if ((secondaryWeaponMagazine _unit) isEqualTo []) then { 
+						_compatibleWeaponItems = (_x call HALs_fnc_getCompatibleItems) apply {toLower _x};
 						if (_classname in _compatibleWeaponItems) then {	
 							_unit addSecondaryWeaponItem _classname; 
 							_added = true;
@@ -43,6 +44,7 @@ if (_itemCategory isEqualTo "Magazine") then {
 				};
 				case 2: { 
 					if ((handgunMagazine _unit) isEqualTo []) then { 
+						_compatibleWeaponItems = (_x call HALs_fnc_getCompatibleItems) apply {toLower _x};
 						if (_classname in _compatibleWeaponItems) then {	
 							_unit addHandgunItem _classname; 
 							_added = true;
@@ -55,7 +57,7 @@ if (_itemCategory isEqualTo "Magazine") then {
 	}  forEach [primaryWeapon _unit, secondaryWeapon _unit, handgunWeapon _unit];
 } else {
 	_added = call {
-		if (_itemType in ["AssaultRifle", "Rifle", "SubmachineGun", "MachineGun", "RocketLauncher", "MissileLauncher", "Handgun", "LaserDesignator", "Throw", "Binocular"]) exitWith {
+		if (_itemType in ["AssaultRifle", "Rifle", "SubmachineGun", "MachineGun", "RocketLauncher", "MissileLauncher", "Shotgun", "SniperRifle", "Handgun", "LaserDesignator", "Throw", "Binocular"]) exitWith {
 			_unit addWeaponGlobal _classname;
 			true
 		};
