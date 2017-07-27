@@ -5,7 +5,7 @@
 		    <Original>Store</Original>
 		    <English>Store</English>
 		    <French></French>
-			<German></German>
+			<German>Geschäft</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -14,7 +14,7 @@
 		    <Original>Item unavaliable</Original>
 		    <English>Item unavaliable</English>
 		    <French></French>
-			<German></German>
+			<German>Gegenstand nicht verfügbar</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -23,7 +23,7 @@
 		    <Original>Insufficient stock</Original>
 		    <English>Insufficient stock</English>
 		    <French></French>
-			<German></German>
+			<German>Ausverkauft</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -31,6 +31,15 @@
 		<Key ID="STR_HALS_STORE_ITEM_TOOEXPENSIVE">
 		    <Original>Insufficient funds</Original>
 		    <English>Insufficient funds</English>
+		    <French></French>
+			<German>Zu wenig Geld</German>
+			<Russian></Russian>
+			<Spanish></Spanish>
+			<Italian></Italian>
+		</Key>
+		<KEY ID="STR_HALS_STORE_ITEM_NOEQUIP">
+			<Original>Unable to equip</Original>
+		    <English>Unable to equip</English>
 		    <French></French>
 			<German></German>
 			<Russian></Russian>
@@ -41,7 +50,7 @@
 		    <Original>Insufficient cargo space</Original>
 		    <English>Insufficient cargo space</English>
 		    <French></French>
-			<German></German>
+			<German>Nicht genug Platz</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -50,7 +59,7 @@
 		    <Original>purchased</Original>
 		    <English>purchased</English>
 		    <French></French>
-			<German></German>
+			<German>gekauft</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -61,7 +70,7 @@
 		    <Original>Only show items which the player can afford</Original>
 		    <English>Only show items which the player can afford</English>
 		    <French></French>
-			<German></German>
+			<German>Zeige nur Gegenstände, die sich der Spieler leisten kann</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -70,7 +79,7 @@
 		    <Original>Only show items which are in stock</Original>
 		    <English>Only show items which are in stock</English>
 		    <French></French>
-			<German></German>
+			<German>Zeige nur Gegenstände, die auf Lager sind</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -79,7 +88,7 @@
 		    <Original>Only show items compatible with the player's equipped weapons</Original>
 		    <English>Only show items compatible with the player's equipped weapons</English>
 		    <French></French>
-			<German></German>
+			<German>Zeige nur Gegenstände, die mit der ausgerüsteten Waffe des Spielers kompatibel sind</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -88,7 +97,7 @@
 		    <Original>Equip item upon purchase (if possible)</Original>
 		    <English>Equip item upon purchase (if possible)</English>
 		    <French></French>
-			<German></German>
+			<German>Gegenstand beim Kauf ausrüsten (wenn möglich)</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -97,7 +106,7 @@
 		    <Original>Purchase</Original>
 		    <English>Purchase</English>
 		    <French></French>
-			<German></German>
+			<German>Kaufen</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -106,7 +115,7 @@
 		    <Original>Price</Original>
 		    <English>Price</English>
 		    <French></French>
-			<German></German>
+			<German>Preis</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -115,7 +124,7 @@
 		    <Original>IN STOCK</Original>
 		    <English>IN STOCK</English>
 		    <French></French>
-			<German></German>
+			<German>AUF LAGER</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -124,7 +133,7 @@
 		    <Original>OUT OF STOCK</Original>
 		    <English>OUT OF STOCK</English>
 		    <French></French>
-			<German></German>
+			<German>AUSVERKAUFT</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
@@ -133,7 +142,7 @@
 		    <Original>%1¢ more required</Original>
 		    <English>%1¢ more required</English>
 		    <French></French>
-			<German></German>
+			<German>%1¢ mehr benötigt</German>
 			<Russian></Russian>
 			<Spanish></Spanish>
 			<Italian></Italian>
