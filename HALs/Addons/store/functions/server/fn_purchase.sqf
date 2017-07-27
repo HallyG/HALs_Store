@@ -58,7 +58,11 @@ try {
 	};
 	
 	if (_equip && {[_unit, _classname] call HALs_store_fnc_canEquipItem}) then {
-		[_unit, _classname] call HALs_store_fnc_equipItem;
+		_added = [_unit, _classname] call HALs_store_fnc_equipItem;
+		
+		if (!_added) then {
+			throw [localize "STR_HALS_STORE_ITEM_NOEQUIP"];
+		};
 		
 		[_container, _classname, _amount - 1] call HALs_store_fnc_addItemCargo;
 	} else {
