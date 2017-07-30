@@ -20,4 +20,5 @@
 * ADDED: Stats for weapons, uniform, vests, backpacks and optics.
 ![](http://i.imgur.com/piowiF0.jpg) ![](http://i.imgur.com/cXhrtyh.jpg)
 
-
+### Bugs
+* Can't purchase item if container is full (fix is wip)
