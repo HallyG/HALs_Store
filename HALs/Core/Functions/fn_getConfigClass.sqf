@@ -16,5 +16,6 @@ call {
 	if (isClass (configFile >> "CfgWeapons" >> _this)) exitWith {configFile >> "CfgWeapons" >> _this};
 	if (isClass (configFile >> "CfgMagazines" >> _this)) exitWith {configFile >> "CfgMagazines" >> _this};
 	if (isClass (configFile >> "CfgGlasses" >> _this)) exitWith {configFile >> "CfgGlasses" >> _this};
+	if (isClass (configFile >> "CfgVehicles" >> _this)) exitWith {configFile >> "CfgVehicles" >> _this};
 	configNull 
 };
