@@ -24,4 +24,4 @@
 ![](http://i.imgur.com/piowiF0.jpg) ![](http://i.imgur.com/cXhrtyh.jpg) ![](http://i.imgur.com/LyaFDse.jpg)
 
 ### Bugs
-* Can't purchase item if container is full (fix is wip).
+* None found (yet..)
