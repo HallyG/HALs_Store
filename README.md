@@ -1,4 +1,5 @@
-# HALs Store
+# HALs Store v 1.0.9
+## [Changelog](https://github.com/HallyG/HALs_Store/blob/master/CHANGELOG.md)
 ## [WIKI](https://github.com/HallyG/HALs_Store/wiki) for documentation and help.
 
 ![](http://i.imgur.com/GndRNIe.png)
