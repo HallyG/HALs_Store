@@ -2,11 +2,11 @@
 
 ## Version 1.1
 ### Fixes
-* FIXED: Could n0t equip a sniper/shotgun if the equip checkbox was checked.
+* FIXED: Could not equip a sniper/shotgun if the equip checkbox was checked.
 * FIXED: Mass of glasses were considered 0.
 * FIXED: Could buy items to the inventories of other traders.
 * FIXED: Could trade with dead traders.
-* FIXED: Could not equip item if container was completely full/no container existed.
+* FIXED: Could not equip item if container was completely full/no container existed (Now, the equip checkbox must be checked).
 * FIXED: Backpack pictures were not showing.
 * FIXED: Backpack stats were not working.
 
