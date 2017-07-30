@@ -7,6 +7,8 @@
 * FIXED: Could buy items to the inventories of other traders.
 * FIXED: Could trade with dead traders.
 * FIXED: Couldn't equip item if container was completely full/no container existed.
+* FIXED: Backpack picture wasn't showing
+* FIXED: Backpack stats were not working
 
 ### Additions
 * ADDED: German Translation thanks to 7erra.
@@ -18,7 +20,7 @@
   * If trader is type "CAManBase", can only purchase to player's uniform/vest/backpack.
   
 * ADDED: Stats for weapons, uniform, vests, backpacks and optics.
-![](http://i.imgur.com/piowiF0.jpg) ![](http://i.imgur.com/cXhrtyh.jpg)
+![](http://i.imgur.com/piowiF0.jpg) ![](http://i.imgur.com/cXhrtyh.jpg) ![](http://i.imgur.com/LyaFDse.jpg)
 
 ### Bugs
 * Can't purchase item if container is full (fix is wip)
