@@ -87,7 +87,7 @@ class RscDisplayStore {
 					h = GRIDH(23);
 					shadow = 0;
 					font = "PuristaMedium";
-					sizeEx = 0.03;//sizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.85)";
+					sizeEx = "0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"; //0.03;//sizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.85)";
 				};		
 				class main_combo_categories: HALsStore_ctrlCombo {
 					idc = IDC_RscDisplayStore_COMBO_CATEGORY;
@@ -241,7 +241,7 @@ class RscDisplayStore {
 				};
 				class purchase_text: HALsStore_RscStructuredText {
 					idc = IDC_RscDisplayStore_ITEM;
-					x = GRIDX(36.2)
+					x = GRIDX(36.2);
 					y = GRIDY(9.2) + BUFFER_Y; //9.2
 					w = GRIDW(6);
 					h = GRIDH(6);
@@ -257,6 +257,9 @@ class RscDisplayStore {
 					// y = GRIDY(9.2) + BUFFER_Y; //9.2
 					// w = GRIDW(6);
 					// h = GRIDH(6);
+										// y = GRIDY(13.4) + BUFFER_Y; //12.3
+					// w = GRIDW(4.9);
+					// h = GRIDH(1);
 				
 					// font = "PuristaMedium";
 					// text = "";
@@ -310,7 +313,98 @@ class RscDisplayStore {
 							size="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9)";
 							shadow = 1;
 							font = "PuristaMedium";
+						};		
+						
+						class main_item_picture_desc: HALsStore_RscStructuredText {
+							idc = IDC_RscDisplayStore_ITEM_TEXT_DES;
+							x = 0;
+							y = 0;
+							w = GRIDW(16.8);
+							h = GRIDH(15);
+							size="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9)";
+							shadow = 1;
+							font = "PuristaMedium";
 						};
+						
+						class main_item_progressbar_1: HALsStore_ctrlProgress {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_1;
+							x = GRIDX(0.4);
+							y = GRIDY(1);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+							colorBar[]={0.9,0.9,0.9,0.9};
+							colorFrame[]={0,0,0,0};
+							fade = 1;
+						};
+						class main_item_progressbar_1_text: HALsStore_RscText {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_1;
+							x = GRIDX(0.4);
+							y = GRIDY(1);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+							shadow = 0;
+							colorShadow[]={1,1,1,1};
+							colorText[]={0,0,0,1};
+							colorBackground[]={1,1,1,0.1};
+							sizeEx="0.8 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+							fade = 1;
+						};
+						class main_item_progressbar_2: main_item_progressbar_1 {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_2;
+							x = GRIDX(0.4);
+							y = GRIDY(2.5);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};
+						class main_item_progressbar_2_text: main_item_progressbar_1_text {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_2;
+							x = GRIDX(0.4);
+							y = GRIDY(2.5);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};
+						class main_item_progressbar_3: main_item_progressbar_1 {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_3;
+							x = GRIDX(0.4);
+							y = GRIDY(4);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};
+						class main_item_progressbar_3_text: main_item_progressbar_1_text {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_3;
+							x = GRIDX(0.4);
+							y = GRIDY(4);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};						
+						class main_item_progressbar_4: main_item_progressbar_1 {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_4;
+							x = GRIDX(0.4);
+							y = GRIDY(7);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};
+						class main_item_progressbar_4_text: main_item_progressbar_1_text {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_4;
+							x = GRIDX(0.4);
+							y = GRIDY(7);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};						
+						class main_item_progressbar_5: main_item_progressbar_1 {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_5;
+							x = GRIDX(0.4);
+							y = GRIDY(5) + GRIDY(1.5);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};
+						class main_item_progressbar_5_text: main_item_progressbar_1_text {
+							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_5;
+							x = GRIDX(0.4);
+							y = GRIDY(5) + GRIDY(1.5);
+							w = GRIDW(16);
+							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+						};						
 					};
 				};
 			};

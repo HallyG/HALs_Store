@@ -28,6 +28,7 @@ private _totalWeight = 0;
 	[getMagazineCargo _object, {configFile >> "CfgMagazines" >> _x}],
 	[getBackpackCargo _object, {configFile >> "CfgVehicles" >> _x}],
 	[getItemCargo _object, {configFile >> "CfgWeapons" >> _x >> "ItemInfo"}],
+	[getItemCargo _object, {configfile >> "CfgGlasses" >> _x}],
 	[getWeaponCargo _object, {configFile >> "CfgWeapons" >> _x >> "WeaponSlotsInfo"}]
 ];
 

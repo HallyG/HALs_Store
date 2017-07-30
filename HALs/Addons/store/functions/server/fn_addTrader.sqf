@@ -28,8 +28,9 @@ try {
 		throw ["Trader is dead", "fn_addTrader", __LINE__]
 	};
 	
-	if !(typeOf _trader isKindOf ["CargoNet_01_base_F", configFile >> "cfgVehicles"]) then {
-		throw ["Trader is not TypeOf:  CargoNet", "fn_addTrader", __LINE__]
+	private _type = {(typeOf _trader isKindOf [_x, configFile >> "cfgVehicles"])} count ["CAManBase", "Car_F", "ReammoBox_F"];
+	if (_type isEqualto 0) then {
+		throw ["Trader is not TypeOf:  ['CAManBase', 'Car_F', 'ReammoBox_F']", "fn_addTrader", __LINE__]
 	};
 	
 	if (_traderType isEqualTo "") then {
@@ -67,7 +68,13 @@ try {
 		_stocks append (_items apply {(getNumber (missionConfigFile >> "cfgHALsStore" >> "categories" >> _category >> _x >> "stock"))});
 	} forEach _categories;
 
-
+	if !(typeOf _trader isKindOf ["CAManBase", configFile >> "cfgVehicles"]) then {
+		clearMagazineCargoGlobal _trader;
+		clearWeaponCargoGlobal _trader;
+		clearItemCargoGlobal _trader;
+		clearBackpackCargoGlobal _trader;
+	};
+	
 	_trader setVariable ["HALs_store_trader_type", _traderType, true];
 	_trader setVariable ["HALs_store_trader_categories", _categories, true];
 	_trader setVariable ["HALs_store_trader_classes", _classes, true];

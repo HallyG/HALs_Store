@@ -21,7 +21,8 @@ private _totalWeight = 0;
 	{configFile >> "CfgMagazines" >> _this},
 	{configFile >> "CfgVehicles" >> _this},
 	{configFile >> "CfgWeapons" >> _this >> "ItemInfo"},
-	{configFile >> "CfgWeapons" >> _this >> "WeaponSlotsInfo"}
+	{configFile >> "CfgWeapons" >> _this >> "WeaponSlotsInfo"},
+	{configfile >> "CfgGlasses" >> _this}
 ];
 
 _totalWeight 

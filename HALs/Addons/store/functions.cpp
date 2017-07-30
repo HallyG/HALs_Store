@@ -10,6 +10,7 @@ class HALs_store {
 		class canEquipItem {};
 		class equipItem {};
 		class getItemMass {};
+		class getItemStats {};
 		class getTraderStock {};
 		class setTraderStock {};					
 	};

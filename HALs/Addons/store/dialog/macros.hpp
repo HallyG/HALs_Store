@@ -1,4 +1,5 @@
-#define UICTRL(IDC)  ((uiNamespace getVariable ["HALs_store_display", controlNull]) controlsGroupCtrl IDC) 
+#define UICTRL(IDC)  ((uiNamespace getVariable ["HALs_store_display", controlNull]) controlsGroupCtrl IDC)
+#define UICGCTRL(IDC) ((UICTRL(IDC_RscDisplayStore_ITEM_TEXT_GROUP)) controlsGroupCtrl IDC) 
 #define CTRLSEL(IDC) (lbCurSel UICTRL(IDC))
 #define UIDATA(IDC)  (UICTRL(IDC) lbData CTRLSEL(IDC))
 #define UITEXT(IDC)  (UICTRL(IDC) lbText CTRLSEL(IDC))

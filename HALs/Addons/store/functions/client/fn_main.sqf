@@ -51,7 +51,7 @@ switch (toUpper _mode) do {
 		["LISTBOX", ["INIT", []]] call  HALs_store_fnc_main;
 		["COMBOBOX", ["INIT", []]] call  HALs_store_fnc_main;
 		["PROGRESS", ["INIT", []]] call  HALs_store_fnc_main;
-		["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
+		//["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
 		["CHECKBOX", ["INIT", []]] call  HALs_store_fnc_main;
 		["EDIT", ["INIT", []]] call  HALs_store_fnc_main;
 		["TEXT", ["INIT", []]] call  HALs_store_fnc_main;
@@ -79,6 +79,7 @@ switch (toUpper _mode) do {
 					uiNamespace setVariable ["HALs_store_lbIndex", _index];		
 					_amount = (floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0;
 					
+					["PROGRESS", ["STATS", [_ctrl lbData _index]]] call  HALs_store_fnc_main;
 					["TEXT", ["UPDATE", ["ITEM", []]]] call  HALs_store_fnc_main;
 					["TEXT", ["UPDATE", ["BUY", [_ctrl lbValue _index, _amount]]]] call  HALs_store_fnc_main;
 					["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), _ctrl lbData _index, _amount]]] call  HALs_store_fnc_main;
@@ -140,8 +141,8 @@ switch (toUpper _mode) do {
 				private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
 				_listbox lbSetCurSel ([_index, 0] select (_index isEqualTo -1));
 				
-				["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX),(floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]] call  HALs_store_fnc_main;
-				["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), (floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]]] call  HALs_store_fnc_main;
+				//["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX),(floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]] call  HALs_store_fnc_main;
+				//["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), (floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]]] call  HALs_store_fnc_main;
 			};	
 		};
 	};
@@ -195,7 +196,7 @@ switch (toUpper _mode) do {
 						_purchase lbSetTooltip [_index, format ["Purchase to %1%2", _displayName, toString [10,13]]];
 					};
 				} forEach ([
-					[typeOf _trader, "Trader", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\face_ca.paa", _trader],
+					[[typeOf _trader, "Trader", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\face_ca.paa", _trader], []] select (_trader isKindOf "Man"),
 					[uniform player, "Uniform", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\uniform_ca.paa", uniformContainer player],
 					[vest player, "Vest", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\vest_ca.paa", vestContainer player],
 					[backpack player, "Backpack", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\backpack_ca.paa", backpackContainer player]
@@ -218,7 +219,7 @@ switch (toUpper _mode) do {
 					_edit ctrlAddEventHandler [_x, {
 						_amt = (floor parseNumber ctrlText (_this select 0)) max 0;			
 						["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX), _amt]]] call  HALs_store_fnc_main;
-						["TEXT", ["UPDATE", 	["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
+						["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
 						["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
 					}];	
 				} forEach ["KeyUp", "KeyDown"];
@@ -276,22 +277,20 @@ switch (toUpper _mode) do {
 					UICTRL(IDC_RscDisplayStore_BUTTON_BUY) ctrlEnable false;
 				};
 				
-				private _container = (UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
-				if (_container isEqualTo "") exitWith {
-					UICTRL(IDC_RscDisplayStore_BUTTON_BUY) ctrlEnable false;
-				};
+				_amount = floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT));
+				_classname = UIDATA(IDC_RscDisplayStore_LISTBOX);
+				_container = (UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
+				_money = [player] call HALs_money_fnc_getFunds;
+				_price = UIVALUE(IDC_RscDisplayStore_LISTBOX);
+				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
+				_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 				
-				private _amount = floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT));
-				private _price = UIVALUE(IDC_RscDisplayStore_LISTBOX);
-				private _sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
-				private _money = [player] call HALs_money_fnc_getFunds;
-				private _classname = UIDATA(IDC_RscDisplayStore_LISTBOX);
-				private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-				private _condition = ((_price * _amount * _sale > _money) || _stock < 1 || _amount > _stock || _amount < 1);
-				private _canAdd = (_container canAdd [_classname, _amount]);
+				_canBuy = !((_price * _amount * _sale > _money) || _stock < 1 || _amount > _stock || _amount < 1);
+				_canEquip = cbChecked UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY) && {([player, _classname] call HALs_store_fnc_canEquipItem) && {!(isNull _container) && {(_container canAdd [_classname, _amount - 1])}}};
+				_canEquipEmpty = cbChecked UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY) && {([player, _classname] call HALs_store_fnc_canEquipItem)} && {_amount isEqualTo 1};
+				_canAdd = !(isNull _container) && {(_container canAdd [_classname, _amount])};
 				
-				//private _test = !_canAdd && (cbChecked UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY)) && ([player, _classname] call HALs_store_fnc_canEquipItem);
-				UICTRL(IDC_RscDisplayStore_BUTTON_BUY) ctrlEnable (!_condition && _canAdd);
+				UICTRL(IDC_RscDisplayStore_BUTTON_BUY) ctrlEnable (((_canBuy && _canAdd) || (_canBuy && _canEquip)) || (_canBuy && _canEquipEmpty));
 			};
 			case ("BUY"): {
 				private _amount = floor ((parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT)) max 0);
@@ -359,22 +358,22 @@ switch (toUpper _mode) do {
 						];
 
 						private _pos = ctrlPosition _text;
-						_pos set [3, (ctrlTextHeight _text) + 4 * pixelH];
+						_pos set [3, (ctrlTextHeight _text)];
 						_text ctrlSetPosition _pos;
 						_text ctrlCommit 0;
 							
 						private _posEdit = ctrlPosition _edit;
-						_posEdit set [1, (_pos select 1) + 4 * pixelH + (ctrlTextHeight _text) + (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH)))];
+						_posEdit set [1, (_pos select 1) + (ctrlTextHeight _text) + 4 * pixelH + (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH)))];
 						_edit ctrlSetPosition _posEdit;
 						_edit ctrlCommit 0;
 							
 						_pos = ctrlPosition _button;
-						_pos set [1, (_posEdit select 1) + 4 * pixelH + (ctrlTextHeight _edit) + (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH)))];
+						_pos set [1, (_posEdit select 1) + (ctrlTextHeight _edit) + 4 * pixelH + (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH)))];
 						_button ctrlSetPosition _pos;
 						_button ctrlCommit 0;
 						
 						_pos = ctrlPosition _checkbox;
-						_pos set [1, (_posEdit select 1) + 4 * pixelH + (ctrlTextHeight _edit) + (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH)))];
+						_pos set [1, (_posEdit select 1) + (ctrlTextHeight _edit) + 4 * pixelH + (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH)))];
 						_checkbox ctrlSetPosition _pos;
 						_checkbox ctrlCommit 0;
 						
@@ -409,10 +408,12 @@ switch (toUpper _mode) do {
 					case ("ITEM"): {
 						private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
 						private _pictureCtrl = UICTRL(IDC_RscDisplayStore_ITEM_PICTURE);
-						private _textCtrl = UICTRL(IDC_RscDisplayStore_ITEM_TEXT);
+						private _titleCtrl = UICGCTRL(IDC_RscDisplayStore_ITEM_TEXT);//;UICTRL(IDC_RscDisplayStore_ITEM_TEXT);
+						private _textCtrl = UICGCTRL(IDC_RscDisplayStore_ITEM_TEXT_DES);//;UICTRL(IDC_RscDisplayStore_ITEM_TEXT);
 						
 						if (_index isEqualTo -1) exitWith { 
 							_pictureCtrl ctrlSetText "";
+							_titleCtrl ctrlSetStructuredText parseText format [""];
 							_textCtrl ctrlSetStructuredText parseText format [""];
 						};
 
@@ -426,21 +427,54 @@ switch (toUpper _mode) do {
 						];
 					
 						_pictureCtrl ctrlSetText (_listbox lbPicture _index);
-						_textCtrl ctrlSetStructuredText parseText format [
-							"<t size='1.3' font ='PuristaMedium'>%1</t><br/>%5:  <t color='#aaffaa'>%2¢</t><br/>%3<t font = 'PuristaMedium'>%4</t>",
+						_textCtrl ctrlSetStructuredText parseText format ["<t font = 'PuristaMedium'>%1</t>", [(_description select 0), (_description select 1)] select ((_description select 0) isEqualTo "")];
+						_titleCtrl ctrlSetStructuredText parseText format [
+							"<t size='1.3' font ='PuristaMedium'>%1</t><br/>%4:  <t color='#aaffaa'>%2¢</t><br/>%3",
 							_listbox lbText _index,
 							(_listbox lbValue _index) call HALs_fnc_numberToString,
 							[
-								format ["<t color='#DD2626'>%1</t><br/><br/>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
-								format ["<t color='#A0DF3B'>%1</t>:  %2<br/><br/>", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
+								format ["<t color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
+								format ["<t color='#A0DF3B'>%1</t>:  %2", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
 							] select (_stock > 0),
-							[(_description select 0), (_description select 1)] select ((_description select 0) isEqualTo ""),
 							localize "STR_HALS_STORE_TEXT_PRICE"
 						];
+
+						private _control = controlNull;
+						private _pos = ctrlPosition _titleCtrl;
+						_pos set [3, ctrlTextHeight _titleCtrl];
+						_titleCtrl ctrlSetPosition _pos;
+						_titleCtrl ctrlCommit 0;
+						_textCtrl ctrlCommit 0;
 						
-						private _pos = ctrlPosition _textCtrl;
-						_pos set [3, (ctrlTextHeight _textCtrl) + 4*PixelH];
-						_textCtrl ctrlSetPosition _pos;
+						_pos = ctrlPosition _titleCtrl;
+						
+						{	
+							_x params ["_progressCtrl", "_progressTextCtrl"];
+							
+							if ((ctrlFade UICTRL(_progressCtrl)) < 1) then {
+								private _pos1 = ctrlPosition UICTRL(_progressCtrl);
+								_control = UICTRL(_progressCtrl);
+								
+								if (_forEachIndex isEqualTo 0) then {
+									_pos set [0, _pos1 select 0];
+									_pos set [1, (_pos select 1) + (_pos select 3)];
+									_pos set [2, _pos1 select 2];
+									_pos set [3, _pos1 select 3];
+								};
+
+								_pos set [1, (_pos select 1) + ([_pos1 select 3, 4 * pixelH] select (_forEachIndex isEqualTo 0)) + 4 * pixelH];
+
+								UICTRL(_progressCtrl) ctrlSetPosition _pos;
+								UICTRL(_progressCtrl) ctrlCommit 0;
+								UICTRL(_progressTextCtrl) ctrlSetPosition _pos;
+								UICTRL(_progressTextCtrl) ctrlCommit 0;
+							};
+						} forEach PGBARS;
+						
+						private _posText = ctrlPosition _textCtrl;
+						_posText set [1, (_pos select 1) + (_pos select 3) + 8 * pixelH];
+						_posText set [3, (ctrlTextHeight _textCtrl)];
+						_textCtrl ctrlSetPosition _posText;
 						_textCtrl ctrlCommit 0;
 					};	
 				};
@@ -473,6 +507,7 @@ switch (toUpper _mode) do {
 						_containers = vehicles select {
 							private _vehicle = _x;
 							({_vehicle isKindOf _x} count HALs_store_containerTypes) > 0
+							&& ((_vehicle getVariable ["HALs_store_trader_type", ""]) isEqualTo "")
 							&& {_x distance2D _trader <= HALs_store_containerRadius && {speed _x < 1} && {local _x} && {alive _x}}};
 						_playerContainers = [uniformContainer player, vestContainer player, backpackContainer player];
 						_money = [player] call HALs_money_fnc_getFunds;
@@ -528,7 +563,7 @@ switch (toUpper _mode) do {
 			};
 		};
 	};
-	case ("PROGRESS"): /* DONE */ {
+	case ("PROGRESS"):  {
 		params ["_mode", "_this"];
 		
 		switch (toUpper _mode) do {
@@ -538,6 +573,51 @@ switch (toUpper _mode) do {
 				UICTRL(IDC_RscDisplayStore_PROGRESS_LOAD) progressSetPosition 0;
 				UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) progressSetPosition 0;
 				UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) ctrlSetTextColor [0.9,0,0,0.6];
+			};
+			case ("STATS"): {
+				params [
+					["_classname", "", [""]]
+				];
+
+				if (_classname isEqualTo "") exitWith {
+					{
+						_x params ["_progressCtrl", "_progressTextCtrl"];
+						
+						UICGCTRL(_progressCtrl) progressSetPosition 0;
+						UICGCTRL(_progressCtrl) ctrlSetFade 1;
+						UICGCTRL(_progressCtrl) ctrlCommit 0;
+						UICGCTRL(_progressTextCtrl) ctrlSetText "";
+						UICGCTRL(_progressTextCtrl) ctrlSetFade 1;
+						UICGCTRL(_progressTextCtrl) ctrlCommit 0;
+					} count PGBARS;
+				};
+				
+				private _config = _classname call HALs_fnc_getConfigClass;
+				private _statsArray = [_config] call HALs_store_fnc_getItemStats;
+
+
+				{
+					_x params ["_progressCtrl", "_progressTextCtrl"];
+					
+					if (count (_statsArray select _forEachIndex) > 0) then {
+						(_statsArray select _forEachIndex) params ["_progress", "_text"];
+						
+						UICGCTRL(_progressCtrl) progressSetPosition _progress;
+						UICGCTRL(_progressCtrl) ctrlSetFade 0;
+						UICGCTRL(_progressCtrl) ctrlCommit 0;
+						UICGCTRL(_progressTextCtrl) ctrlSetText _text;
+						UICGCTRL(_progressTextCtrl) ctrlSetFade 0;
+						UICGCTRL(_progressTextCtrl) ctrlCommit 0;
+						
+					} else {
+						UICGCTRL(_progressCtrl) progressSetPosition 0;
+						UICGCTRL(_progressCtrl) ctrlSetFade 1;
+						UICGCTRL(_progressCtrl) ctrlCommit 0;
+						UICGCTRL(_progressTextCtrl) ctrlSetText "";
+						UICGCTRL(_progressTextCtrl) ctrlSetFade 1;
+						UICGCTRL(_progressTextCtrl) ctrlCommit 0;
+					};
+				} forEach PGBARS;
 			};
 			case ("UPDATE"): {
 				params [	

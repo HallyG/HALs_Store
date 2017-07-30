@@ -139,7 +139,7 @@ class HALsStore_RscText {
 	shadow = 1;
 	colorShadow[] = {0,0,0,0.5};
 	font = "RobotoCondensed";
-	SizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"
+	SizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 	linespacing = 1;
 	tooltipColorShade[] = {0,0,0,0.65};
 	tooltipColorText[] = {1,1,1,1};

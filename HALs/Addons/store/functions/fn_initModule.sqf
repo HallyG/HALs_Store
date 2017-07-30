@@ -24,3 +24,4 @@ HALs_store_containerTypes = ([missionConfigFile >> "cfgHALsStore" >> "containerT
 HALs_store_gui_blur = ppEffectCreate ["DynamicBlur", 999];
 HALs_store_gui_blur ppEffectEnable true;
 
+[] call HALs_store_fnc_getItemStats;
