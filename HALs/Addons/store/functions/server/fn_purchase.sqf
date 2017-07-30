@@ -32,7 +32,7 @@ params [
 
 if (isNull _unit) exitWith {}; 
 if (!alive _unit) exitWith {}; 
-if (isNull _container) exitWith {}; 
+//if (isNull _container) exitWith {}; 
 if (isNull (_unit getVariable ["HALs_store_trader_current", objNull])) exitWith {};
 if (isNull (_classname call HALs_fnc_getConfigClass)) exitWith {};
 if (_amount <= 0) exitWith {};
