@@ -421,13 +421,14 @@ switch (toUpper _mode) do {
 						private _classname = _listbox lbData _index;
 						private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 						private _config = (_classname call HALs_fnc_getConfigClass);
-						private _description = 	[
+						private _description = [
+							[missionConfigFile >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_RscDisplayStore_COMBO_CATEGORY) >> _classname >> "description", ""] call HALs_fnc_getConfigValue,
 							[_config >> "Library" >> "libTextDesc", ""] call HALs_fnc_getConfigValue,
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
-						];
+						] select {_x != ""} select 0;
 					
 						_pictureCtrl ctrlSetText (_listbox lbPicture _index);
-						_textCtrl ctrlSetStructuredText parseText format ["<t font = 'PuristaMedium'>%1</t>", [(_description select 0), (_description select 1)] select ((_description select 0) isEqualTo "")];
+						_textCtrl ctrlSetStructuredText parseText format ["<t font = 'PuristaMedium'>%1</t>", _description];
 						_titleCtrl ctrlSetStructuredText parseText format [
 							"<t size='1.3' font ='PuristaMedium'>%1</t><br/>%4:  <t color='#aaffaa'>%2¢</t><br/>%3",
 							_listbox lbText _index,
