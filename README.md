@@ -2,7 +2,7 @@
 ## [Changelog](https://github.com/HallyG/HALs_Store/blob/master/CHANGELOG.md)
 ## [WIKI](https://github.com/HallyG/HALs_Store/wiki) for documentation and help.
 
-![](http://i.imgur.com/lcWfb5Q.png)
+![](http://i.imgur.com/Xj0dWjl.png)
 
 ## Configuration
 [Example configuration](https://github.com/HallyG/HALs_Store/wiki/Configuration-Example)
