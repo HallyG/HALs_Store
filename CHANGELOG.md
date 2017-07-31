@@ -6,6 +6,7 @@
 * FIXED: Mass of glasses were considered 0.
 * FIXED: Could buy items to the inventories of other traders.
 * FIXED: Could trade with dead traders.
+* FIXED: Could trade with traders while in a vehicle.
 * FIXED: Could not equip item if container was completely full/no container existed (Now, the equip checkbox must be checked).
 * FIXED: Backpack pictures were not showing.
 * FIXED: Backpack stats were not working.
