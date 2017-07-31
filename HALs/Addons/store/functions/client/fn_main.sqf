@@ -141,8 +141,8 @@ switch (toUpper _mode) do {
 				private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
 				_listbox lbSetCurSel ([_index, 0] select (_index isEqualTo -1));
 				
-				//["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX),(floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]] call  HALs_store_fnc_main;
-				//["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), (floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]]] call  HALs_store_fnc_main;
+				["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX),(floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]] call  HALs_store_fnc_main;
+				["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), (floor (parseNumber ctrlText UICTRL(IDC_RscDisplayStore_EDIT))) max 0]]]] call  HALs_store_fnc_main;
 			};	
 		};
 	};
