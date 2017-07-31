@@ -332,7 +332,7 @@ class RscDisplayStore {
 							y = GRIDY(1);
 							w = GRIDW(16);
 							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-							colorBar[]={0.9,0.9,0.9,0.9};
+							colorBar[]={0.9,0.9,0.9,1};
 							colorFrame[]={0,0,0,0};
 							fade = 1;
 						};
