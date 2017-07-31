@@ -394,14 +394,14 @@ class RscDisplayStore {
 						class main_item_progressbar_5: main_item_progressbar_1 {
 							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_5;
 							x = GRIDX(0.4);
-							y = GRIDY(5) + GRIDY(1.5);
+							y = GRIDY(10);
 							w = GRIDW(16);
 							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 						};
 						class main_item_progressbar_5_text: main_item_progressbar_1_text {
 							idc = IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_5;
 							x = GRIDX(0.4);
-							y = GRIDY(5) + GRIDY(1.5);
+							y = GRIDY(10);
 							w = GRIDW(16);
 							h = "0.9 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 						};						
