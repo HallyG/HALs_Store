@@ -30,5 +30,5 @@ _trader addAction [
 		};
 
 		createDialog "RscDisplayStore";
-	}, [], 10, true, true, "", "alive _target", 5
+	}, [], 10, true, true, "", "alive _target && isNull objectParent _this", 5
 ];
