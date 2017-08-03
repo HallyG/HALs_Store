@@ -5,64 +5,64 @@
 		    <Original>Store</Original>
 		    <English>Store</English>
 		    <French></French>
-			<German>Geschäft</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Geschäft</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_UNAVALIABLE">
 		    <Original>Item unavaliable</Original>
 		    <English>Item unavaliable</English>
 		    <French></French>
-			<German>Gegenstand nicht verfügbar</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Gegenstand nicht verfügbar</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_OUTOFSTOCK">
 		    <Original>Insufficient stock</Original>
 		    <English>Insufficient stock</English>
 		    <French></French>
-			<German>Ausverkauft</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Ausverkauft</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_TOOEXPENSIVE">
 		    <Original>Insufficient funds</Original>
 		    <English>Insufficient funds</English>
 		    <French></French>
-			<German>Zu wenig Geld</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Zu wenig Geld</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<KEY ID="STR_HALS_STORE_ITEM_NOEQUIP">
-			<Original>Unable to equip</Original>
+		    <Original>Unable to equip</Original>
 		    <English>Unable to equip</English>
 		    <French></French>
-			<German></German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
-		</Key>
+		    <German>Ausrüsten fehlgeschlagen</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
+		  </Key>
 		<Key ID="STR_HALS_STORE_ITEM_NOCARGOSPACE">
 		    <Original>Insufficient cargo space</Original>
 		    <English>Insufficient cargo space</English>
 		    <French></French>
-			<German>Nicht genug Platz</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Nicht genug Platz</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_PURCHASED">
 		    <Original>purchased</Original>
 		    <English>purchased</English>
 		    <French></French>
-			<German>gekauft</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>gekauft</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 	</Package>
 	<Package name="Dialog">
@@ -70,82 +70,82 @@
 		    <Original>Only show items which the player can afford</Original>
 		    <English>Only show items which the player can afford</English>
 		    <French></French>
-			<German>Zeige nur Gegenstände, die sich der Spieler leisten kann</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Zeige nur Gegenstände, die sich der Spieler leisten kann</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_STOCK">
 		    <Original>Only show items which are in stock</Original>
 		    <English>Only show items which are in stock</English>
 		    <French></French>
-			<German>Zeige nur Gegenstände, die auf Lager sind</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Zeige nur Gegenstände, die auf Lager sind</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_COMPATIBLE">
 		    <Original>Only show items compatible with the player's equipped weapons</Original>
 		    <English>Only show items compatible with the player's equipped weapons</English>
 		    <French></French>
-			<German>Zeige nur Gegenstände, die mit der ausgerüsteten Waffe des Spielers kompatibel sind</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Zeige nur Gegenstände, die mit der ausgerüsteten Waffe des Spielers kompatibel sind</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_EQUIP">
 		    <Original>Equip item upon purchase (if possible)</Original>
 		    <English>Equip item upon purchase (if possible)</English>
 		    <French></French>
-			<German>Gegenstand beim Kauf ausrüsten (wenn möglich)</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Gegenstand beim Kauf ausrüsten (wenn möglich)</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_BUTTON_PURCHASE">
 		    <Original>Purchase</Original>
 		    <English>Purchase</English>
 		    <French></French>
-			<German>Kaufen</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Kaufen</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_TEXT_PRICE">
 		    <Original>Price</Original>
 		    <English>Price</English>
 		    <French></French>
-			<German>Preis</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>Preis</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_TEXT_INSTOCK">
 		    <Original>IN STOCK</Original>
 		    <English>IN STOCK</English>
 		    <French></French>
-			<German>AUF LAGER</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>AUF LAGER</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_TEXT_NOSTOCK">
 		    <Original>OUT OF STOCK</Original>
 		    <English>OUT OF STOCK</English>
 		    <French></French>
-			<German>AUSVERKAUFT</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>AUSVERKAUFT</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_LISTBOX_NOMONEY">
 		    <Original>%1¢ more required</Original>
 		    <English>%1¢ more required</English>
 		    <French></French>
-			<German>%1¢ mehr benötigt</German>
-			<Russian></Russian>
-			<Spanish></Spanish>
-			<Italian></Italian>
+		    <German>%1¢ mehr benötigt</German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
 		</Key>
 	</Package>
 </Project>
