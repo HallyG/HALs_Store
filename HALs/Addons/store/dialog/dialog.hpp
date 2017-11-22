@@ -234,6 +234,7 @@ class RscDisplayStore {
 					w = GRIDW(6);
 					h = GRIDH(1);
 
+					maxChars = 6;
 					style = "16 + 512 + 0x01";
 					colorBackground[] = {0.05,0.05,0.05,0.7};
 					tooltip = "Number of items to buy";
