@@ -7,7 +7,7 @@
 		    <French></French>
 		    <German>Geschäft</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Comprar</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_UNAVALIABLE">
@@ -16,7 +16,7 @@
 		    <French></French>
 		    <German>Gegenstand nicht verfügbar</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Objeto no disponible</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_OUTOFSTOCK">
@@ -25,7 +25,7 @@
 		    <French></French>
 		    <German>Ausverkauft</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Sin stock</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_TOOEXPENSIVE">
@@ -34,7 +34,7 @@
 		    <French></French>
 		    <German>Zu wenig Geld</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Dinero insuficiente</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<KEY ID="STR_HALS_STORE_ITEM_NOEQUIP">
@@ -43,7 +43,7 @@
 		    <French></French>
 		    <German>Ausrüsten fehlgeschlagen</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Imposible equipar</Spanish>
 		    <Italian></Italian>
 		  </Key>
 		<Key ID="STR_HALS_STORE_ITEM_NOCARGOSPACE">
@@ -52,7 +52,7 @@
 		    <French></French>
 		    <German>Nicht genug Platz</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Espacio insuficiente</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_PURCHASED">
@@ -61,7 +61,7 @@
 		    <French></French>
 		    <German>gekauft</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>comprado</Spanish>
 		    <Italian></Italian>
 		</Key>
 	</Package>
@@ -72,7 +72,7 @@
 		    <French></French>
 		    <German>Zeige nur Gegenstände, die sich der Spieler leisten kann</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Mostrar solo objetos que pueda comprar</Spanish>
 		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_STOCK">
@@ -81,7 +81,7 @@
 		    <French></French>
 		    <German>Zeige nur Gegenstände, die auf Lager sind</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Mostrar solo objetos en stock</Spanish>
 		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_COMPATIBLE">
@@ -90,7 +90,7 @@
 		    <French></French>
 		    <German>Zeige nur Gegenstände, die mit der ausgerüsteten Waffe des Spielers kompatibel sind</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Mostrar solo objetos compatibles con armas equipadas</Spanish>
 		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_EQUIP">
@@ -99,7 +99,7 @@
 		    <French></French>
 		    <German>Gegenstand beim Kauf ausrüsten (wenn möglich)</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Equipar el articulo al comprar (si es posible)</Spanish>
 		    <Italian></Italian>
 		</Key>
 	    <Key ID="STR_HALS_STORE_BUTTON_PURCHASE">
@@ -108,7 +108,7 @@
 		    <French></French>
 		    <German>Kaufen</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Compra</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_TEXT_PRICE">
@@ -117,7 +117,7 @@
 		    <French></French>
 		    <German>Preis</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Precio</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_TEXT_INSTOCK">
@@ -126,7 +126,7 @@
 		    <French></French>
 		    <German>AUF LAGER</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>EN STOCK</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_TEXT_NOSTOCK">
@@ -135,7 +135,7 @@
 		    <French></French>
 		    <German>AUSVERKAUFT</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>FUERA DE STOCK</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_LISTBOX_NOMONEY">
@@ -144,7 +144,7 @@
 		    <French></French>
 		    <German>%1¢ mehr benötigt</German>
 		    <Russian></Russian>
-		    <Spanish></Spanish>
+		    <Spanish>Se necesitan %1¢</Spanish>
 		    <Italian></Italian>
 		</Key>
 	</Package>
