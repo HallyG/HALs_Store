@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 1.2
+### Fixes
+* FIXED: The mass of items of containers within containers were not calculated.
+* FIXED: The mass of items of containers within containers were not calculated.
+
+### Additions
+* ADDED: (Function) HALs_store_fnc_getItemType
+* ADDED: (Optimization) Removed the creation of unneccesary private variables
+* ADDED: (Optimization) HALs_store_fnc_main
+
+### Bugs
+* None found (yet..)
+
+___
 ## Version 1.1
 ### Fixes
 * FIXED: Could not equip a sniper/shotgun if the equip checkbox was checked.
