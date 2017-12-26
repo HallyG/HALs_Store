@@ -15,12 +15,9 @@
 	
 	Example:
 	[player, "hgun_P07_F", 50, 10, vestContainer player] call HALs_store_fnc_purchase;
-	
-	
-	// cant equip if not active container even from trader
-	// amount of stock purchased is messed up
 __________________________________________________________________*/
 if !(isServer) exitWith {};
+
 params [
 	["_unit", objNull, [objNull]],
 	["_classname", "", [""]],
@@ -31,77 +28,70 @@ params [
 ];
 
 if (isNull _unit) exitWith {}; 
-if (!alive _unit) exitWith {}; 
-//if (isNull _container) exitWith {}; 
+if (!alive _unit) exitWith {};
 if (isNull (_unit getVariable ["HALs_store_trader_current", objNull])) exitWith {};
 if (isNull (_classname call HALs_fnc_getConfigClass)) exitWith {};
 if (_amount <= 0) exitWith {};
 
 try {
-	private _trader = _unit getVariable ["HALs_store_trader_current", objNull];
-	private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-	private _money = [_unit] call HALs_money_fnc_getFunds;
-	private _amountCanAdd = [_container, _classname, _amount, true] call HALs_store_fnc_canAddItem;
-	private _categories = (_trader getVariable ["HALs_store_trader_categories", []]) select {isClass (missionConfigFile >> "cfgHALsStore" >> "categories" >> _x >> _classname)};
-	private _sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
+	_trader = _unit getVariable ["HALs_store_trader_current", objNull];
+	_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
+	_money = [_unit] call HALs_money_fnc_getFunds;
+	_amountCanAdd = [_container, _classname, _amount, true] call HALs_store_fnc_canAddItem;
+	_categories = (_trader getVariable ["HALs_store_trader_categories", []]) select {isClass (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> _classname)};
+	_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
 
-	
-	// THIS ALL NEEDS TO BE FIXED
 
 	if (_stock <= 0) then {
-		throw [localize "STR_HALS_STORE_ITEM_UNAVALIABLE"] //["Item unavaliable."]
+		throw [localize "STR_HALS_STORE_ITEM_UNAVALIABLE"]
 	};
 	
 	if (_amountCanAdd > _stock) then {
-		throw [localize "STR_HALS_STORE_ITEM_OUTOFSTOCK"] // throw ["Insufficient stock."]
+		throw [localize "STR_HALS_STORE_ITEM_OUTOFSTOCK"] 
 	};
 	
 	if (_price * _sale * _amountCanAdd > _money) then {
-		throw [localize "STR_HALS_STORE_ITEM_TOOEXPENSIVE"] //throw ["Insufficient funds."]
+		throw [localize "STR_HALS_STORE_ITEM_TOOEXPENSIVE"]
 	};
 	
-	
+	//--- Equip item is required
 	if (_equip && {[_unit, _classname] call HALs_store_fnc_canEquipItem}) then {
 		_equipped = [_unit, _classname] call HALs_store_fnc_equipItem;
 		
 		if (!_equipped) then {
-			throw [localize "STR_HALS_STORE_ITEM_NOEQUIP"];
+			throw [localize "STR_HALS_STORE_ITEM_NOEQUIP"]
 		};
-		
-		//_amount = 1; _amountCanAdd;
-		// fix this
-		
+
 		if ((_amount - 1) > 0) then {
 			if (_amountCanAdd isEqualTo 0) then {
-				throw [localize "STR_HALS_STORE_ITEM_NOCARGOSPACE"]; //throw ["Insufficient cargo space."]
-			} else {
+				throw [localize "STR_HALS_STORE_ITEM_NOCARGOSPACE"]
 				[_container, _classname, _amountCanAdd min (_amount - 1)] call HALs_store_fnc_addItemCargo;
-			};
-			
-			
-			
+			};	
 		};
 	} else {
 		if (_amountCanAdd isEqualTo 0) then {
-			throw [localize "STR_HALS_STORE_ITEM_NOCARGOSPACE"] //throw ["Insufficient cargo space."]
+			throw [localize "STR_HALS_STORE_ITEM_NOCARGOSPACE"]
 		} else {
 			[_container, _classname, _amountCanAdd] call HALs_store_fnc_addItemCargo;
 		};
-		
-		//_amount = _amountCanAdd;
 	};
-	
-	
+
+	//--- Deduct funds and stock before updating the listings;
 	[_trader, _classname, -_amount] call HALs_store_fnc_setTraderStock;
 	[_unit, - (_price * _amount * _sale)] call HALs_money_fnc_addFunds;	
 	[_unit, _trader, _categories] remoteExecCall ["HALs_store_fnc_update", 0];
 	
-	private _message = format ["x%1 %2(s)", _amount, [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue];
-	
+	//--- Log purchase
 	if (HALs_store_debug) then {
 		diag_log format ["[HALs] (STORE) ## PURCHASE ## (%4)  %1 (%2)  %3", getPlayerUID _unit, name _unit, _message, _trader];
 	};
-	throw [_message + " " + localize "STR_HALS_STORE_ITEM_PURCHASED", "FD_CP_CLEAR_F"];
+	
+	//--- User feedback
+	_displayname = [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue;
+	throw [
+		format ["x%1 %2(s) %3", _amount, _displayname, localize "STR_HALS_STORE_ITEM_PURCHASED"],
+		"FD_CP_CLEAR_F"
+	];
 	
 } catch {
 	_exception params [
