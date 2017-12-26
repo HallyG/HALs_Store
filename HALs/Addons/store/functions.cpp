@@ -11,6 +11,7 @@ class HALs_store {
 		class equipItem {};
 		class getItemMass {};
 		class getItemStats {};
+		class getItemType {};
 		class getTraderStock {};
 		class setTraderStock {};					
 	};
