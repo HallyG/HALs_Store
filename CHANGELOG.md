@@ -10,6 +10,8 @@
 * ADDED: (Function) HALs_fnc_getModuleSettings
 * ADDED: (Optimization) Removed the creation of unneccesary private variables
 * ADDED: (Optimization) HALs_store_fnc_main
+* ADDED: (Optimization) HALs_store_fnc_initModule
+* ADDED: (Optimization) HALs_store_fnc_blur
 * ADDED: (Optimization) HALs_fnc_getModuleRoot
 
 ### Bugs
