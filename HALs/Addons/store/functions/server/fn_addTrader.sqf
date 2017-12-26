@@ -37,7 +37,7 @@ try {
 		throw ["No Trader type provided", "fn_addTrader", __LINE__]
 	};
 	
-	if (!isClass (missionConfigFile >> "cfgHALsStore" >> "stores" >> _traderType)) then {
+	if (!isClass (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType)) then {
 		throw ["Invalid Trader type provided", "fn_addTrader", __LINE__]
 	};
 	
@@ -48,15 +48,15 @@ try {
 	private _classes = [];
 	private _stocks = [];
 	private _categories = [
-		getArray (missionConfigFile >> "cfgHALsStore" >> "stores" >> _traderType >> "categories"),
-		{getText (configFile >> "cfgHALsStore" >> "categories" >> _x >> "displayname")},
+		getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType >> "categories"),
+		{getText (configFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> "displayname")},
 		true
 	] call HALs_fnc_sortArray;
 
 
 	{
 		private _category = _x;
-		private _items = "true" configClasses (missionConfigFile >> "cfgHALsStore" >> "categories" >> _category) apply {toLower configName _x};
+		private _items = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _category) apply {toLower configName _x};
 		private _duplicateClass = {_classes find _x > -1} count _items > 0;
 		private _duplicateItem = !(count (_items arrayIntersect _items) isEqualTo count _items);
 		
@@ -65,7 +65,7 @@ try {
 		};
 		
 		_classes append _items;
-		_stocks append (_items apply {(getNumber (missionConfigFile >> "cfgHALsStore" >> "categories" >> _category >> _x >> "stock"))});
+		_stocks append (_items apply {(getNumber (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _category >> _x >> "stock"))});
 	} forEach _categories;
 
 	if !(typeOf _trader isKindOf ["CAManBase", configFile >> "cfgVehicles"]) then {
