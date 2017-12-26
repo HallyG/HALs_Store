@@ -81,7 +81,8 @@ call {
 				[]
 			]
 		} else {
-			_statHit = sqrt (_statHit^2 * _statInitSpeed); //--- Make impact influenced by muzzle speed
+			 //--- Make impact influenced by muzzle speed
+			_statHit = sqrt (_statHit^2 * _statInitSpeed);
 			
 			[
 				[_statReloadSpeed, localize "str_a3_rscdisplayarsenal_stat_rof"],
@@ -92,6 +93,7 @@ call {
 			]
 		};
 	};
+	
 	if (getNumber (_config >> "itemInfo" >> "type") in [605,701,801] || (getNumber (_config >> "type") isEqualTo 1 && getNumber (_config >> "isbackpack") isEqualTo 1)) exitWith {
 		HALs_store_stats_equipment params ["_statsMin", "_statsMax"];
 
@@ -103,10 +105,11 @@ call {
 		_statArmorExpl = linearConversion [_statsMin select 1, _statsMax select 1, _stats select 1, _barMin, _barMax];
 		_statMaximumLoad = linearConversion [_statsMin select 2, _statsMax select 2, _stats select 2, _barMin, _barMax];
 
+		//--- Force no backpack armor
 		if (getNumber (_config >> "isbackpack") isEqualTo 1) then {
 			_statArmorShot = _barMin;
 			_statArmorExpl = _barMin;
-		}; //--- Force no backpack armor
+		}; 
 
 		[
 			[_statArmorShot, localize "str_a3_rscdisplayarsenal_stat_passthrough"],
@@ -116,6 +119,7 @@ call {
 			[]
 		]
 	};
+	
 	if (isClass (_config >> 'ItemInfo' >> 'OpticsModes')) exitWith {
 		private _zoom = selectMax (("true" configClasses (_config >> "ItemInfo" >> "OpticsModes")) apply {getNumber (_x >> "distanceZoomMax")});
 		_statZoom = linearConversion [HALs_store_stats_optics select 0, HALs_store_stats_optics select 1, _zoom, 0.01, 1, true];

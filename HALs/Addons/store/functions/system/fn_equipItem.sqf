@@ -14,10 +14,16 @@
 	[player, "acc_flashlight"] call HALs_store_fnc_equipItem;
 	// todo fix grenades being added
 __________________________________________________________________*/
-private _unit = param [0, objNull];
-private _classname = toLower param [1, ""]; 
-private _added = false;
+params [
+	["_unit", objNull, [objNull]],
+	["_classname", "", [""]]
+];
 
+if (isNull _unit) exitWith {false};
+if (_classname isEqualTo '') exitWith {false};
+
+private _added = false;
+_classname = toLower _classname;
 ([_classname] call BIS_fnc_itemType) params ["_itemCategory", "_itemType"];
 
 if (_itemCategory isEqualTo "Magazine") then {

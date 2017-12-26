@@ -22,11 +22,11 @@ params [
 	["_amount", 0, [0]]
 ];
 
-private _stocks = _trader getVariable ["HALs_store_trader_stocks", []];
 private _classes = _trader getVariable ["HALs_store_trader_classes", []];
 private _selection = _classes find toLower _classname;
 
 if (_selection isEqualTo -1) exitWith {};
+private _stocks = _trader getVariable ["HALs_store_trader_stocks", []];
 private _stock = _stocks select _selection;
 
 _stocks set [_selection, ((_stock + _amount) max 0) min 999999];

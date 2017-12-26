@@ -18,9 +18,9 @@ params [
 	["_classname", "", [""]]
 ];
 
-private _stocks = _trader getVariable ["HALs_store_trader_stocks", []];
 private _classes = _trader getVariable ["HALs_store_trader_classes", []];
 private _selection = _classes find toLower _classname;
 
 if (_selection isEqualTo -1) exitWith {-1};
+private _stocks = _trader getVariable ["HALs_store_trader_stocks", []];
 _stocks select _selection 

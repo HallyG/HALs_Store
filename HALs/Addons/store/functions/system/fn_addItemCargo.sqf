@@ -21,25 +21,14 @@ params [
 	["_amount", 1, [0]]
 ];
 
-if (_amount < 1) exitWith {};
 if (isNull _container) exitWith {};
+if (_classname isEqualTo "") exitWith {};
+if (_amount < 1) exitWith {};
 
-switch (toUpper (([_classname] call BIS_fnc_itemType) select 0)) do {
-	case "MINE";
-	case "MAGAZINE": {
-		_container addMagazineCargoGlobal [_classname, _amount];
-	};
-	case "ITEM": {
-		_container addItemCargoGlobal [_classname, _amount];
-	};
-	case "WEAPON": {
-		_container addWeaponCargoGlobal [_classname, _amount];
-	};
-	case "EQUIPMENT": {
-		if (isClass (configFile >> "CfgVehicles" >> _classname)) then {
-			_container addBackpackCargoGlobal [_classname, _amount];
-		} else {
-			_container addItemCargoGlobal [_classname, _amount];
-		};
-	};
+switch ([_classname] call HALs_store_fnc_getItemType) do {
+	case 1: {_container addMagazineCargoGlobal [_classname, _amount]};
+	case 2: {_container addWeaponCargoGlobal [_classname, _amount]};
+	case 3: {_container addBackpackCargoGlobal [_classname, _amount]};
+	case 4: {_container addItemCargoGlobal [_classname, _amount]};
+	default {};
 };
