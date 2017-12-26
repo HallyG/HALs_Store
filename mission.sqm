@@ -17,9 +17,9 @@ class EditorData
 	class Camera
 	{
 		pos[]={5406.8545,21.398983,3869.511};
-		dir[]={0.28513888,-0.58480179,0.7594285};
-		up[]={0.20556681,0.81116235,0.54750067};
-		aside[]={0.93619752,1.9372965e-007,-0.35151002};
+		dir[]={0.097776994,-0.60693955,0.78873456};
+		up[]={0.074671492,0.79473197,0.60234892};
+		aside[]={0.99242145,2.9428702e-007,-0.12302883};
 	};
 };
 binarizationWanted=0;
@@ -88,7 +88,7 @@ class Mission
 			class Attributes
 			{
 				ammo=0.36464587;
-				init="[trader1, ""weapon""] call HALs_store_fnc_addTrader; [player, 10000] call HALs_money_fnc_addFunds;";
+				init="[trader1, ""weapon""] call HALs_store_fnc_addTrader;";
 				name="trader1";
 			};
 			id=8;
