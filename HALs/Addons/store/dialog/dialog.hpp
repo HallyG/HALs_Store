@@ -8,6 +8,7 @@ class RscDisplayStore {
 	y = safeZoneY;
 	w = safeZoneWAbs;
 	h = safeZoneH;
+	onUnload = "['onUnload', _this] call HALs_store_fnc_main";
 
 	class controls {
 		class HALs_store_dialog: HALsStore_ctrlControlsGroupNoScrollbars {
@@ -16,7 +17,7 @@ class RscDisplayStore {
 			y = 0;
 			w = GRIDW(MAIN_WIDTH +0.1);
 			h = GRIDH(MAIN_HEIGHT+0.7);
-			onLoad = "['ONLOAD', _this] call HALs_store_fnc_main";
+			onLoad = "['onLoad', _this] call HALs_store_fnc_main";
 				
 			class controls {
 				class main_background: HALsStore_RscText {
