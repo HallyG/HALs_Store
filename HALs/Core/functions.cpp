@@ -6,6 +6,7 @@ class HALs {
 		class getConfigClass {};
 		class getConfigValue {};
 		class getModuleRoot {};
+		class getModuleSettings {};
 		class log {};
 		class numberToString {};
 		class sortArray {};
