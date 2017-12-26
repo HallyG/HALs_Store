@@ -65,8 +65,8 @@ try {
 		if ((_amount - 1) > 0) then {
 			if (_amountCanAdd isEqualTo 0) then {
 				throw [localize "STR_HALS_STORE_ITEM_NOCARGOSPACE"]
-				[_container, _classname, _amountCanAdd min (_amount - 1)] call HALs_store_fnc_addItemCargo;
 			};	
+			[_container, _classname, _amountCanAdd min (_amount - 1)] call HALs_store_fnc_addItemCargo;
 		};
 	} else {
 		if (_amountCanAdd isEqualTo 0) then {
