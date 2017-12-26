@@ -5,20 +5,19 @@
 * FIXED: The mass of items of containers within containers were not calculated.
 * FIXED: Edit box maximum characters set to 6 (credis to: R3vo).
 
+* OPTIMIZED: Removed the creation of unneccesary private variables
+* OPTIMIZED: HALs_store_fnc_main
+* OPTIMIZED: HALs_store_fnc_initModule
+* OPTIMIZED: HALs_store_fnc_blur
+* OPTIMIZED: HALs_fnc_getModuleRoot
+
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
 * ADDED: (Function) HALs_fnc_getModuleSettings
-* ADDED: (Optimization) Removed the creation of unneccesary private variables
-* ADDED: (Optimization) HALs_store_fnc_main
-* ADDED: (Optimization) HALs_store_fnc_initModule
-* ADDED: (Optimization) HALs_store_fnc_blur
-* ADDED: (Optimization) HALs_fnc_getModuleRoot
-
-* CHANGED: Config file setup. Config files for HALs_Money and HALs_Store are located in their respective folders.
+* CHANGED: (Config) Config files for HALs_Money and HALs_Store are located in their respective folders.
 
 ### Bugs
-* None found (yet..)
-
+* TBF
 ___
 ## Version 1.1
 ### Fixes
@@ -45,4 +44,4 @@ ___
 ![](http://i.imgur.com/piowiF0.jpg) ![](http://i.imgur.com/cXhrtyh.jpg) ![](http://i.imgur.com/LyaFDse.jpg)
 
 ### Bugs
-* None found (yet..)
+* TBF
