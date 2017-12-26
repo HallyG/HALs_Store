@@ -14,6 +14,8 @@
 * ADDED: (Optimization) HALs_store_fnc_blur
 * ADDED: (Optimization) HALs_fnc_getModuleRoot
 
+* CHANGED: Config file setup. Config files for HALs_Money and HALs_Store are located in their respective folders.
+
 ### Bugs
 * None found (yet..)
 
