@@ -5,7 +5,7 @@
 * FIXED: The mass of items of containers within containers were not calculated.
 * FIXED: Edit box maximum characters set to 6 (credis to: R3vo).
 * OPTIMIZED: Removed the creation of unneccesary private variables.
-* OPTIMIZED: `HALs_store_fnc_main`, `HALs_store_fnc_initModule`, `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot` and more.
+* OPTIMIZED: `HALs_store_fnc_main`, `HALs_store_fnc_initModule`, `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot`
 
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
