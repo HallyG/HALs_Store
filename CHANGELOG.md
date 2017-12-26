@@ -7,8 +7,10 @@
 
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
+* ADDED: (Function) HALs_fnc_getModuleSettings
 * ADDED: (Optimization) Removed the creation of unneccesary private variables
 * ADDED: (Optimization) HALs_store_fnc_main
+* ADDED: (Optimization) HALs_fnc_getModuleRoot
 
 ### Bugs
 * None found (yet..)
