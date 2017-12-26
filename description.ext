@@ -12,10 +12,5 @@ class cfgFunctions {
 
 class cfgHALsAddons {
 	enableLog = 1;
-	AdminUIDs[] = {
-		"_SP_PLAYER_",
-		"_MP_CANKICK_",
-		"00000000000"
-	};
 	#include "HALs\Addons\config.hpp"
 };
