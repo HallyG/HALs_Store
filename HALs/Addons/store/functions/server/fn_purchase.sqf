@@ -76,7 +76,7 @@ try {
 		};
 	};
 
-	_amount = _amountCanAdd;
+	//_amount = _amountCanAdd;
 	
 	//--- Deduct funds and stock before updating the listings;
 	[_trader, _classname, -_amount] call HALs_store_fnc_setTraderStock;
