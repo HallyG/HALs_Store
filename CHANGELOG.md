@@ -4,16 +4,13 @@
 ### Fixes
 * FIXED: The mass of items of containers within containers were not calculated.
 * FIXED: Edit box maximum characters set to 6 (credis to: R3vo).
-
-* OPTIMIZED: Removed the creation of unneccesary private variables
-* OPTIMIZED: HALs_store_fnc_main
-* OPTIMIZED: HALs_store_fnc_initModule
-* OPTIMIZED: HALs_store_fnc_blur
-* OPTIMIZED: HALs_fnc_getModuleRoot
+* OPTIMIZED: Removed the creation of unneccesary private variables.
+* OPTIMIZED: `HALs_store_fnc_main`, `HALs_store_fnc_initModule`, `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot` and more.
 
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
 * ADDED: (Function) HALs_fnc_getModuleSettings
+
 * CHANGED: (Config) The configuration files for HALs_Money and HALs_Store have been moved from the `description.ext` to `config.hpp` in their respective folders.
   * HALs_Money: `HALs\Addons\Money\config.hpp`
   * HALs_Store: `HALs\Addons\Store\config.hpp`
