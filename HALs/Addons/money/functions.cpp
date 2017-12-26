@@ -4,7 +4,7 @@ class HALs_money {
 		class initModule {postInit = 1;};
 	};
 	class Functions {
-		file = "HALs\Addons\Money\Functions";
+		file = "HALs\Addons\Money\Functions\Server";
 		class addFunds {};
 		class getFunds {};
 	};
