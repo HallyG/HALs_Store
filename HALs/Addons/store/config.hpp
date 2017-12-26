@@ -1,6 +1,6 @@
 class cfgHALsStore {
 	containerTypes[] = {"LandVehicle", "Air", "Ship"};
-	containerRadius = 2;
+	containerRadius = 10;
 	debug = 1;
 	
 	class categories {
