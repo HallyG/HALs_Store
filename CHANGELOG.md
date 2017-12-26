@@ -3,7 +3,7 @@
 ## Version 1.2
 ### Fixes
 * FIXED: The mass of items of containers within containers were not calculated.
-* FIXED: The mass of items of containers within containers were not calculated.
+* FIXED: Edit box maximum characters set to 6 (credis to: R3vo).
 
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
