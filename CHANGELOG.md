@@ -14,10 +14,9 @@
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
 * ADDED: (Function) HALs_fnc_getModuleSettings
-* CHANGED: (Config) Config files for HALs_Money and HALs_Store are located in their respective folders.
-
-### Bugs
-* TBF
+* CHANGED: (Config) The configuration files for HALs_Money and HALs_Store have been moved from the `description.ext` to `config.hpp` in their respective folders.
+  * HALs_Money: `HALs\Addons\Money\config.hpp`
+  * HALs_Store: `HALs\Addons\Store\config.hpp`
 ___
 ## Version 1.1
 ### Fixes
