@@ -13,23 +13,33 @@
 	(vestContainer player) call HALs_fnc_getCargoMass;
 __________________________________________________________________*/
 params [
-	["_object", objNull, [objNull]]
+	["_container", objNull, [objNull]]
 ];
 
-private _totalWeight = 0;
+private _totalMass = 0;
 {
-	_x params ["_items", "_getConfigCode"];
+	_x params ["_items", "_configCode"];
 	_items params ["_item", "_count"];
+	
 	{
-		_totalWeight = _totalWeight + (getNumber ((call _getConfigCode) >> "mass") * (_count select _forEachIndex));
+		_totalMass = _totalMass + (getNumber ((call _configCode) >> "mass") * (_count select _forEachIndex));
 	} forEach _item;
+	
 	true
 } count [
-	[getMagazineCargo _object, {configFile >> "CfgMagazines" >> _x}],
-	[getBackpackCargo _object, {configFile >> "CfgVehicles" >> _x}],
-	[getItemCargo _object, {configFile >> "CfgWeapons" >> _x >> "ItemInfo"}],
-	[getItemCargo _object, {configfile >> "CfgGlasses" >> _x}],
-	[getWeaponCargo _object, {configFile >> "CfgWeapons" >> _x >> "WeaponSlotsInfo"}]
+	[getMagazineCargo _container,	{configFile >> "CfgMagazines" >> _x}],
+	[getBackpackCargo _container, 	{configFile >> "CfgVehicles" >> _x}],
+	[getItemCargo _container, 		{configFile >> "CfgWeapons" >> _x >> "ItemInfo"}],
+	[getItemCargo _container, 		{configFile >> "CfgGlasses" >> _x}],
+	[getWeaponCargo _container, 	{configFile >> "CfgWeapons" >> _x >> "WeaponSlotsInfo"}]
 ];
 
-_totalWeight
+_containers = (everyContainer _container);
+if (count _containers > 0) then {
+	{
+		_totalMass = _totalMass + (_x call HALs_fnc_getCargoMass);
+	} forEach (_containers apply {_x select 1})
+};
+
+
+_totalMass
