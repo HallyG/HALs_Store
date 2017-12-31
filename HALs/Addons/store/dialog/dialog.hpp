@@ -74,7 +74,7 @@ class RscDisplayStore {
 	
 					text = "\a3\3DEN\Data\ControlsGroups\Tutorial\close_ca.paa";
 					tooltip = "Close";
-					action = "['UNLOAD'] call HALs_store_fnc_main;";
+					action = "['onUnload'] call HALs_store_fnc_main;";
 					colorText[]={1,1,1,1};
 					colorActive[]={1,1,1,1};
 					color[] = {1,1,1,0.5};
