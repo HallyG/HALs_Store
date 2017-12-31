@@ -12,7 +12,12 @@
 	Example:
 	[BUYER, TRADER, "hgun_P07_F", "handguns"] call HALs_store_fnc_addAction;
 __________________________________________________________________*/
-params [["_trader", objNull], ["_type", ""]];
+params [
+	["_trader", objNull, [objNull]],
+	["_type", ""]
+];
+
+if (isNull _trader) exitWith {};
 
 _trader addAction [
 	(localize "STR_HALS_STORE_ACTION"), {
