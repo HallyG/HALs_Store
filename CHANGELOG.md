@@ -3,7 +3,7 @@
 ## Version 1.2
 ### Fixes
 * FIXED: The mass of items of containers within containers were not calculated.
-* FIXED: Edit box maximum characters set to 6 (credis to: R3vo).
+* FIXED: Edit box maximum characters set to 6 (credits to: R3vo).
 * FIXED: Players couldn't buy items in multiplayer (credits to: Antoine)
 * OPTIMIZED: Removed the creation of unneccesary private variables.
 * OPTIMIZED: `HALs_store_fnc_main`, `HALs_store_fnc_initModule`, `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot`
