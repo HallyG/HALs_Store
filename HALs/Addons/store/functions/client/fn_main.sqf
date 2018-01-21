@@ -108,6 +108,8 @@ switch (_mode) do {
 					["EDIT", 		["UPDATE", 	[]]] call  HALs_store_fnc_main;
 					["BUTTON", 		["ENABLED", []]] call  HALs_store_fnc_main;
 				}];
+				
+				_ctrlListbox ctrlSetFontHeight (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8);
 			};
 			case ("UPDATE"): {
 				_ctrlListbox = UICTRL(IDC_RscDisplayStore_LISTBOX);
@@ -222,7 +224,7 @@ switch (_mode) do {
 						_index = _ctrlPurchase lbAdd _displayName;
 						_ctrlPurchase lbSetPicture [_index, _picture];
 						_ctrlPurchase lbSetData [_index, _object call BIS_fnc_netId];
-						_ctrlPurchase lbSetTooltip [_index, format ["Purchase to %1%2", _displayName, toString [10,13]]];
+						_ctrlPurchase lbSetTooltip [_index, format ["Purchase to %1%2", _displayName, ""/*toString [10,13]*/]];
 					};
 				} forEach ([
 					[[typeOf _trader, "Trader", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\face_ca.paa", _trader], []] select (_trader isKindOf "Man"),
@@ -299,8 +301,11 @@ switch (_mode) do {
 				_canEquipPlayer = [player, _classname] call HALs_store_fnc_canEquipItem;
 				_container = (UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
 				
+				//--- Player can equip item and can add the rest of the items to the container
 				_canEquip = _doEquip && {_canEquipPlayer && {!isNull _container && {_container canAdd [_classname, _amount - 1]}}};
+				//--- Player can equip item
 				_canEquipEmpty = _doEquip && {_canEquipPlayer} && {_amount isEqualTo 1};
+				//--- Can add all items to container
 				_canAdd = !(isNull _container) && {_container canAdd [_classname, _amount]};
 	
 				_ctrlButton ctrlEnable ((_canBuy && _canAdd || _canBuy && _canEquip) || _canBuy && _canEquipEmpty);
@@ -358,20 +363,17 @@ switch (_mode) do {
 						_ctrlText ctrlSetStructuredText parseText format [
 							"<t font ='PuristaMedium' align='right' shadow='0'>%1%3%2%4</t>",
 							format [
-								"<t size='1'>%1¢<br/></t>",
-								_price call HALs_fnc_numberToString
-							],
-							format [
-								"<t size='1'></t><t size = '0.97'>x </t><t size = '0.97' color='#%2'>%1</t><br/>",
+								"<t size='1'>%1¢</t> <t size ='1' shadow='1' color='#%3'>x%2</t><br/>",
+								_price call HALs_fnc_numberToString,
 								_amount,
 								['b2ec00', 'ea0000'] select (_amount > _stock)
-							],
+							], "",
 							[
-								format ["<t size = '0.95'>- %1%2</t><br/>", _sale * 100, "%"],
+								format ["<t size='0.95'>- %1%2</t><br/>", _sale * 100, "%"],
 								""
 							] select (_sale in [0]),
 							format [
-								"<t size = '1.1' color='#%2'>- %1¢</t>", 
+								"<t size='1.1' color='#%2'>- %1¢</t>", 
 								_total call HALs_fnc_numberToString,
 								['b2ec00', 'ea0000'] select (_total > _money)
 							]
@@ -381,9 +383,7 @@ switch (_mode) do {
 						_ctrlTextHeight = [_ctrlText, 4 * pixelH] call BIS_fnc_ctrlFitToTextHeight;
 						_margin = (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH))) + 4 * pixelH;
 						
-						
 						_ctrlPosition = ctrlPosition _ctrlText;
-						
 						_ctrlPosEdit = ctrlPosition _ctrlEdit;
 						_ctrlPosEdit set [1, (_ctrlPosition select 1) + _ctrlTextHeight + _margin];
 						_ctrlEdit ctrlSetPosition _ctrlPosEdit;
@@ -456,7 +456,7 @@ switch (_mode) do {
 						//--- Update positions of controls
 						[_titleCtrl] call BIS_fnc_ctrlTextHeight;
 						
-						_pos = ctrlPosition _titleCtrl;
+						_posPrevious = ctrlPosition _titleCtrl;
 						
 						{	
 							_x params ["_ctrlProgress", "_ctrlProgressText"];
@@ -470,23 +470,23 @@ switch (_mode) do {
 
 								
 								if (_forEachIndex isEqualTo 0) then {
-									_pos set [0, _pos1 select 0];
-									_pos set [1, (_pos select 1) + (_pos select 3)];
-									_pos set [2, _pos1 select 2];
-									_pos set [3, _pos1 select 3];
+									_posPrevious set [0, _pos1 select 0];
+									_posPrevious set [1, (_posPrevious select 1) + (_posPrevious select 3) + pixelH*4];
+									_posPrevious set [2, _pos1 select 2];
+									_posPrevious set [3, _pos1 select 3];
+								} else {
+									_posPrevious set [1, (_posPrevious select 1) + (_pos1 select 3) + (0.1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)) + ([0, pixelH] select (_forEachIndex isEqualTo 2))];
 								};
 
-								_pos set [1, (_pos select 1) + ([_pos1 select 3, 4 * pixelH] select (_forEachIndex isEqualTo 0)) + 4 * pixelH];
-
-								_ctrlProgress ctrlSetPosition _pos;
+								_ctrlProgress ctrlSetPosition _posPrevious;
 								_ctrlProgress ctrlCommit 0;
-								_ctrlProgressText ctrlSetPosition _pos;
+								_ctrlProgressText ctrlSetPosition _posPrevious;
 								_ctrlProgressText ctrlCommit 0;
 							};
 						} forEach PGBARS;
 						
 						private _posText = ctrlPosition _textCtrl;
-						_posText set [1, (_pos select 1) + (_pos select 3) + 8 * pixelH];
+						_posText set [1, (_posPrevious select 1) + (_posPrevious select 3) + 4 * pixelH];
 						_posText set [3, (ctrlTextHeight _textCtrl)];
 						_textCtrl ctrlSetPosition _posText;
 						_textCtrl ctrlCommit 0;
@@ -620,7 +620,7 @@ switch (_mode) do {
 						_ctrlProgress progressSetPosition _progress;
 						_ctrlProgress ctrlSetFade 0;
 						_ctrlProgress ctrlCommit 0;
-						_ctrlProgressText ctrlSetText _text;
+						_ctrlProgressText ctrlSetText toUpper _text;
 						_ctrlProgressText ctrlSetFade 0;
 						_ctrlProgressText ctrlCommit 0;
 						
