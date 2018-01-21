@@ -89,12 +89,15 @@ try {
 	};
 	
 	//--- User feedback
-	_displayname = [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue;
-	throw [
-		format ["x%1 %2(s) %3", _amount, _displayname, localize "STR_HALS_STORE_ITEM_PURCHASED"],
-		"FD_CP_CLEAR_F"
-	];
+	_displayName = [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue;
+	_message = format ["x%1 %2(s) %3", _amount, _displayname, localize "STR_HALS_STORE_ITEM_PURCHASED"];
 	
+	//--- Log purchase
+	if (HALs_store_debug) then {
+		diag_log format ["%2(%1)/HALs_fnc_log: [HALs_store_fnc_purchase] PURCHASE: %3 (%4)", getPlayerUID _unit, name _unit, _message, _trader];
+	};
+	
+	throw [_message,"FD_CP_CLEAR_F"];
 } catch {
 	_exception params [
 		"_message",
