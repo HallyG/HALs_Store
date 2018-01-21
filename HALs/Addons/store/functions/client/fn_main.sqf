@@ -47,7 +47,7 @@ switch (_mode) do {
 		closeDialog 2;
 	
 		false call HALs_store_fnc_blur;
-		player setVariable ["HALs_store_trader_current", objNull];
+		player setVariable ["HALs_store_trader_current", objNull, true];
 		
 		uiNamespace setVariable ["HALs_store_display", controlNull];
 		uiNamespace setVariable ["HALs_store_lbIndex", -1];
