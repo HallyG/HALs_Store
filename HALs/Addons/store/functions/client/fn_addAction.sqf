@@ -22,7 +22,7 @@ if (isNull _trader) exitWith {};
 _trader addAction [
 	(localize "STR_HALS_STORE_ACTION"), {
 		private _trader = param [0, objNull];
-		player setVariable ["HALs_store_trader_current", _trader];
+		player setVariable ["HALs_store_trader_current", _trader, true];
 			
 		HALs_store_vehicles = vehicles select {
 			typeof _x isKindOf "Car" && 
