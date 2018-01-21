@@ -1,4 +1,4 @@
-﻿// Control types
+// Control types
 #define CT_STATIC           0
 #define CT_BUTTON           1
 #define CT_EDIT             2
@@ -121,6 +121,7 @@ class ScrollBar {
 	shadow = 0;
 	scrollSpeed = 0.06;
 };
+
 class HALsStore_RscText {
 	deletable = 0;
 	fade = 0;
@@ -146,62 +147,69 @@ class HALsStore_RscText {
 	tooltipColorBox[] = {0,0,0,0};
 };
 class HALsStore_RscListBox {
-	deletable = 0;
-	fade = 0;
-	access = 0;
-	type = 5;
-	//sizeEx2 = "1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-	rowHeight = "1.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-	canDrag = 0;
 	itemSpacing = 0.001;
-	colorText[] = {1,1,1,1};
-	colorDisabled[] = {1,1,1,0.25};
-	colorScrollbar[] = {1,0,0,0};
-	colorSelect[] = {0,0,0,1};
-	colorShadow[]={0,0,0,0};
-	colorSelect2[] = {0,0,0,1};
-	colorSelectBackground[] = {0.95,0.95,0.95,1};
-	colorSelectBackground2[] = {1,1,1,0.5};
-	colorBackground[] = {1,1,1,0.2};
-	tooltipColorShade[] = {0,0,0,0.65};
-	tooltipColorText[] = {1,1,1,1};
-	tooltipColorBox[] = {0,0,0,0};
 	itemBackground[] = {1, 1, 1, 0.1};
-	disabledCtrlColor[] = {1,1,1,0.5};
-	soundSelect[] =	{
-		"\A3\ui_f\data\sound\RscListbox\soundSelect",
-		0.09,
-		1
-	};
-	autoScrollSpeed = -1;
+	access = 0;
+	arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+	arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";	
 	autoScrollDelay = 5;
 	autoScrollRewind = 0;
-	arrowFull="\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
-	arrowEmpty="\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
-	//arrowEmpty = "#(argb,8,8,3)color(1,1,1,1)";
-	//arrowFull = "#(argb,8,8,3)color(1,1,1,1)";
+	autoScrollSpeed = -1;
+	colorBackground[] = {1,1,1,0.2};
+	colorDisabled[] = {1,1,1,0.25};
 	colorPicture[] = {1,1,1,1};
-	colorPictureSelected[] = {1,1,1,1};
 	colorPictureDisabled[] = {1,1,1,0.25};
 	colorPictureRight[] = {1,1,1,1};
-	colorPictureRightSelected[] = {1,1,1,1};
 	colorPictureRightDisabled[] = {1,1,1,0.25};
-	colorTextRight[] = {1,1,1,1};
-	colorSelectRight[] = {0,0,0,1};
+	colorPictureRightSelected[] = {1,1,1,1};
+	colorPictureSelected[] = {1,1,1,1};
+	colorScrollbar[] = {1,0,0,0};
+	colorSelect[] = {0,0,0,1};
+	colorSelect2[] = {0,0,0,1};
 	colorSelect2Right[] = {0,0,0,1};
-	class ListScrollBar: ScrollBar {
-		color[] = {1,1,1,0.5};
-		autoScrollEnabled = 1;
-	};
+	colorSelectBackground[] = {0.95,0.95,0.95,1};
+	colorSelectBackground2[] = {1,1,1,0.5};
+	colorSelectRight[] = {0,0,0,1};
+	colorShadow[]={0,0,0,0.5};
+	colorText[] = {1,1,1,1};
+	colorTextRight[] = {1,1,1,1};
+	deletable = 0;
+	fade = 0;
+	font = "RobotoCondensed";
+	h = 0.3;
+	maxHistoryDelay = 1;
+	period = 1.2;
+	// rowHeight = 0; //rowHeight = "1.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)"; // 0
+	rowHeight = "2 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+	shadow = 0;
+	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	soundSelect[] = {"\A3\ui_f\data\sound\RscListbox\soundSelect",0.09,1};	
+	style = 16;
+	tooltipColorBox[] = {1,1,1,1};
+	tooltipColorShade[] = {0,0,0,0.65};
+	tooltipColorText[] = {1,1,1,1};	
+	type = 5;
+	w = 0.3;
 	x = 0;
 	y = 0;
-	w = 0.3;
-	h = 0.04;
-	style = 16;
-	font = "PuristaMedium";
-	sizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; //0.9
-	period = 1.2;
-	maxHistoryDelay = 1;
+	
+	class ListScrollBar {
+		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+		autoScrollDelay = 5;
+		autoScrollEnabled = 1;
+		autoScrollRewind = 0;
+		autoScrollSpeed = -1;
+		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+		color[] = {1,1,1,1};
+		colorActive[] = {1,1,1,1};
+		colorDisabled[] = {1,1,1,0.3};
+		height = 0;
+		scrollSpeed = 0.06;
+		shadow = 0;
+		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+		width = 0;
+	};		
 };
 class HALsStore_RscStructuredText {
 	type = 13;
@@ -222,6 +230,8 @@ class HALsStore_RscStructuredText {
 	size="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9)";
 	shadow = 1;
 };
+
+
 class HALsStore_ctrlDefault {
 	access = 0;
 	idc = -1;
@@ -369,6 +379,7 @@ class HALsStore_ctrlEdit: HALsStore_ctrlDefaultText {
 	tooltipColorText[] = {1,1,1,1};
 	tooltipColorBox[] = {0,0,0,0};
 };
+
 class HALsStore_ctrlCombo {
 	type = 4;
 	style = ST_LEFT + LB_TEXTURES + ST_NO_RECT;
@@ -424,49 +435,79 @@ class HALsStore_ctrlCombo {
 		width = 0;
 		height = 0;
 		scrollSpeed = 0.01;
-		color[ ]= {1,1,1,1};
+		color[]= {1,1,1,1};
 		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
 		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
 		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
 		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
 	};
 };
+class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
+	access = 0;
+	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+	arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+	colorActive[] = {1,0,0,1};
+	colorBackground[] = {0,0,0,0.7};
+	colorDisabled[] = {1,1,1,0.25};
+	colorPicture[] = {1,1,1,1};
+	colorPictureDisabled[] = {1,1,1,0.25};
+	colorPictureRight[] = {1,1,1,1};
+	colorPictureRightDisabled[] = {1,1,1,0.25};
+	colorPictureRightSelected[] = {1,1,1,1};
+	colorPictureSelected[] = {1,1,1,1};
+	colorScrollbar[] = {1,0,0,1};
+	colorSelect[] = {0,0,0,1};
+	colorSelect2Right[] = {0,0,0,1};
+	colorSelectBackground[] = {1,1,1,0.7};
+	colorSelectRight[] = {0,0,0,1};
+	colorText[] = {1,1,1,1};
+	colorTextRight[] = {1,1,1,1};
+	font = "RobotoCondensed";
+	h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+	maxHistoryDelay = 1;
+	shadow = 0;	
+	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse",0.1,1};
+	soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand",0.1,1};
+	soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect",0.1,1};
+	tooltipColorText[] = {1,1,1,1};
+	tooltipColorBox[] = {1,1,1,1};
+	tooltipColorShade[] = {0,0,0,0.65};
+	wholeHeight = 0.45;	
+	
+	class ComboScrollBar {
+		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+		autoScrollDelay = 5;
+		autoScrollEnabled = 0;
+		autoScrollRewind = 0;
+		autoScrollSpeed = -1;
+		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+		color[] = {1,1,1,1};
+		colorActive[] = {1,1,1,1};
+		colorDisabled[] = {1,1,1,0.3};
+		height = 0;
+		scrollSpeed = 0.06;
+		shadow = 0;
+		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+		width = 0;
+	};
+};
 class HALsStore_ctrlProgress {
+	deletable = 0;
+	fade = 0;
+	access = 0;
 	type = CT_PROGRESS;
 	style = ST_HORIZONTAL;
+	colorFrame[] = {0,0,0,0};
+	colorBar[] = {1,1,1,1};
 	shadow = 2;
 	texture = "#(argb,8,8,3)color(1,1,1,1)";
+};
+class HALsStore_ctrlStat: HALsStore_ctrlProgress {
 	colorBar[] = {1,1,1,1};
-	colorFrame[] = {0,0,0,1};
-};
-
-class HALsStore_ctrlControlsGroup: HALsStore_ctrlDefault {
-	type = CT_CONTROLS_GROUP;
-	style = ST_MULTI;
-	x = 0;
-	y = 0;
-	w = 1;
-	h = 1;
-	class VScrollBar: ScrollBar {
-		width = 2 * GRID_W;
-		height = 0;
-		autoScrollEnabled = 0;
-		autoScrollDelay = 1;
-		autoScrollRewind = 1;
-		autoScrollSpeed = 1;
-	};
-	class HScrollBar: ScrollBar {
-		width = 0;
-		height = 0;//2 * GRID_H;
-	};
-};
-class HALsStore_ctrlControlsGroupNoScrollbars: HALsStore_ctrlControlsGroup {
-	class VScrollbar: VScrollBar {
-		width = 0;
-	};
-	class HScrollbar: HScrollBar {
-		height = 0;
-	};
+	colorFrame[] = {0,0,0,0};
+	texture = "#(argb,8,8,3)color(1,1,1,1)";
 };
 class HALsStore_ctrlCheckbox {
 	idc = -1;
@@ -538,4 +579,34 @@ class HALsStore_ctrlCheckboxGreen: HALsStore_ctrlCheckbox {
 	texturePressedUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
 	textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 	textureDisabledUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
+};
+
+
+class HALsStore_ctrlControlsGroup: HALsStore_ctrlDefault {
+	type = CT_CONTROLS_GROUP;
+	style = ST_MULTI;
+	x = 0;
+	y = 0;
+	w = 1;
+	h = 1;
+	class VScrollBar: ScrollBar {
+		width = 2 * GRID_W;
+		height = 0;
+		autoScrollEnabled = 0;
+		autoScrollDelay = 1;
+		autoScrollRewind = 1;
+		autoScrollSpeed = 1;
+	};
+	class HScrollBar: ScrollBar {
+		width = 0;
+		height = 0;//2 * GRID_H;
+	};
+};
+class HALsStore_ctrlControlsGroupNoScrollbars: HALsStore_ctrlControlsGroup {
+	class VScrollbar: VScrollBar {
+		width = 0;
+	};
+	class HScrollbar: HScrollBar {
+		height = 0;
+	};
 };
