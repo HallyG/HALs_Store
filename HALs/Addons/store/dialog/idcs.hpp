@@ -38,3 +38,11 @@
 
 
 #define PGBARS [[IDC_RscDisplayStore_ITEM_STATS_PROGRESS_1, IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_1],[IDC_RscDisplayStore_ITEM_STATS_PROGRESS_2, IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_2],[IDC_RscDisplayStore_ITEM_STATS_PROGRESS_3, IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_3],[IDC_RscDisplayStore_ITEM_STATS_PROGRESS_4, IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_4],[IDC_RscDisplayStore_ITEM_STATS_PROGRESS_5, IDC_RscDisplayStore_ITEM_STATS_PROGRESS_TEXT_5]]
+
+#define UICTRL(IDC)  ((uiNamespace getVariable ["HALs_store_display", controlNull]) controlsGroupCtrl IDC)
+#define UICGCTRL(IDC) ((UICTRL(IDC_RscDisplayStore_ITEM_TEXT_GROUP)) controlsGroupCtrl IDC) 
+#define CTRLSEL(IDC) (lbCurSel UICTRL(IDC))
+
+#define UIDATA(IDC)  (UICTRL(IDC) lbData CTRLSEL(IDC))
+#define UITEXT(IDC)  (UICTRL(IDC) lbText CTRLSEL(IDC))
+#define UIVALUE(IDC) (UICTRL(IDC) lbValue CTRLSEL(IDC))
