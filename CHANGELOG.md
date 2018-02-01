@@ -11,8 +11,10 @@
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
 * ADDED: (Function) HALs_fnc_getModuleSettings
+* ADDED: Spanish Translation thanks to Kain181.
+* ADDED: French Translation thanks to vbr74.
 
-* CHANGED: (Dialog) Visual changes. Text should be easier to read and dialog should scale better in different resolutions
+* CHANGED: (Dialog) Visual changes. Text should be easier to read and dialog should scale better with different resolutions
 * CHANGED: (Config) The configuration files for HALs_Money and HALs_Store have been moved from the `description.ext` to `config.hpp` in their respective folders.
   * HALs_Money: `HALs\Addons\Money\config.hpp`
   * HALs_Store: `HALs\Addons\Store\config.hpp`
