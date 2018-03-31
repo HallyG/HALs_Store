@@ -84,9 +84,9 @@ try {
 	[_unit, _trader, _categories] remoteExecCall ["HALs_store_fnc_update", 0];
 	
 	//--- Log purchase
-	if (HALs_store_debug) then {
-		diag_log format ["[HALs] (STORE) ## PURCHASE ## (%4)  %1 (%2)  %3", getPlayerUID _unit, name _unit, _message, _trader];
-	};
+	//if (HALs_store_debug) then {
+	//	diag_log format ["[HALs] (STORE) ## PURCHASE ## (%4)  %1 (%2)  %3", getPlayerUID _unit, name _unit, _message, _trader];
+	//};
 	
 	//--- User feedback
 	_displayName = [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue;
