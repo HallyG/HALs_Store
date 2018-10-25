@@ -1,7 +1,8 @@
 /*
 	Function: HALs_fnc_getCargoMass
 	Author: L-H, edited by commy2, rewritten by joko // Jonas
-	Calculates the mass of an item or of all the items in a container.
+	Calculates the mass of an item or of all the items in a container. 
+	(Recursive)
 
 	Argument(s):
 	0: Container <OBJECT>
@@ -29,8 +30,8 @@ private _totalMass = 0;
 } count [
 	[getMagazineCargo _container,	{configFile >> "CfgMagazines" >> _x}],
 	[getBackpackCargo _container, 	{configFile >> "CfgVehicles" >> _x}],
-	[getItemCargo _container, 		{configFile >> "CfgWeapons" >> _x >> "ItemInfo"}],
-	[getItemCargo _container, 		{configFile >> "CfgGlasses" >> _x}],
+	[getItemCargo _container, 	{configFile >> "CfgWeapons" >> _x >> "ItemInfo"}],
+	[getItemCargo _container, 	{configFile >> "CfgGlasses" >> _x}],
 	[getWeaponCargo _container, 	{configFile >> "CfgWeapons" >> _x >> "WeaponSlotsInfo"}]
 ];
 
@@ -40,6 +41,5 @@ if (count _containers > 0) then {
 		_totalMass = _totalMass + (_x call HALs_fnc_getCargoMass);
 	} forEach (_containers apply {_x select 1})
 };
-
 
 _totalMass
