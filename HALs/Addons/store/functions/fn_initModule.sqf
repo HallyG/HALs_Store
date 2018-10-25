@@ -2,13 +2,13 @@
 	Function: HALs_store_fnc_initModule;
 	Author: HallyG
 	Store Module init.
-	
+
 	Argument(s):
 	None
-	
+
 	Return Value:
 	None
-	
+
 	Example:
 	[] call HALs_store_fnc_initModule;
 __________________________________________________________________*/
@@ -20,6 +20,7 @@ HALs_store_moduleRoot = ["HALs_store"] call HALs_fnc_getModuleRoot;
 	[
 		["containerRadius", 10, {_this max 1}],
 		["containerTypes", ["LandVehicle", "Air", "Ship"], {_this}],
+		["currencySymbol", "¢", {_this}],
 		["debug", 0, {_this isEqualTo 1}]
 	]
 ] call HALs_fnc_getModuleSettings;
