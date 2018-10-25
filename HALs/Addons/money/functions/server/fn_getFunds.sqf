@@ -3,11 +3,11 @@
 	Author: HallyG
 
 	Arguments(s):
-	0: None
+	0: Unit <OBJECT>
 
 	Return Value:
-	None
-	
+	Funds <NUMBER>
+
 	Example:
 	[] call HALs_money_fnc_getFunds;
 __________________________________________________________________*/
