@@ -1,4 +1,6 @@
-# HALs Store v1.1
+# HALs Store v1.2
+An ArmA 3 script which adds an equipment store to any mission. 
+
 ## [Changelog](https://github.com/HallyG/HALs_Store/blob/master/CHANGELOG.md)
 ## [WIKI](https://github.com/HallyG/HALs_Store/wiki) for documentation and help.
 
