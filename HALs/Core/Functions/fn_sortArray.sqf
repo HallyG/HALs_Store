@@ -21,7 +21,7 @@ params [
 ];
 
 if !(_function isEqualTo {}) exitWith {
-	_newArray = _array apply {
+	private _newArray = _array apply {
 		[call _function, _x]
 	};
 
