@@ -1,16 +1,15 @@
+#define HALs_DEF_INIT
+	#include "HALs\Addons\Main\config.hpp"
+#undef HALs_DEF_INIT
+
+class CfgFunctions {
+	#include "HALs\Core\Functions.cpp"
+
+	#define HALs_DEF_FUNCTIONS
+		#include "HALs\Addons\Main\config.hpp"
+	#undef HALs_DEF_FUNCTIONS
+};
+
 author = "HallyG";
 onLoadName = "HALs Store";
 onLoadMission = "HALs Store";
-
-class cfgFunctions {
-	#include "HALs\Core\Functions.cpp"
-	#include "HALs\Addons\Store\Functions.cpp"
-	#include "HALs\Addons\Money\Functions.cpp"
-};
-
-#include "HALs\Addons\Store\dialog\dialog.hpp"
-
-class cfgHALsAddons {
-	enableLog = 1;
-	#include "HALs\Addons\config.hpp"
-};

@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.3
+* CHANGED: Restructured ADDONS folder. Everything is initialised through HALs/addons/main/config.hpp now.
+* CHANGED: Categorised functions in the CORE folder.
+___
 ## Version 1.2
 ### Fixes
 * FIXED: The mass of items of containers within containers were not calculated.
@@ -32,14 +36,14 @@ ___
 
 ### Additions
 * ADDED: German Translation thanks to 7erra.
-* ADDED: Items can now have custom structured text descriptions. 
+* ADDED: Items can now have custom structured text descriptions.
 * ADDED: fn_purchase added message if player couldnt equip item.
   * Uses new stringtable entry ("STR_HALS_STORE_ITEM_NOEQUIP").
-  
+
 * ADDED: traders can be any type now ("CAManBase", "ReammoBox_F" or "Car_F").
   * NB automatically clears a traders inventory on init if they are not type "CAManBase"
   * If trader is type "CAManBase", can only purchase to player's uniform/vest/backpack.
-  
+
 * ADDED: Stats for weapons, uniform, vests, backpacks and optics.
 ![](http://i.imgur.com/piowiF0.jpg) ![](http://i.imgur.com/cXhrtyh.jpg) ![](http://i.imgur.com/LyaFDse.jpg)
 
