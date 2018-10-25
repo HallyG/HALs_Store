@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 1.3
+* ADDED: Option to change the currency symbol used.
 * CHANGED: Restructured ADDONS folder. Everything is initialised through HALs/addons/main/config.hpp now.
 * CHANGED: Categorised functions in the CORE folder.
 ___
