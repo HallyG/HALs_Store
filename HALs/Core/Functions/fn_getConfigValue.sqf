@@ -13,7 +13,10 @@
 	Example:
 	[(configFile >> "CfgWeapons" >> primaryWeapon player), ""] call HALs_fnc_getConfigValue;
 __________________________________________________________________*/
-params ["_class", ["_return", nil]]
+params [
+	["_class", configNull, [configNull]],
+	["_return", nil]
+];
 
 call {
 	if (isText _class) exitWith {getText _class};
