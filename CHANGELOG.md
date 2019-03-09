@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.3
+### Additions
+* ADDED: (Function) `HALs_store_fnc_addMoneyOnOpen`
+* ADDED: (Option) Setting to change currency symbol
+
+* CHANGED: (Config) Everything is initialised automatically through `HALs/Addons/main`
+___
 ## Version 1.2
 ### Fixes
 * FIXED: The mass of items of containers within containers were not calculated.
