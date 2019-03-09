@@ -1,9 +1,11 @@
 # Changelog
 
 ## Version 1.3
+### Additions
+* ADDED: (Function) `HALs_store_fnc_addMoneyOnOpen`
 * ADDED: Option to change the currency symbol used.
-* CHANGED: Restructured ADDONS folder. Everything is initialised through HALs/addons/main/config.hpp now.
-* CHANGED: Categorised functions in the CORE folder.
+* CHANGED: Restructured `HALs\Addons` folder. Everything is initialised through `HALs\Addons\main\config.hpp` now.
+* CHANGED: Categorised functions in the `HALs\Core` folder.
 ___
 ## Version 1.2
 ### Fixes
