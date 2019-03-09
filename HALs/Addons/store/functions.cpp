@@ -13,20 +13,24 @@ class HALs_store {
 		class getItemStats {};
 		class getItemType {};
 		class getTraderStock {};
-		class setTraderStock {};					
+		class setTraderStock {};
 	};
 	class Client {
 		file = "HALs\Addons\Store\Functions\Client";
 		class addAction {};
-		class blur {};	
+		class blur {};
 		class main {};
 		class systemChat {};
-		class update {};	
+		class update {};
 	};
 	class Server {
 		file = "HALs\Addons\Store\Functions\Server";
 		class addTrader {};
-		class purchase {};	
-		class updateStock {};	
+		class purchase {};
+		class updateStock {};
 	};
-}; 
+	class Misc {
+		file = "HALs\Addons\Store\Functions\Misc";
+		class addMoneyOnOpen {};
+	};
+};
