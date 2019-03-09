@@ -1,6 +1,6 @@
 #ifdef HALs_DEF_FUNCTIONS
-	#include "..\money\Functions.cpp"
-	#include "..\store\Functions.cpp"
+	#include "..\money\functions.cpp"
+	#include "..\store\functions.cpp"
 #endif
 
 #ifdef HALs_DEF_INIT

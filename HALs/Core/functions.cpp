@@ -5,17 +5,17 @@ class HALs {
 	};
 
 	class Numbers {
-		file = "HALs\Core\Functions\Numbers";
+		file = "HALs\Core\Functions\numbers";
 		class numberToString {};
 	};
 
 	class Arrays {
-		file = "HALs\Core\Functions\Arrays";
+		file = "HALs\Core\Functions\arrays";
 		class sortArray {};
 	};
 
 	class Config {
-		file = "HALs\Core\Functions\Config";
+		file = "HALs\Core\Functions\config";
 		class getCargoMass {};
 		class getCompatibleItems {};
 		class getConfigClass {};

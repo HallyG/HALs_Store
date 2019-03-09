@@ -1,12 +1,12 @@
 #define HALs_DEF_INIT
-	#include "HALs\Addons\Main\config.hpp"
+	#include "HALs\Addons\main\config.hpp"
 #undef HALs_DEF_INIT
 
 class CfgFunctions {
-	#include "HALs\Core\Functions.cpp"
+	#include "HALs\Core\functions.cpp"
 
 	#define HALs_DEF_FUNCTIONS
-		#include "HALs\Addons\Main\config.hpp"
+		#include "HALs\Addons\main\config.hpp"
 	#undef HALs_DEF_FUNCTIONS
 };
 
