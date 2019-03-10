@@ -1,6 +1,6 @@
 /*
 	Function: HALs_store_fnc_addMoneyOnOpen
-	Author: Exile Mod, HallyG
+	Author: HallyG
 	Player can collect the money stored on a unit/ in a box if they
 	open them. As soon as the container is opened, the money is gone.
 	Add money to an object using:
