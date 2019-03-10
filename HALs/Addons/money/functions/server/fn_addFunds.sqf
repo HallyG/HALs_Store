@@ -3,11 +3,12 @@
 	Author: HallyG
 
 	Arguments(s):
-	0: None
+	0: Unit <OBJECT>
+	1: Funds <NUMBER>
 
 	Return Value:
 	None
-	
+
 	Example:
 	[player, 100] call HALs_money_fnc_addFunds;
 __________________________________________________________________*/

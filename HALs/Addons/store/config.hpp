@@ -1,13 +1,14 @@
 class cfgHALsStore {
 	containerTypes[] = {"LandVehicle", "Air", "Ship"};
 	containerRadius = 10;
+	currencySymbol = "$";
 	debug = 1;
-	
+
 	class categories {
 		class launchers {
 			displayName = "Rocket Launchers";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\secondaryWeapon_ca.paa";
-			
+
 			class launch_NLAW_F {
 				price = 2500;
 				stock = 100;
@@ -68,7 +69,7 @@ class cfgHALsStore {
 		class handguns {
 			displayName = "Handguns";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\handgun_ca.paa";
-			
+
 			class hgun_ACPC2_F {
 				price = 350;
 				stock = 30;
@@ -104,12 +105,12 @@ class cfgHALsStore {
 			class B_Kitbag_mcamo_Eng {
 				price = 300;
 				stock = 20;
-			};		
+			};
 		};
 		class underbarrel {
 			displayName = "Underbarrel Accessories";
 			picture = "";
-			
+
 			class bipod_01_F_blk {
 				price = 10;
 				stock = 100;
@@ -150,7 +151,7 @@ class cfgHALsStore {
 		class muzzles {
 			displayName = "Muzzle Accessories";
 			picture = "";
-			
+
 			class muzzle_snds_338_black {
 				price = 50;
 				stock = 100;
@@ -258,12 +259,12 @@ class cfgHALsStore {
 			class muzzle_snds_H_MG_khk_F {
 				price = 100;
 				stock = 100;
-			};			
+			};
 		};
 		class pointers {
 			displayName = "Pointer Accessories";
 			picture = "";
-			
+
 			class acc_flashlight {
 				price = 300;
 				stock = 100;
@@ -280,7 +281,7 @@ class cfgHALsStore {
 		class optics {
 			displayName = "Optics Accessories";
 			picture = "";
-			
+
 			class optic_Hamr_khk_F {
 				price = 300;
 				stock = 100;
@@ -354,7 +355,7 @@ class cfgHALsStore {
 				stock = 100;
 			};
 			class optic_AMS_khk {
-				price = 300; 
+				price = 300;
 				stock = 100;
 			};
 			class optic_AMS_snd {
@@ -489,11 +490,11 @@ class cfgHALsStore {
 			class 30Rnd_45ACP_Mag_SMG_01 {
 				price = 500;
 				stock = 100;
-			};	
+			};
 			class 30Rnd_45ACP_Mag_SMG_01_Tracer_Green {
 				price = 500;
 				stock = 100;
-			};	
+			};
 			class 30Rnd_45ACP_Mag_SMG_01_Tracer_Red {
 				price = 500;
 				stock = 100;
@@ -505,15 +506,15 @@ class cfgHALsStore {
 			class 30Rnd_9x21_Mag_SMG_02 {
 				price = 500;
 				stock = 100;
-			};	
+			};
 			class 30Rnd_9x21_Mag_SMG_02_Tracer_Red {
 				price = 500;
 				stock = 100;
-			};	
+			};
 			class 30Rnd_9x21_Mag_SMG_02_Tracer_Yellow {
 				price = 500;
 				stock = 100;
-			};	
+			};
 			class 30Rnd_9x21_Mag_SMG_02_Tracer_Green {
 				price = 500;
 				stock = 100;
@@ -550,7 +551,7 @@ class cfgHALsStore {
 		class navigation {
 			displayName = "Navigation";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\compass_ca.paa";
-			
+
 			class ItemMap {
 				price = 30;
 				stock = 10;
@@ -575,47 +576,47 @@ class cfgHALsStore {
 		class smgs {
 			displayName = "Submachine guns";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\primaryWeapon_ca.paa";
-				
+
 			class hgun_PDW2000_F {
 				price = 400;
-				stock = 20;			
+				stock = 20;
 			};
 			class SMG_01_F {
 				price = 450;
-				stock = 20;			
+				stock = 20;
 			};
 			class SMG_02_F {
 				price = 450;
-				stock = 20;			
+				stock = 20;
 			};
 			class SMG_05_F {
 				price = 400;
-				stock = 20;			
+				stock = 20;
 			};
 		};
 		class mmgs {
 			displayName = "Medium machine gun";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\primaryWeapon_ca.paa";
-				
+
 			class MMG_01_hex_F {
 				price = 5000;
-				stock = 20;			
+				stock = 20;
 			};
 			class MMG_01_tan_F {
 				price = 5000;
-				stock = 20;			
+				stock = 20;
 			};
 			class MMG_02_black_F {
 				price = 3000;
-				stock = 20;			
+				stock = 20;
 			};
 			class MMG_02_camo_F {
 				price = 3000;
-				stock = 20;			
+				stock = 20;
 			};
 			class MMG_02_sand_F {
 				price = 3000;
-				stock = 20;			
+				stock = 20;
 			};
 		};
 	};
