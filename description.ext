@@ -3,8 +3,6 @@
 #undef HALs_DEF_INIT
 
 class CfgFunctions {
-	#include "HALs\Core\functions.cpp"
-
 	#define HALs_DEF_FUNCTIONS
 		#include "HALs\Addons\main\config.hpp"
 	#undef HALs_DEF_FUNCTIONS
