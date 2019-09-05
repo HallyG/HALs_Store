@@ -26,8 +26,12 @@ class HALs_store {
 	class Server {
 		file = "HALs\Addons\store\functions\server";
 		class addTrader {};
-		class getTraderStock {};
 		class purchase {};
+	};
+
+	class Stock {
+		file = "HALs\Addons\store\functions\server\stock";
+		class getTraderStock {};
 		class setTraderStock {};
 		class updateStock {};
 	};
