@@ -61,11 +61,11 @@ switch (toLower _mode) do {
 
 		//--- Set Store title
 		_storeName = [missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName", ""] call HALs_fnc_getConfigValue;
-		UICTRL(IDC_RscDisplayStore_TITLE) ctrlSetText format ["%1", toUpper _storeName];
+		UICTRL(IDC_TITLE) ctrlSetText format ["%1", toUpper _storeName];
 
 		//--- Reset Progress-bars
-		_progressCurrent = UICTRL(IDC_RscDisplayStore_PROGRESS_LOAD);
-		_progressNew = UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD);
+		_progressCurrent = UICTRL(IDC_PROGRESS_LOAD);
+		_progressNew = UICTRL(IDC_PROGRESS_NEWLOAD);
 		_progressCurrent progressSetPosition 0;
 		_progressNew progressSetPosition 0;
 		_progressNew ctrlSetTextColor [0.9, 0, 0, 0.6];
@@ -79,12 +79,12 @@ switch (toLower _mode) do {
 				["LISTBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
 			}];
 		} forEach [
-			[UICTRL(IDC_RscDisplayStore_CHECKBOX1), "STR_HALS_STORE_CHECKBOX_AFFORD"],
-			[UICTRL(IDC_RscDisplayStore_CHECKBOX2), "STR_HALS_STORE_CHECKBOX_STOCK"],
-			[UICTRL(IDC_RscDisplayStore_CHECKBOX3), "STR_HALS_STORE_CHECKBOX_COMPATIBLE"]
+			[UICTRL(IDC_CHECKBOX1), "STR_HALS_STORE_CHECKBOX_AFFORD"],
+			[UICTRL(IDC_CHECKBOX2), "STR_HALS_STORE_CHECKBOX_STOCK"],
+			[UICTRL(IDC_CHECKBOX3), "STR_HALS_STORE_CHECKBOX_COMPATIBLE"]
 		];
 
-		UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {
+		UICTRL(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {
 			["BUTTON", ["ENABLED", []]] call HALs_store_fnc_main;
 		}];
 	};
@@ -96,7 +96,7 @@ switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
 			case ("init"): {
-				private _ctrlList = UICTRL(IDC_RscDisplayStore_LISTBOX);
+				private _ctrlList = UICTRL(IDC_LISTBOX);
 				ctrlSetFocus _ctrlList;
 
 				_ctrlList ctrlSetFontHeight (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8);
@@ -106,24 +106,24 @@ switch (toLower _mode) do {
 					_ctrl setVariable ["idx", _index];
 
 					uiNamespace setVariable ["HALs_store_lbIndex", _index];
-					_amount = UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1];
+					_amount = UICTRL(IDC_EDIT) getVariable ["amt", 1];
 
 					["PROGRESS", 	["STATS", 	[_ctrl lbData _index]]] call  HALs_store_fnc_main;
 					["TEXT", 		["UPDATE", 	["ITEM", []]]] call  HALs_store_fnc_main;
 					["TEXT", 		["UPDATE", 	["BUY", [_ctrl lbValue _index, _amount]]]] call HALs_store_fnc_main;
-					["PROGRESS", 	["UPDATE", 	[UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), _ctrl lbData _index, _amount]]] call  HALs_store_fnc_main;
+					["PROGRESS", 	["UPDATE", 	[UIDATA(IDC_BUY_ITEM_COMBO), _ctrl lbData _index, _amount]]] call  HALs_store_fnc_main;
 					["EDIT", 		["UPDATE", 	[]]] call  HALs_store_fnc_main;
 					["BUTTON", 		["ENABLED", []]] call  HALs_store_fnc_main;
 				}];
 			};
 
 			case ("update"): {
-				_ctrlList = UICTRL(IDC_RscDisplayStore_LISTBOX);
+				_ctrlList = UICTRL(IDC_LISTBOX);
 				lbClear _ctrlList;
 
-				_ctrlCheckbox1 = UICTRL(IDC_RscDisplayStore_CHECKBOX1);
-				_ctrlCheckbox2 = UICTRL(IDC_RscDisplayStore_CHECKBOX2);
-				_ctrlCheckbox3 = UICTRL(IDC_RscDisplayStore_CHECKBOX3);
+				_ctrlCheckbox1 = UICTRL(IDC_CHECKBOX1);
+				_ctrlCheckbox2 = UICTRL(IDC_CHECKBOX2);
+				_ctrlCheckbox3 = UICTRL(IDC_CHECKBOX3);
 
 				_filterItems = [];
 				if (cbChecked _ctrlCheckbox3) then {
@@ -133,7 +133,7 @@ switch (toLower _mode) do {
 				};
 
 				_money = [player] call HALs_money_fnc_getFunds;
-				_configPath = (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_RscDisplayStore_COMBO_CATEGORY));
+				_configPath = (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_COMBO_CATEGORY));
 				_items = ("true" configClasses _configPath) apply {configName _x};
 
 				//--- Add all items
@@ -168,12 +168,12 @@ switch (toLower _mode) do {
 					true;
 				} count _items;
 
-				private _amt = UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1];
+				private _amt = UICTRL(IDC_EDIT) getVariable ["amt", 1];
 				private _idx = uiNamespace getVariable ["HALs_store_lbIndex", -1]; //_ctrl setVariable ["idx", _index];
 				_ctrlList lbSetCurSel (_idx max 0); //_ctrl setVariable ["idx", _index];
 
-				["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX), _amt]]] call  HALs_store_fnc_main;
-				["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
+				["PROGRESS", ["UPDATE", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), _amt]]] call  HALs_store_fnc_main;
+				["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
 			};
 		};
 	};
@@ -186,7 +186,7 @@ switch (toLower _mode) do {
 
 			case ("INIT"): {
 				//---  Category combo-box
-				_ctrlCategory = UICTRL(IDC_RscDisplayStore_COMBO_CATEGORY);
+				_ctrlCategory = UICTRL(IDC_COMBO_CATEGORY);
 
 				//--- Update Item listbox if category changes
 				_ctrlCategory ctrlAddEventHandler ["LBSelChanged", {["LISTBOX", ["UPDATE", []]] call  HALs_store_fnc_main}];
@@ -204,20 +204,20 @@ switch (toLower _mode) do {
 				};
 
 				//---  Purchase combo-box
-				_ctrlPurchase = UICTRL(IDC_RscDisplayStore_BUY_ITEM_COMBO);
+				_ctrlPurchase = UICTRL(IDC_BUY_ITEM_COMBO);
 
 				//--- Update container picture
 				_ctrlPurchase ctrlAddEventHandler ["LBSelChanged", {
 					params ["_ctrl", "_index"];
 
 					uiNamespace setVariable ["HALs_store_buyIndex", _index];
-					["TEXT", ["UPDATE", ["CARGO", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO)]]]] call HALs_store_fnc_main;
+					["TEXT", ["UPDATE", ["CARGO", [UIDATA(IDC_BUY_ITEM_COMBO)]]]] call HALs_store_fnc_main;
 				}];
 
 				["COMBOBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
 			};
 			case ("UPDATE"): {
-				_ctrlPurchase = UICTRL(IDC_RscDisplayStore_BUY_ITEM_COMBO);
+				_ctrlPurchase = UICTRL(IDC_BUY_ITEM_COMBO);
 				lbClear _ctrlPurchase;
 
 				{
@@ -256,15 +256,15 @@ switch (toLower _mode) do {
 
 
 			case ("init"): {
-				private _ctrlEdit = UICTRL(IDC_RscDisplayStore_EDIT);
+				private _ctrlEdit = UICTRL(IDC_EDIT);
 				_ctrlEdit ctrlAddEventHandler ["KeyUp", {
 					_ctrl = _this select 0;
 					_amt = 1 max (floor parseNumber ctrlText _ctrl);
 
 					_ctrl setVariable ["amt", _amt];
 
-					["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX), _amt]]] call  HALs_store_fnc_main;
-					["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
+					["PROGRESS", ["UPDATE", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), _amt]]] call  HALs_store_fnc_main;
+					["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
 					["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
 				}];
 
@@ -272,7 +272,7 @@ switch (toLower _mode) do {
 			};
 
 			case ("update"): {
-				private _ctrlEdit = UICTRL(IDC_RscDisplayStore_EDIT);
+				private _ctrlEdit = UICTRL(IDC_EDIT);
 				private _idx = uiNamespace getVariable ["HALs_store_lbIndex", -1];
 				private _amt = _ctrlEdit getVariable ["amt", 1];
 
@@ -294,27 +294,27 @@ switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
 			case ("ENABLED"): {
-				_ctrlButton = UICTRL(IDC_RscDisplayStore_BUTTON_BUY);
+				_ctrlButton = UICTRL(IDC_BUTTON_BUY);
 
 				if ((uiNamespace getVariable ["HALs_store_lbIndex", -1]) isEqualTo -1) exitWith {
 					_ctrlButton ctrlEnable false;
 				};
 
-				_price = UIVALUE(IDC_RscDisplayStore_LISTBOX);
-				_amount = UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1];
+				_price = UIVALUE(IDC_LISTBOX);
+				_amount = UICTRL(IDC_EDIT) getVariable ["amt", 1];
 				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
 				_money = [player] call HALs_money_fnc_getFunds;
 
-				_classname = UIDATA(IDC_RscDisplayStore_LISTBOX);
+				_classname = UIDATA(IDC_LISTBOX);
 				_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 
 				//--- Check if purchase is valid
 				_canBuy = !((_price * _amount * _sale > _money) || _stock < 1 || _amount > _stock || _amount < 1);
 
 				//--- Check if the item can be equipped
-				_doEquip = cbChecked UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY);
+				_doEquip = cbChecked UICTRL(IDC_CHECKBOX_BUY);
 				_canEquipPlayer = [player, _classname] call HALs_store_fnc_canEquipItem;
-				_container = (UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
+				_container = (UIDATA(IDC_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
 
 				//--- Player can equip item and can add the rest of the items to the container
 				_canEquip = _doEquip && {_canEquipPlayer && {!isNull _container && {_container canAdd [_classname, _amount - 1]}}};
@@ -326,12 +326,12 @@ switch (toLower _mode) do {
 				_ctrlButton ctrlEnable ((_canBuy && _canAdd || _canBuy && _canEquip) || _canBuy && _canEquipEmpty);
 			};
 			case ("BUY"): {
-				_amount = UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1];
-				_price = UIVALUE(IDC_RscDisplayStore_LISTBOX);
-				_classname = UIDATA(IDC_RscDisplayStore_LISTBOX);
-				_container = (UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
+				_amount = UICTRL(IDC_EDIT) getVariable ["amt", 1];
+				_price = UIVALUE(IDC_LISTBOX);
+				_classname = UIDATA(IDC_LISTBOX);
+				_container = (UIDATA(IDC_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
 
-				[player, _classname, _price, _amount, _container, cbChecked UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 2];
+				[player, _classname, _price, _amount, _container, cbChecked UICTRL(IDC_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 2];
 			};
 		};
 	};
@@ -343,7 +343,7 @@ switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
 			case ("INIT"): {
-				["TEXT", ["UPDATE", ["BUY", [UICTRL(IDC_RscDisplayStore_LISTBOX) lbValue CTRLSEL(IDC_RscDisplayStore_LISTBOX), UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1]]]]] call HALs_store_fnc_main;
+				["TEXT", ["UPDATE", ["BUY", [UICTRL(IDC_LISTBOX) lbValue CTRLSEL(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]]] call HALs_store_fnc_main;
 				["TEXT", ["UPDATE", ["CARGO", []]]] call  HALs_store_fnc_main;
 				["TEXT", ["UPDATE", ["FUNDS", []]]] call  HALs_store_fnc_main;
 				["TEXT", ["UPDATE", ["ITEM", []]]] call  HALs_store_fnc_main;
@@ -362,16 +362,16 @@ switch (toLower _mode) do {
 
 						private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
 						if !(_amount > 0 && _index > -1) exitWith {
-							UICTRL(IDC_RscDisplayStore_ITEM) ctrlSetStructuredText parseText format [""];
+							UICTRL(IDC_ITEM) ctrlSetStructuredText parseText format [""];
 						};
 
-						_ctrlText = UICTRL(IDC_RscDisplayStore_ITEM);
-						_ctrlEdit = UICTRL(IDC_RscDisplayStore_EDIT);
-						_ctrlButton = UICTRL(IDC_RscDisplayStore_BUTTON_BUY);
-						_ctrlCheckbox = UICTRL(IDC_RscDisplayStore_CHECKBOX_BUY);
+						_ctrlText = UICTRL(IDC_ITEM);
+						_ctrlEdit = UICTRL(IDC_EDIT);
+						_ctrlButton = UICTRL(IDC_BUTTON_BUY);
+						_ctrlCheckbox = UICTRL(IDC_CHECKBOX_BUY);
 
 						_money = [player] call HALs_money_fnc_getFunds;
-						_stock = [_trader, UIDATA(IDC_RscDisplayStore_LISTBOX)] call HALs_store_fnc_getTraderStock;
+						_stock = [_trader, UIDATA(IDC_LISTBOX)] call HALs_store_fnc_getTraderStock;
 						_sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 						_saleModifier = (1 - _sale) min 1 max 0;
 						_total = _amount * _price * _saleModifier;
@@ -418,29 +418,29 @@ switch (toLower _mode) do {
 						_ctrlCheckbox ctrlCommit 0;
 					};
 					case ("CARGO"): {
-						private _classname = typeOf (UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO) call BIS_fnc_objectFromNetId);
+						private _classname = typeOf (UIDATA(IDC_BUY_ITEM_COMBO) call BIS_fnc_objectFromNetId);
 
 						if (_classname find "Supply" isEqualTo 0) then {
-							_classname = [uniform player, vest player, backpack player] select (["Uniform", "Vest", "Backpack"] find (UITEXT(IDC_RscDisplayStore_BUY_ITEM_COMBO)));
+							_classname = [uniform player, vest player, backpack player] select (["Uniform", "Vest", "Backpack"] find (UITEXT(IDC_BUY_ITEM_COMBO)));
 						};
 
 						private _type = (_classname call BIS_fnc_itemType) select 0;
 						private _cargo = ["editorPreview", "picture"] select (_type == "equipment");
 
 						if (isClass (configFile >> "cfgVehicles" >> _classname)) then {
-							UICTRL(IDC_RscDisplayStore_BUY_PICTURE) ctrlSetText (getText (configFile >> "cfgVehicles" >> _classname >> _cargo));
+							UICTRL(IDC_BUY_PICTURE) ctrlSetText (getText (configFile >> "cfgVehicles" >> _classname >> _cargo));
 						} else {
-							UICTRL(IDC_RscDisplayStore_BUY_PICTURE) ctrlSetText (getText (configFile >> "cfgWeapons" >> _classname >> _cargo));
+							UICTRL(IDC_BUY_PICTURE) ctrlSetText (getText (configFile >> "cfgWeapons" >> _classname >> _cargo));
 						};
 					};
 					case ("FUNDS"): {
-						UICTRL(IDC_RscDisplayStore_FUNDS) ctrlSetText format ["%1%2", ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString, HALs_store_currencySymbol];
+						UICTRL(IDC_FUNDS) ctrlSetText format ["%1%2", ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 					case ("ITEM"): {
 						private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
-						private _pictureCtrl = UICTRL(IDC_RscDisplayStore_ITEM_PICTURE);
-						private _titleCtrl = UICGCTRL(IDC_RscDisplayStore_ITEM_TEXT);//;UICTRL(IDC_RscDisplayStore_ITEM_TEXT);
-						private _textCtrl = UICGCTRL(IDC_RscDisplayStore_ITEM_TEXT_DES);//;UICTRL(IDC_RscDisplayStore_ITEM_TEXT);
+						private _pictureCtrl = UICTRL(IDC_ITEM_PICTURE);
+						private _titleCtrl = UICGCTRL(IDC_ITEM_TEXT);//;UICTRL(IDC_ITEM_TEXT);
+						private _textCtrl = UICGCTRL(IDC_ITEM_TEXT_DES);//;UICTRL(IDC_ITEM_TEXT);
 
 						if (_index isEqualTo -1) exitWith {
 							_pictureCtrl ctrlSetText "";
@@ -448,13 +448,13 @@ switch (toLower _mode) do {
 							_textCtrl ctrlSetStructuredText parseText format [""];
 						};
 
-						_ctrlListbox = UICTRL(IDC_RscDisplayStore_LISTBOX);
+						_ctrlListbox = UICTRL(IDC_LISTBOX);
 						private _classname = _ctrlListbox lbData _index;
 						private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 						private _config = _classname call HALs_fnc_getConfigClass;
 
 						private _description = [
-							[missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_RscDisplayStore_COMBO_CATEGORY) >> _classname >> "description", ""] call HALs_fnc_getConfigValue,
+							[missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_COMBO_CATEGORY) >> _classname >> "description", ""] call HALs_fnc_getConfigValue,
 							[_config >> "Library" >> "libTextDesc", ""] call HALs_fnc_getConfigValue,
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} select 0;
@@ -534,7 +534,7 @@ switch (toLower _mode) do {
 						removeMissionEventHandler ["EachFrame", _thisEventHandler];
 					};
 					if (diag_tickTime > HALs_store_nextUpdate) then {
-						_containerString = UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO);
+						_containerString = UIDATA(IDC_BUY_ITEM_COMBO);
 						_container = _containerString call BIS_fnc_objectFromNetId;
 						_trader = (player getVariable ["HALs_store_trader_current", objNull]);
 						_containers = vehicles select {
@@ -549,13 +549,13 @@ switch (toLower _mode) do {
 							HALs_store_oldContainer = _container;
 							HALs_store_oldContainerMass = [_container] call HALs_fnc_getCargoMass;
 							HALs_store_changed = true;
-							["PROGRESS", ["UPDATE", [_containerString, UIDATA(IDC_RscDisplayStore_LISTBOX), UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
+							["PROGRESS", ["UPDATE", [_containerString, UIDATA(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
 						} else {
 							_mass = [_container] call HALs_fnc_getCargoMass;
 							if (_mass != HALs_store_oldContainerMass) then {
 								HALs_store_oldContainerMass = _mass;
 								HALs_store_changed = true;
-								["PROGRESS", ["UPDATE", [_containerString, UIDATA(IDC_RscDisplayStore_LISTBOX), UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
+								["PROGRESS", ["UPDATE", [_containerString, UIDATA(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
 							};
 						};
 						if (_money != HALs_store_oldMoney) then {
@@ -591,7 +591,7 @@ switch (toLower _mode) do {
 				["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
 				["EDIT", ["UPDATE", []]] call  HALs_store_fnc_main;
 				["LISTBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
-				["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX), UICTRL(IDC_RscDisplayStore_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
+				["PROGRESS", ["UPDATE", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
 				["TEXT", ["INIT", []]] call  HALs_store_fnc_main;
 			};
 		};
@@ -665,18 +665,18 @@ switch (toLower _mode) do {
 				_container = _container call BIS_fnc_objectFromNetId;
 
 				if (_container isEqualTo objNull) exitWith {
-					UICTRL(IDC_RscDisplayStore_PROGRESS_LOAD) progressSetPosition 0;
-					UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) progressSetPosition 0;
-					UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) ctrlSetTextColor [0.9,0,0,0.6];
+					UICTRL(IDC_PROGRESS_LOAD) progressSetPosition 0;
+					UICTRL(IDC_PROGRESS_NEWLOAD) progressSetPosition 0;
+					UICTRL(IDC_PROGRESS_NEWLOAD) ctrlSetTextColor [0.9,0,0,0.6];
 				};
 
 				_maxLoad = getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
 				_currentLoad = [_container] call HALs_fnc_getCargoMass;
 
 				if (_classname isEqualTo "") exitWith {
-					UICTRL(IDC_RscDisplayStore_PROGRESS_LOAD) progressSetPosition (_currentLoad / (_maxLoad max 1));
-					UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) progressSetPosition 0;
-					UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) ctrlSetTextColor [0.9,0,0,0.6];
+					UICTRL(IDC_PROGRESS_LOAD) progressSetPosition (_currentLoad / (_maxLoad max 1));
+					UICTRL(IDC_PROGRESS_NEWLOAD) progressSetPosition 0;
+					UICTRL(IDC_PROGRESS_NEWLOAD) ctrlSetTextColor [0.9,0,0,0.6];
 				};
 
 				_load = _classname call HALs_store_fnc_getItemMass;
@@ -709,9 +709,9 @@ switch (toLower _mode) do {
 					[0,0.9,0,0.6]
 				};
 
-				UICTRL(IDC_RscDisplayStore_PROGRESS_LOAD) progressSetPosition (_currentLoad / (_maxLoad max 1));
-				UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) progressSetPosition ([1, _progress] select (_canAdd));
-				UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD) ctrlSetTextColor _colour;
+				UICTRL(IDC_PROGRESS_LOAD) progressSetPosition (_currentLoad / (_maxLoad max 1));
+				UICTRL(IDC_PROGRESS_NEWLOAD) progressSetPosition ([1, _progress] select (_canAdd));
+				UICTRL(IDC_PROGRESS_NEWLOAD) ctrlSetTextColor _colour;
 			};
 		};
 	};
