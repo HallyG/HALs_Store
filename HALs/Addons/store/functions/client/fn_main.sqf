@@ -33,7 +33,6 @@ switch (toLower _mode) do {
 		disableSerialization;
 
 		uiNamespace setVariable ["HALs_store_display", _display];
-		uiNamespace setVariable ["HALs_store_lbIndex", -1];
 		uiNamespace setVariable ["HALs_store_buyIndex", -1];
 
 		["oninit"] call HALs_store_fnc_main;
@@ -51,7 +50,6 @@ switch (toLower _mode) do {
 		player setVariable ["HALs_store_trader_current", objNull, true];
 
 		uiNamespace setVariable ["HALs_store_display", controlNull];
-		uiNamespace setVariable ["HALs_store_lbIndex", -1];
 		uiNamespace setVariable ["HALs_store_buyIndex", -1];
 	};
 
@@ -101,17 +99,17 @@ switch (toLower _mode) do {
 
 				_ctrlList ctrlSetFontHeight (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8);
 				_ctrlList ctrlAddEventHandler ["LBSelChanged", {
-					params ["_ctrl", "_index"];
+					params ["_ctrl", "_idx"];
 
-					_ctrl setVariable ["idx", _index];
+					_ctrl setVariable ["idx", _idx];
+					_ctrl setVariable ["data", _ctrl lbData _idx];
+					_ctrl setVariable ["value", _ctrl lbValue _idx];
 
-					uiNamespace setVariable ["HALs_store_lbIndex", _index];
 					_amount = UICTRL(IDC_EDIT) getVariable ["amt", 1];
-
-					["PROGRESS", 	["STATS", 	[_ctrl lbData _index]]] call  HALs_store_fnc_main;
+					["PROGRESS", 	["STATS", 	[_ctrl lbData _idx]]] call  HALs_store_fnc_main;
 					["TEXT", 		["UPDATE", 	["ITEM", []]]] call  HALs_store_fnc_main;
-					["TEXT", 		["UPDATE", 	["BUY", [_ctrl lbValue _index, _amount]]]] call HALs_store_fnc_main;
-					["PROGRESS", 	["UPDATE", 	[UIDATA(IDC_BUY_ITEM_COMBO), _ctrl lbData _index, _amount]]] call  HALs_store_fnc_main;
+					["TEXT", 		["UPDATE", 	["BUY", [_ctrl lbValue _idx, _amount]]]] call HALs_store_fnc_main;
+					["PROGRESS", 	["UPDATE", 	[UIDATA(IDC_BUY_ITEM_COMBO), _ctrl lbData _idx, _amount]]] call  HALs_store_fnc_main;
 					["EDIT", 		["UPDATE", 	[]]] call  HALs_store_fnc_main;
 					["BUTTON", 		["ENABLED", []]] call  HALs_store_fnc_main;
 				}];
@@ -169,8 +167,8 @@ switch (toLower _mode) do {
 				} count _items;
 
 				private _amt = UICTRL(IDC_EDIT) getVariable ["amt", 1];
-				private _idx = uiNamespace getVariable ["HALs_store_lbIndex", -1]; //_ctrl setVariable ["idx", _index];
-				_ctrlList lbSetCurSel (_idx max 0); //_ctrl setVariable ["idx", _index];
+				private _idx = _ctrlList getVariable ["idx", -1];
+				_ctrlList lbSetCurSel (_idx max 0);
 
 				["PROGRESS", ["UPDATE", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), _amt]]] call  HALs_store_fnc_main;
 				["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
@@ -273,7 +271,7 @@ switch (toLower _mode) do {
 
 			case ("update"): {
 				private _ctrlEdit = UICTRL(IDC_EDIT);
-				private _idx = uiNamespace getVariable ["HALs_store_lbIndex", -1];
+				private _idx = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
 				private _amt = _ctrlEdit getVariable ["amt", 1];
 
 				_ctrlEdit ctrlEnable (_idx > -1);
@@ -295,8 +293,9 @@ switch (toLower _mode) do {
 
 			case ("ENABLED"): {
 				_ctrlButton = UICTRL(IDC_BUTTON_BUY);
+				_idx = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
 
-				if ((uiNamespace getVariable ["HALs_store_lbIndex", -1]) isEqualTo -1) exitWith {
+				if (_idx isEqualTo -1) exitWith {
 					_ctrlButton ctrlEnable false;
 				};
 
@@ -360,7 +359,7 @@ switch (toLower _mode) do {
 							["_amount", 0, [0]]
 						];
 
-						private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
+						private _index = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
 						if !(_amount > 0 && _index > -1) exitWith {
 							UICTRL(IDC_ITEM) ctrlSetStructuredText parseText format [""];
 						};
@@ -437,7 +436,7 @@ switch (toLower _mode) do {
 						UICTRL(IDC_FUNDS) ctrlSetText format ["%1%2", ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 					case ("ITEM"): {
-						private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
+						private _index = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
 						private _pictureCtrl = UICTRL(IDC_ITEM_PICTURE);
 						private _titleCtrl = UICGCTRL(IDC_ITEM_TEXT);//;UICTRL(IDC_ITEM_TEXT);
 						private _textCtrl = UICGCTRL(IDC_ITEM_TEXT_DES);//;UICTRL(IDC_ITEM_TEXT);
