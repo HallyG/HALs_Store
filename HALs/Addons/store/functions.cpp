@@ -13,8 +13,6 @@ class HALs_store {
 		class getItemMass {};
 		class getItemStats {};
 		class getItemType {};
-		class getTraderStock {};
-		class setTraderStock {};
 	};
 
 	class Client {
@@ -29,7 +27,9 @@ class HALs_store {
 	class Server {
 		file = "HALs\Addons\store\functions\server";
 		class addTrader {};
+		class getTraderStock {};
 		class purchase {};
+		class setTraderStock {};
 		class updateStock {};
 	};
 
