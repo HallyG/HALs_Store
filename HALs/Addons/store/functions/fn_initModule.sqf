@@ -13,9 +13,9 @@
 	[] call HALs_store_fnc_initModule;
 __________________________________________________________________*/
 if (!hasInterface) exitWith {};
-if (!isNil "HALs_store_moduleRoot") exitWith {};
+if (!isNil "HALs_store_moduleInit") exitWith {};
+HALs_store_moduleInit = true;
 
-HALs_store_moduleRoot = ["HALs_store"] call HALs_fnc_getModuleRoot;
 ["HALs_store",
 	[
 		["containerRadius", 10, {_this max 1}],

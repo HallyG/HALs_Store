@@ -20,7 +20,6 @@ class HALs {
 		class getCompatibleItems {};
 		class getConfigClass {};
 		class getConfigValue {};
-		class getModuleRoot {};
 		class getModuleSettings {};
 	};
 };
