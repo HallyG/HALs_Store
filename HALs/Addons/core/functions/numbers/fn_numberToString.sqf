@@ -12,7 +12,10 @@
 	Example:
 	123400 call HALs_fnc_numberToString;
 __________________________________________________________________*/
-private _number = param [0, 0, [0]];
+params [
+	["_number", 0, [0]]
+];
+
 private _digits = [_number] call BIS_fnc_numberDigits;
 private _digitsCount = count _digits - 1;
 private _modBase = _digitsCount % 3;
