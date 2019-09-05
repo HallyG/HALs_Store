@@ -5,7 +5,6 @@
 #endif
 
 #ifdef HALs_DEF_INIT
-	//#include "dialog\defines.hpp"
 	#include "..\store\dialog\dialog.hpp"
 
 	class CfgHALsAddons {
