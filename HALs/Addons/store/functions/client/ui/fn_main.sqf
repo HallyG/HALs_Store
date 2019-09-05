@@ -31,9 +31,7 @@ switch (toLower _mode) do {
 		];
 
 		disableSerialization;
-
-		uiNamespace setVariable ["HALs_store_display", _display];
-		uiNamespace setVariable ["HALs_store_buyIndex", -1];
+		uiNamespace setVariable ["HALs_store_display", _display];;
 
 		["oninit"] call HALs_store_fnc_main;
 		["listbox", 	["init", []]] call  HALs_store_fnc_main;
@@ -45,14 +43,10 @@ switch (toLower _mode) do {
 
 	case ("onunload"): {
 		closeDialog 2;
-
+		uiNamespace setVariable ["HALs_store_display", displayNull];
+		player setVariable ["HALs_store_trader_current", objNull, true];
 		HALs_store_blur ppEffectAdjust [0];
 		HALs_store_blur ppEffectCommit 0.3;
-
-		player setVariable ["HALs_store_trader_current", objNull, true];
-
-		uiNamespace setVariable ["HALs_store_display", controlNull];
-		uiNamespace setVariable ["HALs_store_buyIndex", -1];
 	};
 
 	case ("oninit"): {
@@ -77,7 +71,7 @@ switch (toLower _mode) do {
 			[UICTRL(IDC_CHECKBOX3), "STR_HALS_STORE_CHECKBOX_COMPATIBLE"]
 		];
 
-		UICTRL(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["BUTTON", ["ENABLED", []]] call HALs_store_fnc_main}];
+		UICTRL(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["button", ["enabled", []]] call HALs_store_fnc_main}];
 	};
 
 	case ("listbox"): {
@@ -101,12 +95,12 @@ switch (toLower _mode) do {
 					_ctrl setVariable ["data", _data];
 					_ctrl setVariable ["value", _value];
 
-					["PROGRESS", 	["STATS", 	[_data]]] call  HALs_store_fnc_main;
-					["TEXT", 		["UPDATE", 	["ITEM", []]]] call  HALs_store_fnc_main;
-					["TEXT", 		["UPDATE", 	["BUY", [_value, _amt]]]] call HALs_store_fnc_main;
-					["PROGRESS", 	["UPDATE", 	[UIDATA(IDC_BUY_ITEM_COMBO), _data, _amt]]] call  HALs_store_fnc_main;
-					["EDIT", 		["UPDATE", 	[]]] call  HALs_store_fnc_main;
-					["BUTTON", 		["ENABLED", []]] call  HALs_store_fnc_main;
+					["progress", ["stats", [_data]]] call  HALs_store_fnc_main;
+					["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
+					["text", ["update", ["buy", [_value, _amt]]]] call HALs_store_fnc_main;
+					["progress", ["update", [UIDATA(IDC_BUY_ITEM_COMBO), _data, _amt]]] call  HALs_store_fnc_main;
+					["edit", ["update", []]] call  HALs_store_fnc_main;
+					["button", ["enabled", []]] call  HALs_store_fnc_main;
 				}];
 			};
 
@@ -176,10 +170,11 @@ switch (toLower _mode) do {
 				_ctrlPurchase ctrlAddEventHandler ["LBSelChanged", {
 					params ["_ctrl", "_idx"];
 
+					_data = _ctrl lbData _idx;
 					_ctrl setVariable ["idx", _idx];
+					_ctrl setVariable ["data", _data];
 
-					uiNamespace setVariable ["HALs_store_buyIndex", _idx];
-					["text", ["update", ["cargo", [_ctrl lbData _idx]]]] call HALs_store_fnc_main;
+					["text", ["update", ["cargo", [_data]]]] call HALs_store_fnc_main;
 				}];
 			};
 
@@ -187,26 +182,27 @@ switch (toLower _mode) do {
 				private _ctrlPurchase = UICTRL(IDC_BUY_ITEM_COMBO);
 				lbClear _ctrlPurchase;
 
-				{
-					_x params [
-						["_classname", ""],
-						["_displayName", ""],
-						["_picture", ""],
-						["_object", objNull]
-					];
-
-					if (!isNull _object && {_classname != ""}) then {
-						_index = _ctrlPurchase lbAdd _displayName;
-						_ctrlPurchase lbSetPicture [_index, _picture];
-						_ctrlPurchase lbSetData [_index, _object call BIS_fnc_netId];
-						_ctrlPurchase lbSetTooltip [_index, format ["Purchase to %1%2", _displayName, ""/*toString [10,13]*/]];
-					};
-				} forEach ([
-					[[typeOf _trader, "Trader", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\face_ca.paa", _trader], []] select (_trader isKindOf "Man"),
+				private _containers = [
+					[
+						[typeOf _trader, "Trader", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\face_ca.paa", _trader],
+						[]
+					] select (_trader isKindOf "Man"),
 					[uniform player, "Uniform", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\uniform_ca.paa", uniformContainer player],
 					[vest player, "Vest", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\vest_ca.paa", vestContainer player],
 					[backpack player, "Backpack", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\backpack_ca.paa", backpackContainer player]
-				] + HALs_store_vehicles);
+				];
+				_containers append HALs_store_vehicles;
+
+				{
+					_x params ["_classname", "_displayName", "_picture", "_object"];
+
+					if (count _x > 0 && {!isNull _object} && {_classname != ""}) then {
+						_idx = _ctrlPurchase lbAdd _displayName;
+						_ctrlPurchase lbSetPicture [_idx, _picture];
+						_ctrlPurchase lbSetData [_idx, _object call BIS_fnc_netId];
+						_ctrlPurchase lbSetTooltip [_idx, format ["Purchase to %1", _displayName]];
+					};
+				} count _containers;
 
 				_ctrlPurchase lbSetCurSel ((_ctrlPurchase getVariable ["idx", -1]) max 0);
 			};
@@ -221,6 +217,7 @@ switch (toLower _mode) do {
 
 			case ("init"): {
 				private _ctrlEdit = UICTRL(IDC_EDIT);
+				_ctrlEdit setVariable ["amt", 1];
 				_ctrlEdit ctrlAddEventHandler ["KeyUp", {
 					_ctrl = _this select 0;
 					_amt = 1 max (floor parseNumber ctrlText _ctrl);
@@ -241,7 +238,7 @@ switch (toLower _mode) do {
 
 				_ctrlEdit ctrlEnable (_idx > -1);
 				if (_idx > -1) then {
-					_ctrlEdit ctrlSetText format ["%1", _ctrlEdit getVariable ["amt", 1]];
+					_ctrlEdit ctrlSetText format ["%1", _ctrlEdit getVariable "amt"];
 				} else {
 					_ctrlEdit ctrlSetText "";
 				};
@@ -252,11 +249,11 @@ switch (toLower _mode) do {
 	case ("button"): {
 		params ["_mode", "_this"];
 
-		switch (toUpper _mode) do {
+		switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
-			case ("ENABLED"): {
-				_ctrlButton = UICTRL(IDC_BUTTON_BUY);
+			case ("enabled"): {
+				private _ctrlButton = UICTRL(IDC_BUTTON_BUY);
 				_idx = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
 
 				if (_idx isEqualTo -1) exitWith {
@@ -264,7 +261,7 @@ switch (toLower _mode) do {
 				};
 
 				_price = UIVALUE(IDC_LISTBOX);
-				_amount = UICTRL(IDC_EDIT) getVariable ["amt", 1];
+				_amount = UICTRL(IDC_EDIT) getVariable "amt";
 				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
 				_money = [player] call HALs_money_fnc_getFunds;
 
@@ -288,13 +285,11 @@ switch (toLower _mode) do {
 
 				_ctrlButton ctrlEnable ((_canBuy && _canAdd || _canBuy && _canEquip) || _canBuy && _canEquipEmpty);
 			};
-			case ("BUY"): {
-				_amount = UICTRL(IDC_EDIT) getVariable ["amt", 1];
-				_price = UIVALUE(IDC_LISTBOX);
-				_classname = UIDATA(IDC_LISTBOX);
-				_container = (UIDATA(IDC_BUY_ITEM_COMBO)) call BIS_fnc_objectFromNetId;
 
-				[player, _classname, _price, _amount, _container, cbChecked UICTRL(IDC_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 2];
+			case ("buy"): {
+				private _list = UICTRL(IDC_LISTBOX);
+				private _container = UICTRL(IDC_BUY_ITEM_COMBO) getVariable "data";
+				[player, _list getVariable "data", _list getVariable "value", UICTRL(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId, cbChecked UICTRL(IDC_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 2];
 			};
 		};
 	};
@@ -306,7 +301,7 @@ switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
 			case ("init"): {
-				["text", ["update", ["buy", [UICTRL(IDC_LISTBOX) lbValue CTRLSEL(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]]] call HALs_store_fnc_main;
+				["text", ["update", ["buy", [UICTRL(IDC_LISTBOX) getVariable "value", UICTRL(IDC_EDIT) getVariable "amt"]]]] call HALs_store_fnc_main;
 				["text", ["update", ["cargo", []]]] call  HALs_store_fnc_main;
 				["text", ["update", ["funds", []]]] call  HALs_store_fnc_main;
 				["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
@@ -324,13 +319,14 @@ switch (toLower _mode) do {
 							["_amount", 0, [0]]
 						];
 
-						private _index = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
+						private _ctrlList = UICTRL(IDC_LISTBOX);
+						private _index = _ctrlList getVariable ["idx", -1];
 						if !(_amount > 0 && _index > -1) exitWith {
 							UICTRL(IDC_ITEM) ctrlSetStructuredText parseText "";
 						};
 
 						private _money = [player] call HALs_money_fnc_getFunds;
-						private _stock = [_trader, UIDATA(IDC_LISTBOX)] call HALs_store_fnc_getTraderStock;
+						private _stock = [_trader, _ctrlList getVariable "data"] call HALs_store_fnc_getTraderStock;
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 						private _total = _amount * _price * (1 - _sale);
 
@@ -457,6 +453,10 @@ switch (toLower _mode) do {
 					};
 
 					if (diag_tickTime > HALs_store_nextUpdate) then {
+
+
+
+
 						_containerString = UIDATA(IDC_BUY_ITEM_COMBO);
 						_container = _containerString call BIS_fnc_objectFromNetId;
 						_trader = (player getVariable ["HALs_store_trader_current", objNull]);
