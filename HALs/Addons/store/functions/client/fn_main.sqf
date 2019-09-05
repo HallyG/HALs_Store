@@ -64,10 +64,8 @@ switch (toLower _mode) do {
 		HALs_store_blur ppEffectAdjust [8];
 		HALs_store_blur ppEffectCommit 0.2;
 
-		_storeName = getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName");
-		UICTRL(IDC_TITLE) ctrlSetText format ["%1", toUpper _storeName];
+		UICTRL(IDC_TITLE) ctrlSetText format ["%1", toUpper getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName")];
 
-		//--- Setup check-boxes
 		{
 			_x params ["_ctrl", "_tooltip"];
 
@@ -139,7 +137,7 @@ switch (toLower _mode) do {
 						_ctrlList lbSetData [_idx, _classname];
 						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetPicture [_idx, _picture];
-						_ctrlList lbSetTextRight [_idx, format ["%1%2", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
+						_ctrlList lbSetTextRight [_idx, format ["%2%1", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
 						_ctrlList lbSetTooltip [_idx, _displayName];
 
 						if (_price > _money) then {
@@ -161,43 +159,32 @@ switch (toLower _mode) do {
 	case ("combobox"): {
 		params ["_mode", "_this"];
 
-		switch (toUpper _mode) do {
+		switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
-			case ("INIT"): {
-				//---  Category combo-box
-				_ctrlCategory = UICTRL(IDC_COMBO_CATEGORY);
-
-				//--- Update Item listbox if category changes
-				_ctrlCategory ctrlAddEventHandler ["LBSelChanged", {["LISTBOX", ["UPDATE", []]] call  HALs_store_fnc_main}];
-
-				//--- Add categories
+			case ("init"): {
+				private _ctrlCategory = UICTRL(IDC_COMBO_CATEGORY);
+				_ctrlCategory ctrlAddEventHandler ["LBSelChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
 				{
 					_ctrlCategory lbAdd (getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> "displayName"));
-					_ctrlCategory lbSetPicture [_forEachIndex, "" /*getText (missionConfigFile >> "cfgHALsStore" >> "categories" >> _x >> "picture")*/];
 					_ctrlCategory lbSetData [_forEachIndex, _x];
-					_ctrlCategory lbSetTooltip [_forEachIndex, "Store category"];
 				} forEach (_trader getVariable ["HALs_store_trader_categories", []]);
 
-				if (lbSize _ctrlCategory > 0) then {
-					_ctrlCategory lbSetCurSel 0;
-				};
+				if (lbSize _ctrlCategory > 0) then {_ctrlCategory lbSetCurSel 0};
 
-				//---  Purchase combo-box
-				_ctrlPurchase = UICTRL(IDC_BUY_ITEM_COMBO);
-
-				//--- Update container picture
+				private _ctrlPurchase = UICTRL(IDC_BUY_ITEM_COMBO);
 				_ctrlPurchase ctrlAddEventHandler ["LBSelChanged", {
-					params ["_ctrl", "_index"];
+					params ["_ctrl", "_idx"];
 
-					uiNamespace setVariable ["HALs_store_buyIndex", _index];
-					["TEXT", ["UPDATE", ["CARGO", [UIDATA(IDC_BUY_ITEM_COMBO)]]]] call HALs_store_fnc_main;
+					_ctrl setVariable ["idx", _idx];
+
+					uiNamespace setVariable ["HALs_store_buyIndex", _idx];
+					["text", ["update", ["cargo", [_ctrl lbData _idx]]]] call HALs_store_fnc_main;
 				}];
-
-				["COMBOBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
 			};
-			case ("UPDATE"): {
-				_ctrlPurchase = UICTRL(IDC_BUY_ITEM_COMBO);
+
+			case ("update"): {
+				private _ctrlPurchase = UICTRL(IDC_BUY_ITEM_COMBO);
 				lbClear _ctrlPurchase;
 
 				{
@@ -221,8 +208,7 @@ switch (toLower _mode) do {
 					[backpack player, "Backpack", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\backpack_ca.paa", backpackContainer player]
 				] + HALs_store_vehicles);
 
-				private _index = uiNamespace getVariable ["HALs_store_buyIndex", -1];
-				_ctrlPurchase lbSetCurSel ([_index, 0] select (_index isEqualTo -1));
+				_ctrlPurchase lbSetCurSel ((_ctrlPurchase getVariable ["idx", -1]) max 0);
 			};
 		};
 	};
@@ -233,8 +219,6 @@ switch (toLower _mode) do {
 		switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
-
-
 			case ("init"): {
 				private _ctrlEdit = UICTRL(IDC_EDIT);
 				_ctrlEdit ctrlAddEventHandler ["KeyUp", {
@@ -243,9 +227,9 @@ switch (toLower _mode) do {
 
 					_ctrl setVariable ["amt", _amt];
 
-					["PROGRESS", ["UPDATE", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), _amt]]] call  HALs_store_fnc_main;
-					["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
-					["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
+					["progress", ["update", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), _amt]]] call  HALs_store_fnc_main;
+					["text", ["update", ["buy", [UIVALUE(IDC_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
+					["button", ["enabled", []]] call  HALs_store_fnc_main;
 				}];
 
 				["edit", ["update", []]] call  HALs_store_fnc_main;
@@ -254,12 +238,10 @@ switch (toLower _mode) do {
 			case ("update"): {
 				private _ctrlEdit = UICTRL(IDC_EDIT);
 				private _idx = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
-				private _amt = _ctrlEdit getVariable ["amt", 1];
 
 				_ctrlEdit ctrlEnable (_idx > -1);
-
 				if (_idx > -1) then {
-					_ctrlEdit ctrlSetText format ["%1", _amt];
+					_ctrlEdit ctrlSetText format ["%1", _ctrlEdit getVariable ["amt", 1]];
 				} else {
 					_ctrlEdit ctrlSetText "";
 				};
@@ -347,69 +329,44 @@ switch (toLower _mode) do {
 							UICTRL(IDC_ITEM) ctrlSetStructuredText parseText "";
 						};
 
-						_ctrlText = UICTRL(IDC_ITEM);
-						_ctrlEdit = UICTRL(IDC_EDIT);
-						_ctrlButton = UICTRL(IDC_BUTTON_BUY);
-						_ctrlCheckbox = UICTRL(IDC_CHECKBOX_BUY);
+						private _money = [player] call HALs_money_fnc_getFunds;
+						private _stock = [_trader, UIDATA(IDC_LISTBOX)] call HALs_store_fnc_getTraderStock;
+						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
+						private _total = _amount * _price * (1 - _sale);
 
-						_money = [player] call HALs_money_fnc_getFunds;
-						_stock = [_trader, UIDATA(IDC_LISTBOX)] call HALs_store_fnc_getTraderStock;
-						_sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
-						_saleModifier = (1 - _sale) min 1 max 0;
-						_total = _amount * _price * _saleModifier;
-
-						_ctrlText ctrlSetStructuredText parseText format [
-							"<t font ='PuristaMedium' align='right' shadow='0'>%1%3%2%4</t>",
-							format [
-								"<t size='1'>%1%4</t> <t size ='1' shadow='1' color='#%3'>x%2</t><br/>",
-								_price call HALs_fnc_numberToString,
-								_amount,
-								['b2ec00', 'ea0000'] select (_amount > _stock),
-								HALs_store_currencySymbol
-							], "",
-							[
-								format ["<t size='0.95'>- %1%2</t><br/>", _sale * 100, "%"],
-								""
-							] select (_sale in [0]),
-							format [
-								"<t size='1.1' color='#%2'>- %1%3</t>",
-								_total call HALs_fnc_numberToString,
-								['b2ec00', 'ea0000'] select (_total > _money),
-								HALs_store_currencySymbol
-							]
+						private _ctrlText = UICTRL(IDC_ITEM);
+						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='0'>%1%3%2%4</t>",
+							format ["<t size='1'>%4%1</t> <t size ='1' shadow='1' color='#%3'>x%2</t><br/>", _price call HALs_fnc_numberToString, _amount, ['b2ec00', 'ea0000'] select (_amount > _stock), HALs_store_currencySymbol], "", [format ["<t size='0.95'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
+							format ["<t size='1.1' color='#%2'>- %3%1</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
 						];
 
-						//--- Update positions of controls
-						_ctrlTextHeight = [_ctrlText, 4 * pixelH] call BIS_fnc_ctrlFitToTextHeight;
-						_margin = (safeZoneY + (safeZoneH * (((0.0357143 * 0.1) - safeZoneY)/safeZoneH))) + 4 * pixelH;
+						//Update positions of controls
+						_ctrlText ctrlSetPositionH ctrlTextHeight _ctrlText;
+						_ctrlText ctrlCommit 0;
 
-						_ctrlPosition = ctrlPosition _ctrlText;
-						_ctrlPosEdit = ctrlPosition _ctrlEdit;
-						_ctrlPosEdit set [1, (_ctrlPosition select 1) + _ctrlTextHeight + _margin];
-						_ctrlEdit ctrlSetPosition _ctrlPosEdit;
+						private _ctrlEdit = UICTRL(IDC_EDIT);
+						private _pos = ctrlPosition _ctrlText;
+						private _y = (_pos select 1) + (_pos select 3) + 4 * pixelH;
+						_ctrlEdit ctrlSetPositionY _y;
 						_ctrlEdit ctrlCommit 0;
 
-						_ctrlPosition = ctrlPosition _ctrlButton;
-						_ctrlPosition set [1, (_ctrlPosEdit select 1) + (ctrlTextHeight _ctrlEdit) + _margin];
-						_ctrlButton ctrlSetPosition _ctrlPosition;
+						private _ctrlButton = UICTRL(IDC_BUTTON_BUY);
+						private _ctrlCheckbox = UICTRL(IDC_CHECKBOX_BUY);
+						_y = _y + ctrlTextHeight _ctrlEdit + 4 * pixelH;
+						_ctrlButton ctrlSetPositionY _y;
+						_ctrlCheckbox ctrlSetPositionY _y;
 						_ctrlButton ctrlCommit 0;
-
-						_ctrlPosition = ctrlPosition _ctrlCheckbox;
-						_ctrlPosition set [1, (_ctrlPosEdit select 1) + (ctrlTextHeight _ctrlEdit) + _margin];
-						_ctrlCheckbox ctrlSetPosition _ctrlPosition;
 						_ctrlCheckbox ctrlCommit 0;
 					};
 
 					case ("cargo"): {
 						private _classname = typeOf (UIDATA(IDC_BUY_ITEM_COMBO) call BIS_fnc_objectFromNetId);
-
 						if (_classname find "Supply" isEqualTo 0) then {
 							_classname = [uniform player, vest player, backpack player] select (["Uniform", "Vest", "Backpack"] find (UITEXT(IDC_BUY_ITEM_COMBO)));
 						};
 
 						private _type = (_classname call BIS_fnc_itemType) select 0;
 						private _cargo = ["editorPreview", "picture"] select (_type == "equipment");
-
 						if (isClass (configFile >> "cfgVehicles" >> _classname)) then {
 							UICTRL(IDC_BUY_PICTURE) ctrlSetText (getText (configFile >> "cfgVehicles" >> _classname >> _cargo));
 						} else {
@@ -418,7 +375,7 @@ switch (toLower _mode) do {
 					};
 
 					case ("funds"): {
-						UICTRL(IDC_FUNDS) ctrlSetText format ["%1%2", ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString, HALs_store_currencySymbol];
+						UICTRL(IDC_FUNDS) ctrlSetText format ["%2%1", ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 
 					case ("item"): {
@@ -439,7 +396,7 @@ switch (toLower _mode) do {
 						private _config = _classname call HALs_fnc_getConfigClass;
 
 						private _description = [
-							[missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_COMBO_CATEGORY) >> _classname >> "description", ""] call HALs_fnc_getConfigValue,
+							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_COMBO_CATEGORY) >> _classname >> "description"),
 							[_config >> "Library" >> "libTextDesc", ""] call HALs_fnc_getConfigValue,
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} select 0;
@@ -574,14 +531,12 @@ switch (toLower _mode) do {
 				];
 
 				private _stats = [_classname call HALs_fnc_getConfigClass] call HALs_store_fnc_getItemStats;
-
 				{
 					_x params ["_ctrlBar", "_ctrlBarText"];
 
 					_progress = 0;
 					_fade = 1;
 					_text = "";
-
 					if (count (_stats select _forEachIndex) > 0) then {
 						_progress = _stats select _forEachIndex select 0;
 						_text = _stats select _forEachIndex select 1;
