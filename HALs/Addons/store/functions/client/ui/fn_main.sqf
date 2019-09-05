@@ -20,8 +20,6 @@ params [
 	["_this", [], [[]]]
 ];
 
-if (!hasInterface) exitWith {};
-
 private _trader = player getVariable ["HALs_store_trader_current", objNull];
 
 switch (toLower _mode) do {
@@ -34,11 +32,12 @@ switch (toLower _mode) do {
 		uiNamespace setVariable ["HALs_store_display", _display];;
 
 		["oninit"] call HALs_store_fnc_main;
-		["listbox", 	["init", []]] call  HALs_store_fnc_main;
-		["combobox", 	["init", []]] call  HALs_store_fnc_main;
-		["edit", 		["init", []]] call  HALs_store_fnc_main;
-		["text", 		["init", []]] call  HALs_store_fnc_main;
-		["update", 		["init", []]] call  HALs_store_fnc_main;
+		["listbox", ["init", []]] call  HALs_store_fnc_main;
+		["combobox", ["init", []]] call  HALs_store_fnc_main;
+		["edit", ["init", []]] call  HALs_store_fnc_main;
+		["text", ["init", []]] call  HALs_store_fnc_main;
+		["combobox", ["update", []]] call  HALs_store_fnc_main;
+		["update", ["init", []]] call  HALs_store_fnc_main;
 	};
 
 	case ("onunload"): {
@@ -107,7 +106,6 @@ switch (toLower _mode) do {
 			case ("update"): {
 				private _ctrlList = UICTRL(IDC_LISTBOX);
 				lbClear _ctrlList;
-
 				private _money = [player] call HALs_money_fnc_getFunds;
 				private _items = _trader getVariable [format ["HALs_store_%1_items", UIDATA(IDC_COMBO_CATEGORY)], []];
 
@@ -175,6 +173,8 @@ switch (toLower _mode) do {
 					_ctrl setVariable ["data", _data];
 
 					["text", ["update", ["cargo", [_data]]]] call HALs_store_fnc_main;
+					["progress", ["update", [_data, UICTRL(IDC_LISTBOX) getVariable "data", UICTRL(IDC_EDIT) getVariable "amt"]]] call  HALs_store_fnc_main;
+					["button", ["enabled", []]] call  HALs_store_fnc_main;
 				}];
 			};
 
@@ -196,7 +196,7 @@ switch (toLower _mode) do {
 				{
 					_x params ["_classname", "_displayName", "_picture", "_object"];
 
-					if (count _x > 0 && {!isNull _object} && {_classname != ""}) then {
+					if (count _x > 0 && !isNull _object && {_classname != ""}) then {
 						_idx = _ctrlPurchase lbAdd _displayName;
 						_ctrlPurchase lbSetPicture [_idx, _picture];
 						_ctrlPurchase lbSetData [_idx, _object call BIS_fnc_netId];
@@ -439,84 +439,49 @@ switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
 			case ("init"): {
-				HALs_store_oldContainer = objNull;
-				HALs_store_oldContainerMass = -1;
-				HALs_store_oldContainers = [];
-				HALs_store_oldPlayerContainers = [];
-				HALs_store_oldMoney = 0;
-				HALs_store_changed = false;
-				HALs_store_nextUpdate = diag_tickTime;
+				HALs_store_oldMoney = [player] call HALs_money_fnc_getFunds;
+				HALs_store_oldPlayerContainers = [uniform player, vest player, backpack player];
+				HALs_store_updated = false;
+				HALs_store_nextUpdateTick = diag_tickTime;
 
 				addMissionEventHandler ["EachFrame", {
-					if (isNull (uiNamespace getVariable ["HALs_store_display", controlNull])) exitWith {
+					if (isNull (uiNamespace getVariable ["HALs_store_display", displayNull])) exitWith {
 						removeMissionEventHandler ["EachFrame", _thisEventHandler];
+						HALs_store_updated = nil;
+						HALs_store_nextUpdateTick = nil;
+						HALs_store_oldPlayerContainers = nil;
+						HALs_store_oldMoney = nil;
 					};
 
-					if (diag_tickTime > HALs_store_nextUpdate) then {
+					if (HALs_store_updated) then {
+						["text", ["update", ["funds", []]]] call  HALs_store_fnc_main;
+						["listbox", ["update", []]] call  HALs_store_fnc_main;
+						["combobox", ["update", []]] call  HALs_store_fnc_main;
 
+						HALs_store_oldMoney = [player] call HALs_money_fnc_getFunds;
+						HALs_store_oldPlayerContainers = [uniform player, vest player, backpack player];
+						HALs_store_updated = false;
+					};
 
-
-
-						_containerString = UIDATA(IDC_BUY_ITEM_COMBO);
-						_container = _containerString call BIS_fnc_objectFromNetId;
-						_trader = (player getVariable ["HALs_store_trader_current", objNull]);
-						_containers = vehicles select {
-							private _vehicle = _x;
-							({_vehicle isKindOf _x} count HALs_store_containerTypes) > 0
-							&& ((_vehicle getVariable ["HALs_store_trader_type", ""]) isEqualTo "")
-							&& {_x distance2D _trader <= HALs_store_containerRadius && {speed _x < 1} && {local _x} && {alive _x}}};
-						_playerContainers = [uniformContainer player, vestContainer player, backpackContainer player];
+					if (diag_tickTime > HALs_store_nextUpdateTick) then {
+						_trader = player getVariable ["HALs_store_trader_current", objNull];
+						_container = UIDATA(IDC_BUY_ITEM_COMBO) call BIS_fnc_objectFromNetId;
+						_playerContainers = [uniform player, vest player, backpack player];
 						_money = [player] call HALs_money_fnc_getFunds;
 
-						if (_container != HALs_store_oldContainer) then {
-							HALs_store_oldContainer = _container;
-							HALs_store_oldContainerMass = [_container] call HALs_store_fnc_getCargoMass;
-							HALs_store_changed = true;
-							["PROGRESS", ["UPDATE", [_containerString, UIDATA(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
-						} else {
-							_mass = [_container] call HALs_store_fnc_getCargoMass;
-							if (_mass != HALs_store_oldContainerMass) then {
-								HALs_store_oldContainerMass = _mass;
-								HALs_store_changed = true;
-								["PROGRESS", ["UPDATE", [_containerString, UIDATA(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
-							};
-						};
 						if (_money != HALs_store_oldMoney) then {
 							HALs_store_oldMoney = _money;
-							HALs_store_changed = true;
-							["TEXT", ["UPDATE", ["FUNDS", []]]] call  HALs_store_fnc_main;
+							HALs_store_updated = true;
 						};
-						if !(_containers isEqualTo HALs_store_oldContainers) then {
-							HALs_store_oldContainers = _containers;
-							HALs_store_vehicles = HALs_store_oldContainers apply {
-								[typeOf _x, format ["%1 (%2m)", [(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), ""] call HALs_fnc_getConfigValue, round (_x distance2D _trader)], "", _x]
-							};
-							HALs_store_changed = true;
-							["COMBOBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
-						};
+
 						if !(_playerContainers isEqualTo HALs_store_oldPlayerContainers) then {
 							HALs_store_oldPlayerContainers = _playerContainers;
-							HALs_store_changed = true;
-							["COMBOBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
+							HALs_store_updated = true;
 						};
 
-						if (HALs_store_changed) then {
-							["LISTBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
-							["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
-							HALs_store_changed = false;
-						};
-
-						HALs_store_nextUpdate = diag_tickTime + 0.05;
+						HALs_store_nextUpdateTick = diag_tickTime + 0.1;
 					};
 				}];
-			};
-
-			case ("CLIENT"): {
-				["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
-				["EDIT", ["UPDATE", []]] call  HALs_store_fnc_main;
-				["LISTBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
-				["PROGRESS", ["UPDATE", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
-				["TEXT", ["INIT", []]] call  HALs_store_fnc_main;
 			};
 		};
 	};
