@@ -11,39 +11,40 @@
 	None
 
 	Example:
-	["INIT"] call HALs_store_fnc_main;
+	["init"] call HALs_store_fnc_main;
 __________________________________________________________________*/
 #include "..\script_component.hpp"
 
-if (!hasInterface) exitWith {};
-
 params [
-	["_mode", "onLoad", [""]],
+	["_mode", "onload", [""]],
 	["_this", [], [[]]]
 ];
 
+if (!hasInterface) exitWith {};
+
 private _trader = player getVariable ["HALs_store_trader_current", objNull];
 
-switch (_mode) do {
-	case ("onLoad"): {
+switch (toLower _mode) do {
+	case ("onload"): {
 		params [
-			["_control", controlNull, [controlNull]]
+			["_display", controlNull, [controlNull]]
 		];
 
 		disableSerialization;
 
-		uiNamespace setVariable ["HALs_store_display", _control];
+		uiNamespace setVariable ["HALs_store_display", _display];
 		uiNamespace setVariable ["HALs_store_lbIndex", -1];
 		uiNamespace setVariable ["HALs_store_buyIndex", -1];
 
-		["onInit"] call HALs_store_fnc_main;
-		["LISTBOX", ["INIT", []]] call  HALs_store_fnc_main;
-		["COMBOBOX", ["INIT", []]] call  HALs_store_fnc_main;
-		["EDIT", ["INIT", []]] call  HALs_store_fnc_main;
-		["TEXT", ["INIT", []]] call  HALs_store_fnc_main;
-		["UPDATE", ["INIT", []]] call  HALs_store_fnc_main;
+		["oninit"] call HALs_store_fnc_main;
+		["listbox", 	["init", []]] call  HALs_store_fnc_main;
+		["combobox", 	["init", []]] call  HALs_store_fnc_main;
+		["edit", 		["init", []]] call  HALs_store_fnc_main;
+		["text", 		["init", []]] call  HALs_store_fnc_main;
+		["update", 		["init", []]] call  HALs_store_fnc_main;
 	};
-	case ("onUnload"): {
+
+	case ("onunload"): {
 		closeDialog 2;
 
 		false call HALs_store_fnc_blur;
@@ -53,12 +54,13 @@ switch (_mode) do {
 		uiNamespace setVariable ["HALs_store_lbIndex", -1];
 		uiNamespace setVariable ["HALs_store_buyIndex", -1];
 	};
-	case ("onInit"): {
+
+	case ("oninit"): {
 		//--- Blur Screen
 		true call HALs_store_fnc_blur;
 
 		//--- Set Store title
-		_storeName = [missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> (_trader getVariable ["HALs_store_trader_type", ""]) >> "displayName", ""] call HALs_fnc_getConfigValue;
+		_storeName = [missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName", ""] call HALs_fnc_getConfigValue;
 		UICTRL(IDC_RscDisplayStore_TITLE) ctrlSetText format ["%1", toUpper _storeName];
 
 		//--- Reset Progress-bars
@@ -66,7 +68,7 @@ switch (_mode) do {
 		_progressNew = UICTRL(IDC_RscDisplayStore_PROGRESS_NEWLOAD);
 		_progressCurrent progressSetPosition 0;
 		_progressNew progressSetPosition 0;
-		_progressNew ctrlSetTextColor [0.9,0,0,0.6];
+		_progressNew ctrlSetTextColor [0.9, 0, 0, 0.6];
 
 		//--- Setup check-boxes
 		{
@@ -86,12 +88,14 @@ switch (_mode) do {
 			["BUTTON", ["ENABLED", []]] call HALs_store_fnc_main;
 		}];
 	};
-	case ("LISTBOX"): {
+
+	case ("listbox"): {
 		params ["_mode", "_this"];
 
-		switch (toUpper _mode) do {
+		switch (toLower _mode) do {
 			params ["_mode", "_this"];
-			case ("INIT"): {
+
+			case ("init"): {
 				_ctrlListbox = UICTRL(IDC_RscDisplayStore_LISTBOX);
 				ctrlSetFocus _ctrlListbox;
 
@@ -111,7 +115,8 @@ switch (_mode) do {
 
 				_ctrlListbox ctrlSetFontHeight (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8);
 			};
-			case ("UPDATE"): {
+
+			case ("update"): {
 				_ctrlListbox = UICTRL(IDC_RscDisplayStore_LISTBOX);
 				lbClear _ctrlListbox;
 
@@ -170,7 +175,8 @@ switch (_mode) do {
 			};
 		};
 	};
-	case ("COMBOBOX"): {
+
+	case ("combobox"): {
 		params ["_mode", "_this"];
 
 		switch (toUpper _mode) do {
@@ -238,41 +244,48 @@ switch (_mode) do {
 			};
 		};
 	};
-	case ("EDIT"): {
+
+	case ("edit"): {
 		params ["_mode", "_this"];
 
-		switch (toUpper _mode) do {
+		switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
-			case ("INIT"): {
-				private _ctrlEdit = UICTRL(IDC_RscDisplayStore_EDIT);
-				{
-					_ctrlEdit ctrlAddEventHandler [_x, {
-						_amount = (floor parseNumber ctrlText (_this select 0)) max 0;
-						["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX), _amount]]] call  HALs_store_fnc_main;
-						["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), _amount]]]] call  HALs_store_fnc_main;
-						["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
-					}];
-				} forEach ["KeyUp", "KeyDown"];
 
-				["EDIT", ["UPDATE", []]] call  HALs_store_fnc_main;
+
+			case ("init"): {
+				private _ctrlEdit = UICTRL(IDC_RscDisplayStore_EDIT);
+				_ctrlEdit ctrlAddEventHandler ["KeyUp", {
+					_ctrl = _this select 0;
+					_amt = 1 max (floor parseNumber ctrlText _ctrl);
+
+					_ctrl setVariable ["amt", _amt];
+
+					["PROGRESS", ["UPDATE", [UIDATA(IDC_RscDisplayStore_BUY_ITEM_COMBO), UIDATA(IDC_RscDisplayStore_LISTBOX), _amt]]] call  HALs_store_fnc_main;
+					["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_RscDisplayStore_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
+					["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
+				}];
+
+				["edit", ["update", []]] call  HALs_store_fnc_main;
 			};
-			case ("UPDATE"): {
+
+			case ("update"): {
 				private _ctrlEdit = UICTRL(IDC_RscDisplayStore_EDIT);
-				private _index = uiNamespace getVariable ["HALs_store_lbIndex", -1];
-				private _amount = (floor (parseNumber ctrlText _ctrlEdit)) max 1;
+				private _idx = uiNamespace getVariable ["HALs_store_lbIndex", -1];
+				private _amt = _ctrlEdit getVariable ["amt", 1];
 
-				_ctrlEdit ctrlEnable (_index > -1);
+				_ctrlEdit ctrlEnable (_idx > -1);
 
-				if (_index > -1) then {
-					_ctrlEdit ctrlSetText format ["%1", _amount];
+				if (_idx > -1) then {
+					_ctrlEdit ctrlSetText format ["%1", _amt];
 				} else {
 					_ctrlEdit ctrlSetText "";
 				};
 			};
 		};
 	};
-	case ("BUTTON"): {
+
+	case ("button"): {
 		params ["_mode", "_this"];
 
 		switch (toUpper _mode) do {
@@ -320,7 +333,8 @@ switch (_mode) do {
 			};
 		};
 	};
-	case ("TEXT"): /* DONE */ {
+
+	case ("text"): {
 		params ["_mode", "_this"];
 
 		switch (toUpper _mode) do {
@@ -497,13 +511,14 @@ switch (_mode) do {
 			};
 		};
 	};
-	case ("UPDATE"): /* DONE */ {
+
+	case ("update"): {
 		params ["_mode", "_this"];
 
-		switch (toUpper _mode) do {
+		switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
-			case ("INIT"): {
+			case ("init"): {
 				HALs_store_oldContainer = objNull;
 				HALs_store_oldContainerMass = -1;
 				HALs_store_oldContainers = [];
@@ -579,13 +594,14 @@ switch (_mode) do {
 			};
 		};
 	};
-	case ("PROGRESS"): /* DONE */ {
+
+	case ("progress"): {
 		params ["_mode", "_this"];
 
-		switch (toUpper _mode) do {
+		switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
-			case ("STATS"): {
+			case ("stats"): {
 				params [
 					["_classname", "", [""]]
 				];
@@ -636,7 +652,8 @@ switch (_mode) do {
 					};
 				} forEach PGBARS;
 			};
-			case ("UPDATE"): {
+
+			case ("update"): {
 				params [
 					["_container", ""],
 					["_classname", "", [""]],
