@@ -318,7 +318,7 @@ class RscDisplayStore {
 							font = "RobotoCondensed";
 						};
 						class ProgressBar1: HALsStore_ctrlProgress {
-							idc = IDC_ITEM_STATS_PROGRESS_1;
+							idc = IDC_STATS_PROGRESS_1;
 							x = GRIDX(0.4);
 							y = GRIDY(1);
 							w = GRIDW(16);
@@ -328,7 +328,7 @@ class RscDisplayStore {
 							fade = 1;
 						};
 						class ProgressBarText1: HALsStore_RscText {
-							idc = IDC_ITEM_STATS_PROGRESS_TEXT_1;
+							idc = IDC_STATS_PROGRESS_TEXT_1;
 							x = GRIDX(0.4);
 							y = GRIDY(1);
 							w = GRIDW(16);
@@ -344,56 +344,56 @@ class RscDisplayStore {
 							font = "RobotoCondensed";
 						};
 						class ProgressBar2: ProgressBar1 {
-							idc = IDC_ITEM_STATS_PROGRESS_2;
+							idc = IDC_STATS_PROGRESS_2;
 							x = GRIDX(0.4);
 							y = GRIDY(2.5);
 							w = GRIDW(16);
 							h = GRIDH(0.9);
 						};
 						class ProgressBarText2: ProgressBarText1 {
-							idc = IDC_ITEM_STATS_PROGRESS_TEXT_2;
+							idc = IDC_STATS_PROGRESS_TEXT_2;
 							x = GRIDX(0.4);
 							y = GRIDY(2.5);
 							w = GRIDW(16);
 							h = GRIDH(0.9);
 						};
 						class ProgressBar3: ProgressBar1 {
-							idc = IDC_ITEM_STATS_PROGRESS_3;
+							idc = IDC_STATS_PROGRESS_3;
 							x = GRIDX(0.4);
 							y = GRIDY(4);
 							w = GRIDW(16);
 							h = GRIDH(0.9);
 						};
 						class ProgressBarText3: ProgressBarText1 {
-							idc = IDC_ITEM_STATS_PROGRESS_TEXT_3;
+							idc = IDC_STATS_PROGRESS_TEXT_3;
 							x = GRIDX(0.4);
 							y = GRIDY(4);
 							w = GRIDW(16);
 							h = GRIDH(0.9);
 						};
 						class ProgressBar4: ProgressBar1 {
-							idc = IDC_ITEM_STATS_PROGRESS_4;
+							idc = IDC_STATS_PROGRESS_4;
 							x = GRIDX(0.4);
 							y = GRIDY(7);
 							w = GRIDW(16);
 							h = GRIDH(0.9);
 						};
 						class ProgressBarText4: ProgressBarText1 {
-							idc = IDC_ITEM_STATS_PROGRESS_TEXT_4;
+							idc = IDC_STATS_PROGRESS_TEXT_4;
 							x = GRIDX(0.4);
 							y = GRIDY(7);
 							w = GRIDW(16);
 							h = GRIDH(0.9);
 						};
 						class ProgressBar5: ProgressBar1 {
-							idc = IDC_ITEM_STATS_PROGRESS_5;
+							idc = IDC_STATS_PROGRESS_5;
 							x = GRIDX(0.4);
 							y = GRIDY(10);
 							w = GRIDW(16);
 							h = GRIDH(0.9);
 						};
 						class ProgressBarText5: ProgressBarText1 {
-							idc = IDC_ITEM_STATS_PROGRESS_TEXT_5;
+							idc = IDC_STATS_PROGRESS_TEXT_5;
 							x = GRIDX(0.4);
 							y = GRIDY(10);
 							w = GRIDW(16);
