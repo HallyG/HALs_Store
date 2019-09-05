@@ -455,6 +455,7 @@ switch (toLower _mode) do {
 					if (isNull (uiNamespace getVariable ["HALs_store_display", controlNull])) exitWith {
 						removeMissionEventHandler ["EachFrame", _thisEventHandler];
 					};
+
 					if (diag_tickTime > HALs_store_nextUpdate) then {
 						_containerString = UIDATA(IDC_BUY_ITEM_COMBO);
 						_container = _containerString call BIS_fnc_objectFromNetId;
@@ -509,6 +510,7 @@ switch (toLower _mode) do {
 					};
 				}];
 			};
+
 			case ("CLIENT"): {
 				["BUTTON", ["ENABLED", []]] call  HALs_store_fnc_main;
 				["EDIT", ["UPDATE", []]] call  HALs_store_fnc_main;
@@ -568,35 +570,34 @@ switch (toLower _mode) do {
 					_barNew progressSetPosition 0;
 				};
 
-				_currentLoad = [_container] call HALs_fnc_getCargoMass;
-				_maxLoad = 1 max getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
+				private _currentLoad = [_container] call HALs_fnc_getCargoMass;
+				private _maxLoad = 1 max getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
 				if (_classname isEqualTo "") exitWith {
 					_bar progressSetPosition (_currentLoad / _maxLoad);
 					_barNew progressSetPosition 0;
 				};
 
-				_load = _classname call HALs_store_fnc_getItemMass;
+				private _load = _classname call HALs_store_fnc_getItemMass;
 
 				// Check if it's a backpack with items
 				private _type = [_classname] call HALs_store_fnc_getItemType;
 				if (_type isEqualTo 3) then {
-					_config = "true" configClasses (configFile >> "CfgVehicles" >> _classname);
 					_arrayCargo = [];
 
 					{
 						_arrayCargo append (("true" configClasses _x) apply {[(configName _x) select [4], getNumber (_x >> "count")]});;
-					} forEach _config;
+					} forEach ("true" configClasses (configFile >> "CfgVehicles" >> _classname));
 
 					_arrayCargo apply {
 						_load = _load + ((_x select 0) call HALs_store_fnc_getItemMass) * (_x select 1);
 					};
 				};
 
-				_progress = linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
-				_canAdd = _container canAdd [_classname, _amount];
+				private _progress = linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
+				private _canAdd = _container canAdd [_classname, _amount];
+				private _colour = [0, 0.9, 0, 0.6];
 
-				_colour = [0, 0.9, 0, 0.6];
-				if (!_canAdd || _progress > 1) then {
+				if (not _canAdd || _progress > 1) then {
 					_progress = 1;
 					_colour = [0.9, 0, 0, 0.6];
 				};
