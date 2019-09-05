@@ -1,5 +1,5 @@
 /*
-	Function: HALs_fnc_getCompatibleItems
+	Function: HALs_store_fnc_getCompatibleItems
 	Author: HallyG
 	Returns all items and magazines compatible with a weapon.
 
@@ -10,7 +10,7 @@
 	<ARRAY>
 
 	Example:
-	(primaryWeapon player) call HALs_fnc_getCompatibleItems;
+	(primaryWeapon player) call HALs_store_fnc_getCompatibleItems;
 __________________________________________________________________*/
 private _weaponClassName = param [0, "", [""]];
 private _weaponConfig = configFile >> "CfgWeapons" >> _weaponClassName;
@@ -29,4 +29,4 @@ private _compatibleItems = getArray (_weaponConfig >> "magazines");
 	};
 } forEach getArray (_weaponConfig >> "muzzles");
 
-_compatibleItems 
+_compatibleItems

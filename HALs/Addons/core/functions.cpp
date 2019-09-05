@@ -16,8 +16,6 @@ class HALs {
 
 	class Config {
 		file = "HALs\Addons\core\functions\config";
-		class getCargoMass {};
-		class getCompatibleItems {};
 		class getConfigClass {};
 		class getConfigValue {};
 		class getModuleSettings {};

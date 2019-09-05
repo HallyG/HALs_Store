@@ -1,7 +1,7 @@
 /*
-	Function: HALs_fnc_getCargoMass
+	Function: HALs_store_fnc_getCargoMass
 	Author: L-H, edited by commy2, rewritten by joko // Jonas
-	Calculates the mass of an item or of all the items in a container. 
+	Calculates the mass of an item or of all the items in a container.
 	(Recursive)
 
 	Argument(s):
@@ -11,7 +11,7 @@
 	<NUMBER>
 
 	Example:
-	(vestContainer player) call HALs_fnc_getCargoMass;
+	(vestContainer player) call HALs_store_fnc_getCargoMass;
 __________________________________________________________________*/
 params [
 	["_container", objNull, [objNull]]
@@ -21,11 +21,11 @@ private _totalMass = 0;
 {
 	_x params ["_items", "_configCode"];
 	_items params ["_item", "_count"];
-	
+
 	{
 		_totalMass = _totalMass + (getNumber ((call _configCode) >> "mass") * (_count select _forEachIndex));
 	} forEach _item;
-	
+
 	true
 } count [
 	[getMagazineCargo _container,	{configFile >> "CfgMagazines" >> _x}],
@@ -38,7 +38,7 @@ private _totalMass = 0;
 _containers = (everyContainer _container);
 if (count _containers > 0) then {
 	{
-		_totalMass = _totalMass + (_x call HALs_fnc_getCargoMass);
+		_totalMass = _totalMass + (_x call HALs_store_fnc_getCargoMass);
 	} forEach (_containers apply {_x select 1})
 };
 

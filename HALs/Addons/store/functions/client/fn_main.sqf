@@ -120,7 +120,7 @@ switch (toLower _mode) do {
 				if (cbChecked UICTRL(IDC_CHECKBOX3)) then {
 					_filterItems = [];
 
-					{_filterItems append (_x call HALs_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
+					{_filterItems append (_x call HALs_store_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
 
 					_items = _items select {(_x select 0) in _filterItems};
 				};

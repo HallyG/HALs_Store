@@ -10,6 +10,8 @@ class HALs_store {
 		class canAddItem {};
 		class canEquipItem {};
 		class equipItem {};
+		class getCargoMass {};
+		class getCompatibleItems {};
 		class getItemMass {};
 		class getItemStats {};
 		class getItemType {};
