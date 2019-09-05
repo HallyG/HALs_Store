@@ -338,22 +338,23 @@ switch (toLower _mode) do {
 	case ("text"): {
 		params ["_mode", "_this"];
 
-		switch (toUpper _mode) do {
+		switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
-			case ("INIT"): {
-				["TEXT", ["UPDATE", ["BUY", [UICTRL(IDC_LISTBOX) lbValue CTRLSEL(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]]] call HALs_store_fnc_main;
-				["TEXT", ["UPDATE", ["CARGO", []]]] call  HALs_store_fnc_main;
-				["TEXT", ["UPDATE", ["FUNDS", []]]] call  HALs_store_fnc_main;
-				["TEXT", ["UPDATE", ["ITEM", []]]] call  HALs_store_fnc_main;
+			case ("init"): {
+				["text", ["update", ["buy", [UICTRL(IDC_LISTBOX) lbValue CTRLSEL(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]]] call HALs_store_fnc_main;
+				["text", ["update", ["cargo", []]]] call  HALs_store_fnc_main;
+				["text", ["update", ["funds", []]]] call  HALs_store_fnc_main;
+				["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
 			};
-			case ("UPDATE"): {
+
+			case ("update"): {
 				params ["_mode", "_this"];
 
-				switch (toUpper _mode) do {
+				switch (toLower _mode) do {
 					params ["_mode", "_this"];
 
-					case ("BUY"): {
+					case ("buy"): {
 						params [
 							["_price", 0, [0]],
 							["_amount", 0, [0]]
@@ -361,7 +362,7 @@ switch (toLower _mode) do {
 
 						private _index = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
 						if !(_amount > 0 && _index > -1) exitWith {
-							UICTRL(IDC_ITEM) ctrlSetStructuredText parseText format [""];
+							UICTRL(IDC_ITEM) ctrlSetStructuredText parseText "";
 						};
 
 						_ctrlText = UICTRL(IDC_ITEM);
@@ -416,7 +417,8 @@ switch (toLower _mode) do {
 						_ctrlCheckbox ctrlSetPosition _ctrlPosition;
 						_ctrlCheckbox ctrlCommit 0;
 					};
-					case ("CARGO"): {
+
+					case ("cargo"): {
 						private _classname = typeOf (UIDATA(IDC_BUY_ITEM_COMBO) call BIS_fnc_objectFromNetId);
 
 						if (_classname find "Supply" isEqualTo 0) then {
@@ -432,23 +434,25 @@ switch (toLower _mode) do {
 							UICTRL(IDC_BUY_PICTURE) ctrlSetText (getText (configFile >> "cfgWeapons" >> _classname >> _cargo));
 						};
 					};
-					case ("FUNDS"): {
+
+					case ("funds"): {
 						UICTRL(IDC_FUNDS) ctrlSetText format ["%1%2", ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
-					case ("ITEM"): {
-						private _index = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
-						private _pictureCtrl = UICTRL(IDC_ITEM_PICTURE);
-						private _titleCtrl = UICGCTRL(IDC_ITEM_TEXT);//;UICTRL(IDC_ITEM_TEXT);
-						private _textCtrl = UICGCTRL(IDC_ITEM_TEXT_DES);//;UICTRL(IDC_ITEM_TEXT);
 
-						if (_index isEqualTo -1) exitWith {
+					case ("item"): {
+						private _idx = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
+						private _pictureCtrl = UICTRL(IDC_ITEM_PICTURE);
+						private _titleCtrl = UICGCTRL(IDC_ITEM_TEXT);
+						private _textCtrl = UICGCTRL(IDC_ITEM_TEXT_DES);
+
+						if (_idx isEqualTo -1) exitWith {
 							_pictureCtrl ctrlSetText "";
-							_titleCtrl ctrlSetStructuredText parseText format [""];
-							_textCtrl ctrlSetStructuredText parseText format [""];
+							_titleCtrl ctrlSetStructuredText parseText "";
+							_textCtrl ctrlSetStructuredText parseText "";
 						};
 
-						_ctrlListbox = UICTRL(IDC_LISTBOX);
-						private _classname = _ctrlListbox lbData _index;
+						private _ctrlListbox = UICTRL(IDC_LISTBOX);
+						private _classname = _ctrlListbox lbData _idx;
 						private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 						private _config = _classname call HALs_fnc_getConfigClass;
 
@@ -458,54 +462,34 @@ switch (toLower _mode) do {
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} select 0;
 
-						_pictureCtrl ctrlSetText (_ctrlListbox lbPicture _index);
-						_textCtrl ctrlSetStructuredText parseText format ["<t font = 'PuristaMedium'>%1</t>", _description];
+						_pictureCtrl ctrlSetText (_ctrlListbox lbPicture _idx);
+						_textCtrl ctrlSetStructuredText parseText format ["<t font='PuristaMedium'>%1</t>", _description];
 						_titleCtrl ctrlSetStructuredText parseText format [
 							"<t size='1.3' font ='PuristaMedium'>%1</t><br/>%3:  <t color='#aaffaa'>%2%5</t><br/>%4",
-							_ctrlListbox lbText _index, (_ctrlListbox lbValue _index) call HALs_fnc_numberToString, localize "STR_HALS_STORE_TEXT_PRICE",
+							_ctrlListbox lbText _idx, (_ctrlListbox lbValue _idx) call HALs_fnc_numberToString, localize "STR_HALS_STORE_TEXT_PRICE",
 							[
 								format ["<t color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
 								format ["<t color='#A0DF3B'>%1</t>:  %2", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
 							] select (_stock > 0), HALs_store_currencySymbol
 						];
 
+						_titleCtrl ctrlSetPositionH ctrlTextHeight _titleCtrl;
+						_titleCtrl ctrlCommit 0;
 
-						//--- Update positions of controls
-						[_titleCtrl] call BIS_fnc_ctrlTextHeight;
-
-						_posPrevious = ctrlPosition _titleCtrl;
-
+						private _y = ((ctrlPosition _titleCtrl) select 1) + ((ctrlPosition _titleCtrl) select 3) + pixelH * 4;
 						{
-							_x params ["_ctrlProgress", "_ctrlProgressText"];
+							_x params ["_ctrlBar", "_ctrlBarText"];
 
-							_ctrlProgress = UICTRL(_ctrlProgress);
-							_ctrlProgressText = UICTRL(_ctrlProgressText);
+							_ctrlBar ctrlSetPositionY _y;
+							_ctrlBarText ctrlSetPositionY _y;
+							_ctrlBar ctrlCommit 0;
+							_ctrlBarText ctrlCommit 0;
 
+							_y = _y + ((ctrlPosition _ctrlBar) select 3) + pixelH * 2;
+						} count (STAT_BARS select {ctrlFade (_x select 0) < 1});
 
-							if ((ctrlFade _ctrlProgress) < 1) then {
-								private _pos1 = ctrlPosition _ctrlProgress;
-
-
-								if (_forEachIndex isEqualTo 0) then {
-									_posPrevious set [0, _pos1 select 0];
-									_posPrevious set [1, (_posPrevious select 1) + (_posPrevious select 3) + pixelH*4];
-									_posPrevious set [2, _pos1 select 2];
-									_posPrevious set [3, _pos1 select 3];
-								} else {
-									_posPrevious set [1, (_posPrevious select 1) + (_pos1 select 3) + (0.1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)) + ([0, pixelH] select (_forEachIndex isEqualTo 2))];
-								};
-
-								_ctrlProgress ctrlSetPosition _posPrevious;
-								_ctrlProgress ctrlCommit 0;
-								_ctrlProgressText ctrlSetPosition _posPrevious;
-								_ctrlProgressText ctrlCommit 0;
-							};
-						} forEach PGBARS;
-
-						private _posText = ctrlPosition _textCtrl;
-						_posText set [1, (_posPrevious select 1) + (_posPrevious select 3) + 4 * pixelH];
-						_posText set [3, (ctrlTextHeight _textCtrl)];
-						_textCtrl ctrlSetPosition _posText;
+						_textCtrl ctrlSetPositionY _y;
+						_textCtrl ctrlSetPositionH (ctrlTextHeight _textCtrl);
 						_textCtrl ctrlCommit 0;
 					};
 				};
@@ -607,51 +591,28 @@ switch (toLower _mode) do {
 					["_classname", "", [""]]
 				];
 
-				if (_classname isEqualTo "") exitWith {
-					{
-						_x params ["_progressCtrl", "_progressTextCtrl"];
-
-						private _ctrlProgress = UICGCTRL(_progressCtrl);
-						private _ctrlProgressText = UICGCTRL(_progressTextCtrl);
-
-						_ctrlProgress progressSetPosition 0;
-						_ctrlProgress ctrlSetFade 1;
-						_ctrlProgress ctrlCommit 0;
-						_ctrlProgressText ctrlSetText "";
-						_ctrlProgressText ctrlSetFade 1;
-						_ctrlProgressText ctrlCommit 0;
-					} count PGBARS;
-				};
-
-				//--- Return stats for item
-				private _config = _classname call HALs_fnc_getConfigClass;
-				private _statsArray = [_config] call HALs_store_fnc_getItemStats;
+				private _stats = [_classname call HALs_fnc_getConfigClass] call HALs_store_fnc_getItemStats;
 
 				{
-					_x params ["_progressCtrl", "_progressTextCtrl"];
+					_x params ["_ctrlBar", "_ctrlBarText"];
 
-					private _ctrlProgress = UICGCTRL(_progressCtrl);
-					private _ctrlProgressText = UICGCTRL(_progressTextCtrl);
+					_progress = 0;
+					_fade = 1;
+					_text = "";
 
-					if (count (_statsArray select _forEachIndex) > 0) then {
-						(_statsArray select _forEachIndex) params ["_progress", "_text"];
-
-						_ctrlProgress progressSetPosition _progress;
-						_ctrlProgress ctrlSetFade 0;
-						_ctrlProgress ctrlCommit 0;
-						_ctrlProgressText ctrlSetText toUpper _text;
-						_ctrlProgressText ctrlSetFade 0;
-						_ctrlProgressText ctrlCommit 0;
-
-					} else {
-						_ctrlProgress progressSetPosition 0;
-						_ctrlProgress ctrlSetFade 1;
-						_ctrlProgress ctrlCommit 0;
-						_ctrlProgressText ctrlSetText "";
-						_ctrlProgressText ctrlSetFade 1;
-						_ctrlProgressText ctrlCommit 0;
+					if (count (_stats select _forEachIndex) > 0) then {
+						_progress = _stats select _forEachIndex select 0;
+						_text = _stats select _forEachIndex select 1;
+						_fade = 0;
 					};
-				} forEach PGBARS;
+
+					_ctrlBar progressSetPosition _progress;
+					_ctrlBarText ctrlSetText _text;
+					_ctrlBar ctrlSetFade _fade;
+					_ctrlBarText ctrlSetFade _fade;
+					_ctrlBar ctrlCommit 0;
+					_ctrlBarText ctrlCommit 0;
+				} forEach STAT_BARS;
 			};
 
 			case ("update"): {
@@ -661,28 +622,27 @@ switch (toLower _mode) do {
 					["_amount", 1, [1]]
 				];
 
-				_container = _container call BIS_fnc_objectFromNetId;
+				private _bar = UICTRL(IDC_PROGRESS_LOAD);
+				private _barNew = UICTRL(IDC_PROGRESS_NEWLOAD);
 
+				_container = _container call BIS_fnc_objectFromNetId;
 				if (_container isEqualTo objNull) exitWith {
-					UICTRL(IDC_PROGRESS_LOAD) progressSetPosition 0;
-					UICTRL(IDC_PROGRESS_NEWLOAD) progressSetPosition 0;
-					UICTRL(IDC_PROGRESS_NEWLOAD) ctrlSetTextColor [0.9,0,0,0.6];
+					_bar progressSetPosition 0;
+					_barNew progressSetPosition 0;
 				};
 
-				_maxLoad = getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
 				_currentLoad = [_container] call HALs_fnc_getCargoMass;
-
+				_maxLoad = 1 max getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
 				if (_classname isEqualTo "") exitWith {
-					UICTRL(IDC_PROGRESS_LOAD) progressSetPosition (_currentLoad / (_maxLoad max 1));
-					UICTRL(IDC_PROGRESS_NEWLOAD) progressSetPosition 0;
-					UICTRL(IDC_PROGRESS_NEWLOAD) ctrlSetTextColor [0.9,0,0,0.6];
+					_bar progressSetPosition (_currentLoad / _maxLoad);
+					_barNew progressSetPosition 0;
 				};
 
 				_load = _classname call HALs_store_fnc_getItemMass;
 
-				//--- Check if backpack as predefined items in it
-				_itemType = [_classname] call HALs_store_fnc_getItemType;
-				if (_itemType isEqualTo 3) then {
+				// Check if it's a backpack with items
+				private _type = [_classname] call HALs_store_fnc_getItemType;
+				if (_type isEqualTo 3) then {
 					_config = "true" configClasses (configFile >> "CfgVehicles" >> _classname);
 					_arrayCargo = [];
 
@@ -690,27 +650,23 @@ switch (toLower _mode) do {
 						_arrayCargo append (("true" configClasses _x) apply {[(configName _x) select [4], getNumber (_x >> "count")]});;
 					} forEach _config;
 
-					{
-						_x params ["_itemclassname", "_count"];
-						_load = _load + (_itemclassname call HALs_store_fnc_getItemMass) * _count;
-					} forEach _arrayCargo;
+					_arrayCargo apply {
+						_load = _load + ((_x select 0) call HALs_store_fnc_getItemMass) * (_x select 1);
+					};
 				};
 
 				_progress = linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
 				_canAdd = _container canAdd [_classname, _amount];
-				_colour = call {
-					if (!_canAdd) exitWith {
-						[0.9,0,0,0.6]
-					};
-					if (_progress > 1) exitWith {
-						[0.9,0,0,0.6]
-					};
-					[0,0.9,0,0.6]
+
+				_colour = [0, 0.9, 0, 0.6];
+				if (!_canAdd || _progress > 1) then {
+					_progress = 1;
+					_colour = [0.9, 0, 0, 0.6];
 				};
 
-				UICTRL(IDC_PROGRESS_LOAD) progressSetPosition (_currentLoad / (_maxLoad max 1));
-				UICTRL(IDC_PROGRESS_NEWLOAD) progressSetPosition ([1, _progress] select (_canAdd));
-				UICTRL(IDC_PROGRESS_NEWLOAD) ctrlSetTextColor _colour;
+				_bar progressSetPosition (_currentLoad / _maxLoad);
+				_barNew progressSetPosition _progress;
+				_barNew ctrlSetTextColor _colour;
 			};
 		};
 	};
