@@ -4,23 +4,19 @@ class HALs_store {
 		class initModule {postInit = 1;};
 	};
 
-	class System {
-		file = "HALs\Addons\store\functions\system";
-		class addItemCargo {};
-		class canAddItem {};
-		class canEquipItem {};
-		class equipItem {};
-		class getCargoMass {};
-		class getCompatibleItems {};
-		class getItemMass {};
-		class getItemStats {};
-		class getItemType {};
-	};
-
 	class Client {
 		file = "HALs\Addons\store\functions\client";
 		class addAction {};
 		class systemChat {};
+	};
+
+	class Config {
+		file = "HALs\Addons\store\functions\system\config";
+		class getCompatibleItems {};
+		class getItemMass {};
+		class getItemStats {};
+		class getItemType {};
+		class getCargoMass {};
 	};
 
 	class Server {
@@ -36,6 +32,14 @@ class HALs_store {
 		class updateStock {};
 	};
 
+	class System {
+		file = "HALs\Addons\store\functions\system";
+		class addItemCargo {};
+		class canAddItem {};
+		class canEquipItem {};
+		class equipItem {};
+	};
+	
 	class UI {
 		file = "HALs\Addons\store\functions\client\ui";
 		class main {};
