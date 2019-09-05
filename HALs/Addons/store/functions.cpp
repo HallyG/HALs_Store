@@ -31,9 +31,4 @@ class HALs_store {
 		class setTraderStock {};
 		class updateStock {};
 	};
-
-	class Misc {
-		file = "HALs\Addons\store\functions\misc";
-		class addMoneyOnOpen {};
-	};
 };
