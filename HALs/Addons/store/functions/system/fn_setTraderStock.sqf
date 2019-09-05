@@ -2,15 +2,15 @@
 	Function: HALs_store_fnc_setTraderStock
 	Author: HallyG
 	Sets a trader's stock.
-	
+
 	Argument(s):
 	0: Trader <OBJECT>
 	1: Item Classname <STRING>
 	2: Stock change <NUMBER>
-	
+
 	Return Value:
 	<NUMBER>
-	
+
 	Example:
 	[_trader, _item, 1] call HALs_store_fnc_setTraderStock;
 __________________________________________________________________*/
@@ -23,7 +23,7 @@ params [
 ];
 
 private _classes = _trader getVariable ["HALs_store_trader_classes", []];
-private _selection = _classes find toLower _classname;
+private _selection = _classes find _classname;
 
 if (_selection isEqualTo -1) exitWith {};
 private _stocks = _trader getVariable ["HALs_store_trader_stocks", []];
