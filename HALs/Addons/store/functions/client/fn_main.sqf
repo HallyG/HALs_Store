@@ -54,19 +54,11 @@ switch (toLower _mode) do {
 	};
 
 	case ("oninit"): {
-		//--- Blur Screen
+		// Blur Screen
 		true call HALs_store_fnc_blur;
 
-		//--- Set Store title
-		_storeName = [missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName", ""] call HALs_fnc_getConfigValue;
+		_storeName = getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName");
 		UICTRL(IDC_TITLE) ctrlSetText format ["%1", toUpper _storeName];
-
-		//--- Reset Progress-bars
-		_progressCurrent = UICTRL(IDC_PROGRESS_LOAD);
-		_progressNew = UICTRL(IDC_PROGRESS_NEWLOAD);
-		_progressCurrent progressSetPosition 0;
-		_progressNew progressSetPosition 0;
-		_progressNew ctrlSetTextColor [0.9, 0, 0, 0.6];
 
 		//--- Setup check-boxes
 		{
@@ -100,76 +92,65 @@ switch (toLower _mode) do {
 				_ctrlList ctrlAddEventHandler ["LBSelChanged", {
 					params ["_ctrl", "_idx"];
 
-					_ctrl setVariable ["idx", _idx];
-					_ctrl setVariable ["data", _ctrl lbData _idx];
-					_ctrl setVariable ["value", _ctrl lbValue _idx];
+					_data = _ctrl lbData _idx;
+					_value = _ctrl lbValue _idx;
+					_amt = UICTRL(IDC_EDIT) getVariable ["amt", 1];
 
-					_amount = UICTRL(IDC_EDIT) getVariable ["amt", 1];
-					["PROGRESS", 	["STATS", 	[_ctrl lbData _idx]]] call  HALs_store_fnc_main;
+					_ctrl setVariable ["idx", _idx];
+					_ctrl setVariable ["data", _data];
+					_ctrl setVariable ["value", _value];
+
+					["PROGRESS", 	["STATS", 	[_data]]] call  HALs_store_fnc_main;
 					["TEXT", 		["UPDATE", 	["ITEM", []]]] call  HALs_store_fnc_main;
-					["TEXT", 		["UPDATE", 	["BUY", [_ctrl lbValue _idx, _amount]]]] call HALs_store_fnc_main;
-					["PROGRESS", 	["UPDATE", 	[UIDATA(IDC_BUY_ITEM_COMBO), _ctrl lbData _idx, _amount]]] call  HALs_store_fnc_main;
+					["TEXT", 		["UPDATE", 	["BUY", [_value, _amt]]]] call HALs_store_fnc_main;
+					["PROGRESS", 	["UPDATE", 	[UIDATA(IDC_BUY_ITEM_COMBO), _data, _amt]]] call  HALs_store_fnc_main;
 					["EDIT", 		["UPDATE", 	[]]] call  HALs_store_fnc_main;
 					["BUTTON", 		["ENABLED", []]] call  HALs_store_fnc_main;
 				}];
 			};
 
 			case ("update"): {
-				private _money = [player] call HALs_money_fnc_getFunds;
-				private _configPath = (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_COMBO_CATEGORY));
-				private _items = ("true" configClasses _configPath) apply {configName _x};
-
-				_ctrlList = UICTRL(IDC_LISTBOX);
+				private _ctrlList = UICTRL(IDC_LISTBOX);
 				lbClear _ctrlList;
 
-				_ctrlCheckbox1 = UICTRL(IDC_CHECKBOX1);
-				_ctrlCheckbox2 = UICTRL(IDC_CHECKBOX2);
-				_ctrlCheckbox3 = UICTRL(IDC_CHECKBOX3);
+				private _money = [player] call HALs_money_fnc_getFunds;
+				private _items = _trader getVariable [format ["HALs_store_%1_items", UIDATA(IDC_COMBO_CATEGORY)], []];
 
-				_filterItems = [];
-				if (cbChecked _ctrlCheckbox3) then {
-					{
-						_filterItems append (_x call HALs_fnc_getCompatibleItems);
-					} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
+				if (cbChecked UICTRL(IDC_CHECKBOX3)) then {
+					_filterItems = [];
+
+					{_filterItems append (_x call HALs_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
+
+					_items = _items select {(_x select 0) in _filterItems};
 				};
 
-
-
-				//--- Add all items
 				{
-					private _config = _x call HALs_fnc_getConfigClass;
-					private _price = (getNumber (_configPath >> _x >> "price")) max 0 min 999999;
-					private _stock = [_trader, _x] call HALs_store_fnc_getTraderStock;
+					_x params ["_classname", "_displayName", "_picture", "_price"];
 
-					if !(cbChecked _ctrlCheckbox1 && {_price > _money}) then {
-						if !(cbChecked _ctrlCheckbox2 && {_stock isEqualTo 0}) then {
-							if !(cbChecked _ctrlCheckbox3 && {!(_x in _filterItems)}) then {
-								_displayName = [_config >> "displayName", ""] call HALs_fnc_getConfigValue;
-								_index = _ctrlList lbAdd _displayName;
+					private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
+					_showAffordable = not (cbChecked UICTRL(IDC_CHECKBOX1) && {_price > _money});
+					_showAvaliable = not (cbChecked UICTRL(IDC_CHECKBOX2) && {_stock < 1});
 
-								_ctrlList lbSetData [_index, _x];
-								_ctrlList lbSetValue [_index, _price];
-								_ctrlList lbSetPicture [_index, [_config >> "picture", ""] call HALs_fnc_getConfigValue];
-								_ctrlList lbSetTextRight [_index, format ["%1%2", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
+					if (_showAffordable && _showAvaliable) then {
+						private _idx = _ctrlList lbAdd _displayName;
+						_ctrlList lbSetData [_idx, _classname];
+						_ctrlList lbSetValue [_idx, _price];
+						_ctrlList lbSetPicture [_idx, _picture];
+						_ctrlList lbSetTextRight [_idx, format ["%1%2", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
+						_ctrlList lbSetTooltip [_idx, _displayName];
 
-								if (_price > _money) then {
-									_ctrlList lbSetTooltip [_index, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
-									_ctrlList lbSetColorRight [_index, [0.91, 0, 0, 1]];
-									_ctrlList lbSetSelectColorRight [_index, [0.91, 0, 0, 1]];
-								} else {
-									_ctrlList lbSetTooltip [_index, _displayName];
-									_ctrlList lbSetColorRight [_index, [0.666667, 1, 0.666667, 1]];
-									_ctrlList lbSetSelectColorRight [_index, [0.666667, 1, 0.666667, 1]];
-								};
-							};
+						if (_price > _money) then {
+							//_ctrlList lbSetTooltip [_idx, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
+							_ctrlList lbSetColorRight [_idx, [0.91, 0, 0, 1]];
+							_ctrlList lbSetSelectColorRight [_idx, [0.91, 0, 0, 1]];
+						} else {
+							_ctrlList lbSetColorRight [_idx, [0.666667, 1, 0.666667, 1]];
+							_ctrlList lbSetSelectColorRight [_idx, [0.666667, 1, 0.666667, 1]];
 						};
 					};
-					true;
 				} count _items;
 
-				private _amt = UICTRL(IDC_EDIT) getVariable ["amt", 1];
-				private _idx = _ctrlList getVariable ["idx", -1];
-				_ctrlList lbSetCurSel (_idx max 0);
+				_ctrlList lbSetCurSel ((_ctrlList getVariable ["idx", -1]) max 0);
 			};
 		};
 	};
