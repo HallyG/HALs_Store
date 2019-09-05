@@ -470,11 +470,11 @@ switch (toLower _mode) do {
 
 						if (_container != HALs_store_oldContainer) then {
 							HALs_store_oldContainer = _container;
-							HALs_store_oldContainerMass = [_container] call HALs_fnc_getCargoMass;
+							HALs_store_oldContainerMass = [_container] call HALs_store_fnc_getCargoMass;
 							HALs_store_changed = true;
 							["PROGRESS", ["UPDATE", [_containerString, UIDATA(IDC_LISTBOX), UICTRL(IDC_EDIT) getVariable ["amt", 1]]]] call  HALs_store_fnc_main;
 						} else {
-							_mass = [_container] call HALs_fnc_getCargoMass;
+							_mass = [_container] call HALs_store_fnc_getCargoMass;
 							if (_mass != HALs_store_oldContainerMass) then {
 								HALs_store_oldContainerMass = _mass;
 								HALs_store_changed = true;
@@ -556,7 +556,7 @@ switch (toLower _mode) do {
 
 			case ("update"): {
 				params [
-					["_container", ""],
+					["_container", "", [""]],
 					["_classname", "", [""]],
 					["_amount", 1, [1]]
 				];
@@ -570,7 +570,7 @@ switch (toLower _mode) do {
 					_barNew progressSetPosition 0;
 				};
 
-				private _currentLoad = [_container] call HALs_fnc_getCargoMass;
+				private _currentLoad = [_container] call HALs_store_fnc_getCargoMass;
 				private _maxLoad = 1 max getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
 				if (_classname isEqualTo "") exitWith {
 					_bar progressSetPosition (_currentLoad / _maxLoad);
