@@ -97,7 +97,6 @@ switch (toLower _mode) do {
 				private _ctrlList = UICTRL(IDC_LISTBOX);
 				ctrlSetFocus _ctrlList;
 
-				_ctrlList ctrlSetFontHeight (1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8);
 				_ctrlList ctrlAddEventHandler ["LBSelChanged", {
 					params ["_ctrl", "_idx"];
 
@@ -116,6 +115,10 @@ switch (toLower _mode) do {
 			};
 
 			case ("update"): {
+				private _money = [player] call HALs_money_fnc_getFunds;
+				private _configPath = (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_COMBO_CATEGORY));
+				private _items = ("true" configClasses _configPath) apply {configName _x};
+
 				_ctrlList = UICTRL(IDC_LISTBOX);
 				lbClear _ctrlList;
 
@@ -130,9 +133,7 @@ switch (toLower _mode) do {
 					} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
 				};
 
-				_money = [player] call HALs_money_fnc_getFunds;
-				_configPath = (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> UIDATA(IDC_COMBO_CATEGORY));
-				_items = ("true" configClasses _configPath) apply {configName _x};
+
 
 				//--- Add all items
 				{
@@ -152,9 +153,9 @@ switch (toLower _mode) do {
 								_ctrlList lbSetTextRight [_index, format ["%1%2", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
 
 								if (_price > _money) then {
+									_ctrlList lbSetTooltip [_index, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
 									_ctrlList lbSetColorRight [_index, [0.91, 0, 0, 1]];
 									_ctrlList lbSetSelectColorRight [_index, [0.91, 0, 0, 1]];
-									_ctrlList lbSetTooltip [_index, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
 								} else {
 									_ctrlList lbSetTooltip [_index, _displayName];
 									_ctrlList lbSetColorRight [_index, [0.666667, 1, 0.666667, 1]];
@@ -169,9 +170,6 @@ switch (toLower _mode) do {
 				private _amt = UICTRL(IDC_EDIT) getVariable ["amt", 1];
 				private _idx = _ctrlList getVariable ["idx", -1];
 				_ctrlList lbSetCurSel (_idx max 0);
-
-				["PROGRESS", ["UPDATE", [UIDATA(IDC_BUY_ITEM_COMBO), UIDATA(IDC_LISTBOX), _amt]]] call  HALs_store_fnc_main;
-				["TEXT", ["UPDATE", ["BUY", [UIVALUE(IDC_LISTBOX), _amt]]]] call  HALs_store_fnc_main;
 			};
 		};
 	};
