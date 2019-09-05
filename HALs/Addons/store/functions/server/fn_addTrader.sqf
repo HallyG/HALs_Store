@@ -59,7 +59,8 @@ try {
 	private _stocks = [];
 	{
 		private _category = _x;
-		private _items = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _category) apply {toLower configName _x};
+		private _configCategory = missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _category;
+		private _items = "true" configClasses (_configCategory) apply {toLower configName _x};
 		private _duplicateClass = {_classes find _x > -1} count _items > 0;
 		private _duplicateItem = !(count (_items arrayIntersect _items) isEqualTo count _items);
 
@@ -67,8 +68,24 @@ try {
 			throw [format ["Duplicate items  [category: %1, type: %2]", toUpper _x, toUpper _traderType], "fn_addTrader", __LINE__];
 		};
 
-		_classes append _items;
-		_stocks append (_items apply {(getNumber (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _category >> _x >> "stock"))});
+
+		_items = _items apply {
+			_config = _x call HALs_fnc_getConfigClass;
+			_stock = 0 max getNumber (_configCategory >> _x >> "stock") min 999999;
+
+			_classes pushback _x;
+			_stocks pushback _stock;
+			[
+				_x, getText (_config >> "displayName"), getText (_config >> "picture"),
+				0 max getNumber (_configCategory >> _x >> "price") min 999999,
+				_stock
+			]
+		};
+
+		_trader setVariable [
+			format ["HALs_store_%1_items", _category],
+			_items, true
+		];
 	} forEach _categories;
 
 	if !(typeOf _trader isKindOf ["CAManBase", configFile >> "cfgVehicles"]) then {
@@ -82,6 +99,7 @@ try {
 	_trader setVariable ["HALs_store_trader_categories", _categories, true];
 	_trader setVariable ["HALs_store_trader_classes", _classes, true];
 	_trader setVariable ["HALs_store_trader_stocks", _stocks apply {_x max 0 min 999999}, true];
+
 	[_trader] remoteExec ["HALs_store_fnc_addAction", 0, true];
 	true
 } catch {
