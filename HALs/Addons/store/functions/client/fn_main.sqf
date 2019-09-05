@@ -46,7 +46,9 @@ switch (toLower _mode) do {
 	case ("onunload"): {
 		closeDialog 2;
 
-		false call HALs_store_fnc_blur;
+		HALs_store_blur ppEffectAdjust [0];
+		HALs_store_blur ppEffectCommit 0.3;
+
 		player setVariable ["HALs_store_trader_current", objNull, true];
 
 		uiNamespace setVariable ["HALs_store_display", controlNull];
@@ -54,8 +56,13 @@ switch (toLower _mode) do {
 	};
 
 	case ("oninit"): {
-		// Blur Screen
-		true call HALs_store_fnc_blur;
+		if (isNil "HALs_store_gui_blur") then {
+			HALs_store_blur = ppEffectCreate ["DynamicBlur", 999];
+			HALs_store_blur ppEffectEnable true;
+		};
+
+		HALs_store_blur ppEffectAdjust [8];
+		HALs_store_blur ppEffectCommit 0.2;
 
 		_storeName = getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName");
 		UICTRL(IDC_TITLE) ctrlSetText format ["%1", toUpper _storeName];
@@ -65,18 +72,14 @@ switch (toLower _mode) do {
 			_x params ["_ctrl", "_tooltip"];
 
 			_ctrl ctrlSetTooltip (localize _tooltip);
-			_ctrl ctrlAddEventHandler ["CheckedChanged", {
-				["LISTBOX", ["UPDATE", []]] call  HALs_store_fnc_main;
-			}];
+			_ctrl ctrlAddEventHandler ["CheckedChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
 		} forEach [
 			[UICTRL(IDC_CHECKBOX1), "STR_HALS_STORE_CHECKBOX_AFFORD"],
 			[UICTRL(IDC_CHECKBOX2), "STR_HALS_STORE_CHECKBOX_STOCK"],
 			[UICTRL(IDC_CHECKBOX3), "STR_HALS_STORE_CHECKBOX_COMPATIBLE"]
 		];
 
-		UICTRL(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {
-			["BUTTON", ["ENABLED", []]] call HALs_store_fnc_main;
-		}];
+		UICTRL(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["BUTTON", ["ENABLED", []]] call HALs_store_fnc_main}];
 	};
 
 	case ("listbox"): {
