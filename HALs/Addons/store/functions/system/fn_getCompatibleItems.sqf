@@ -12,21 +12,18 @@
 	Example:
 	(primaryWeapon player) call HALs_store_fnc_getCompatibleItems;
 __________________________________________________________________*/
-private _weaponClassName = param [0, "", [""]];
-private _weaponConfig = configFile >> "CfgWeapons" >> _weaponClassName;
-private _compatibleItems = getArray (_weaponConfig >> "magazines");
+params [
+	["_classname", ""]
+];
 
-{
-	if (isClass (_weaponConfig >> "WeaponSlotsInfo" >> _x)) then {
-		_compatibleItems append getArray (_weaponConfig >> "WeaponSlotsInfo" >> _x >> "compatibleItems");
-	};
-} forEach ["CowsSlot", "PointerSlot", "MuzzleSlot", "UnderBarrelSlot"];
-
+private _attachments = _classname call BIS_fnc_compatibleItems;
+private _config = configFile >> "CfgWeapons" >> _classname;
+_attachments append getArray (_config >> "magazines");
 
 {
 	if !(_x isEqualTo "this") then {
-		_compatibleItems append getArray (_weaponConfig >> _x >> "magazines");
+		_attachments append getArray (_config >> _x >> "magazines");
 	};
-} forEach getArray (_weaponConfig >> "muzzles");
+} forEach getArray (_config >> "muzzles");
 
-_compatibleItems
+_attachments
