@@ -20,9 +20,7 @@ class HALs_store {
 	class Client {
 		file = "HALs\Addons\store\functions\client";
 		class addAction {};
-		class main {};
 		class systemChat {};
-		class update {};
 	};
 
 	class Server {
@@ -36,5 +34,11 @@ class HALs_store {
 		class getTraderStock {};
 		class setTraderStock {};
 		class updateStock {};
+	};
+
+	class UI {
+		file = "HALs\Addons\store\functions\client\ui";
+		class main {};
+		class update {};
 	};
 };
