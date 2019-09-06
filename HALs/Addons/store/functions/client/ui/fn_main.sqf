@@ -25,11 +25,12 @@ private _trader = player getVariable ["HALs_store_trader_current", objNull];
 switch (toLower _mode) do {
 	case ("onload"): {
 		params [
-			["_display", controlNull, [controlNull]]
+			["_display", displayNull, [displayNull]]
 		];
 
 		disableSerialization;
-		uiNamespace setVariable ["HALs_store_display", _display];;
+		uiNamespace setVariable ["HALs_store_display", _display];
+		_display setVariable ["HALs_store_idc", _display displayCtrl IDD_RscDisplayStore];
 
 		["oninit"] call HALs_store_fnc_main;
 		["listbox", ["init", []]] call  HALs_store_fnc_main;
@@ -171,6 +172,7 @@ switch (toLower _mode) do {
 					_data = _ctrl lbData _idx;
 					_ctrl setVariable ["idx", _idx];
 					_ctrl setVariable ["data", _data];
+					_ctrl setVariable ["text", _ctrl lbText _idx];
 
 					["text", ["update", ["cargo", [_data]]]] call HALs_store_fnc_main;
 					["progress", ["update", [_data, UICTRL(IDC_LISTBOX) getVariable "data", UICTRL(IDC_EDIT) getVariable "amt"]]] call  HALs_store_fnc_main;
@@ -358,7 +360,8 @@ switch (toLower _mode) do {
 					case ("cargo"): {
 						private _classname = typeOf (UIDATA(IDC_BUY_ITEM_COMBO) call BIS_fnc_objectFromNetId);
 						if (_classname find "Supply" isEqualTo 0) then {
-							_classname = [uniform player, vest player, backpack player] select (["Uniform", "Vest", "Backpack"] find (UITEXT(IDC_BUY_ITEM_COMBO)));
+							_text = UICTRL(IDC_BUY_ITEM_COMBO) getVariable ["text", ""];
+							_classname = [uniform player, vest player, backpack player] select (["Uniform", "Vest", "Backpack"] find _text);
 						};
 
 						private _type = (_classname call BIS_fnc_itemType) select 0;
@@ -378,8 +381,8 @@ switch (toLower _mode) do {
 					case ("item"): {
 						private _idx = UICTRL(IDC_LISTBOX) getVariable ["idx", -1];
 						private _pictureCtrl = UICTRL(IDC_ITEM_PICTURE);
-						private _titleCtrl = UICGCTRL(IDC_ITEM_TEXT);
-						private _textCtrl = UICGCTRL(IDC_ITEM_TEXT_DES);
+						private _titleCtrl = UICTRL(IDC_ITEM_TEXT);
+						private _textCtrl = UICTRL(IDC_ITEM_TEXT_DES);
 
 						if (_idx isEqualTo -1) exitWith {
 							_pictureCtrl ctrlSetText "";

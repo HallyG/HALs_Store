@@ -168,7 +168,7 @@ class RscItemListBox {
 	y = 0;
 	w = 0.3;
 	h = 0.3;
-	style = 16; //LB_TEXTURES
+	style = LB_TEXTURES;
 	font = "RobotoCondensedLight";
 	shadow = 0;
 	colorShadow[] = {0, 0, 0, 0.5};
@@ -178,15 +178,14 @@ class RscItemListBox {
 	itemBackground[] = {0, 1, 1, 1};
 };
 
-
-class HALsStore_RscText {
+class RscItemText {
 	deletable = 0;
 	fade = 0;
 	access = 0;
 	type = CT_STATIC;
 	idc = -1;
-	colorBackground[] = {0,0,0,0};
-	colorText[] = {1,1,1,1};
+	colorBackground[] = {0, 0, 0, 0};
+	colorText[] = {1, 1, 1, 1};
 	text = "";
 	fixedWidth = 0;
 	x = 0;
@@ -195,34 +194,101 @@ class HALsStore_RscText {
 	w = 0.3;
 	style = ST_LEFT;
 	shadow = 1;
-	colorShadow[] = {0,0,0,0.5};
-	font = "RobotoCondensed";
-	SizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	colorShadow[] = {0, 0, 0, 0.5};
+	font = "RobotoCondensedLight"; //"RobotoCondensed";
+	SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; //"4.32 * (1 / (getResolution select 3)) * pixelGrid * 0.5";
 	linespacing = 1;
-	tooltipColorShade[] = {0,0,0,0.65};
-	tooltipColorText[] = {1,1,1,1};
-	tooltipColorBox[] = {0,0,0,0};
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {1, 1, 1, 1};
+	tooltipColorShade[] = {0, 0, 0, 0.65};
 };
 
-class HALsStore_RscStructuredText {
-	type = 13;
+class RscItemStructuredText: RscItemText {
+	type = CT_STRUCTURED_TEXT;
 	style = 0;
-	colorText[] = {1,1,1,1};
+	size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9)"; //"4.32 * (1 / (getResolution select 3)) * pixelGrid * 0.5";
+	text = "";
+	shadow = 1;
+
 	class Attributes {
-		font = "PuristaLight";
+		align = "left";
 		color = "#ffffff";
 		colorLink = "#D09B43";
-		align = "left";
+		font = "PuristaLight";
 		shadow = 1;
 	};
+};
+
+class RscItemStatText: RscItemText {
+	fade = 1;
+	colorBackground[] = {1, 1, 1, 0.15};
+	colorText[] = {0, 0, 0, 1};
+	shadow = 0;
+	font = "PuristaMedium"; //"RobotoCondensedLight";
+	SizeEx = "(((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; // 0.8
+};
+
+class RscItemProgress {
+	deletable = 0;
+	fade = 0;
+	access = 0;
+	type = CT_PROGRESS;
+	style = ST_HORIZONTAL;
+	colorFrame[] = {0, 0, 0, 0};
+	colorBar[] = {1, 1, 1, 1};
+	shadow = 2;
+	texture = "#(argb,8,8,3)color(1,1,1,1)";
+};
+
+class RscItemStatProgress: RscItemProgress {
+	fade = 1;
+	colorBar[] = {1, 1, 1, 1};
+	colorFrame[] = {0, 0, 0, 1};
+	texture = "#(argb,8,8,3)color(1,1,1,1)";
+};
+
+class HALsControlsGroup {
+	type = CT_CONTROLS_GROUP;
+	style = ST_MULTI;
 	x = 0;
 	y = 0;
-	h = 0.035;
-	w = 0.1;
-	text = "";
-	size="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.9)";
-	shadow = 1;
+	w = 1;
+	h = 1;
+	shadow = 0;
+
+	class VScrollBar: ScrollBar {
+		width = 0.021;
+	};
+
+	class HScrollBar: ScrollBar {
+		height = 0.028;
+	};
+
+	class Controls {};
 };
+
+class HALsControlsGroupNoScrollbars: HALsControlsGroup {
+	class VScrollbar: VScrollBar {
+		width = 0;
+	};
+
+	class HScrollbar: HScrollBar {
+		height = 0;
+	};
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class HALsStore_ctrlDefault {
@@ -285,6 +351,7 @@ class HALsStore_ctrlDefaultButton: HALsStore_ctrlDefaultText {
 		1
 	};
 };
+
 class HALsStore_ctrlStatic: HALsStore_ctrlDefaultText {
 	type = CT_STATIC;
 	colorBackground[] = {0,0,0,0};
@@ -315,9 +382,11 @@ class HALsStore_ctrlStatic: HALsStore_ctrlDefaultText {
 	onMouseHolding = "";
 	onVideoStopped = "";
 };
+
 class HALsStore_ctrlStaticPictureKeepAspect: HALsStore_ctrlStatic {
 	style = ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
 };
+
 class HALsStore_ctrlButton: HALsStore_ctrlDefaultButton {
 	type = CT_BUTTON;
 	style = ST_CENTER + ST_FRAME + ST_HUD_BACKGROUND;
@@ -350,17 +419,19 @@ class HALsStore_ctrlButton: HALsStore_ctrlDefaultButton {
 	periodFocus = 2;
 	periodOver = 0.5;
 };
+
 class HALsStore_ctrlButtonPictureKeepAspect: HALsStore_ctrlButton {
 	style = ST_CENTER + ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
 };
+
 class HALsStore_ctrlEdit: HALsStore_ctrlDefaultText {
 	w = 0.12;
 	h = 0.035;
 	type = CT_EDIT;
-	style=0x00+0x40;
+	style = 0x00+0x40;
 	colorBackground[] = {0,0,0,0.5};
 	colorText[] = {1,1,1,1};
-	colorDisabled[] = {1,1,1,0.25};
+	colorDisabled[] = {1, 1, 1, 0.25};
 	colorSelection[]={"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",1};
 	sizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 	shadow = 1;
@@ -435,6 +506,7 @@ class HALsStore_ctrlCombo {
 		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
 	};
 };
+
 class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
 	access = 0;
 	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
@@ -486,22 +558,7 @@ class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
 		width = 0;
 	};
 };
-class HALsStore_ctrlProgress {
-	deletable = 0;
-	fade = 0;
-	access = 0;
-	type = CT_PROGRESS;
-	style = ST_HORIZONTAL;
-	colorFrame[] = {0,0,0,0};
-	colorBar[] = {1,1,1,1};
-	shadow = 2;
-	texture = "#(argb,8,8,3)color(1,1,1,1)";
-};
-class HALsStore_ctrlStat: HALsStore_ctrlProgress {
-	colorBar[] = {1,1,1,1};
-	colorFrame[] = {0,0,0,0};
-	texture = "#(argb,8,8,3)color(1,1,1,1)";
-};
+
 class HALsStore_ctrlCheckbox {
 	idc = -1;
 	type = CT_CHECKBOX;
@@ -565,45 +622,4 @@ class RscCtrlCheckboxGreen: HALsStore_ctrlCheckbox {
 	colorBackgroundHover[] = {0, 0, 0, 0};
 	colorBackgroundFocused[] = {0, 0, 0, 0};
 	colorBackgroundPressed[] = {0, 0, 0, 0};
-	/*textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-	textureUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
-	textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-	textureFocusedUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
-	textureHoverChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-	textureHoverUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
-	texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-	texturePressedUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
-	textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-	textureDisabledUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";*/
-};
-
-
-class HALsControlsGroup: HALsStore_ctrlDefault {
-	type = CT_CONTROLS_GROUP;
-	style = ST_MULTI;
-	x = 0;
-	y = 0;
-	w = 1;
-	h = 1;
-	class VScrollBar: ScrollBar {
-		width = 2 * GRID_W;
-		height = 0;
-		autoScrollEnabled = 0;
-		autoScrollDelay = 1;
-		autoScrollRewind = 1;
-		autoScrollSpeed = 1;
-	};
-	class HScrollBar: ScrollBar {
-		width = 0;
-		height = 0;//2 * GRID_H;
-	};
-};
-
-class HALsControlsGroupNoScrollbars: HALsControlsGroup {
-	class VScrollbar: VScrollBar {
-		width = 0;
-	};
-	class HScrollbar: HScrollBar {
-		height = 0;
-	};
 };
