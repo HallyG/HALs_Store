@@ -102,10 +102,6 @@ class cfgHALsStore {
 				price = 300;
 				stock = 20;
 			};
-			class B_Kitbag_mcamo_Eng {
-				price = 300;
-				stock = 20;
-			};
 		};
 		class underbarrel {
 			displayName = "Underbarrel Accessories";
