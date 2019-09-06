@@ -57,7 +57,7 @@ switch (toLower _mode) do {
 		HALs_store_blur ppEffectAdjust [8];
 		HALs_store_blur ppEffectCommit 0.2;
 
-		UICTRL(IDC_TITLE) ctrlSetText format ["%1", toUpper getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName")];
+		UICTRL(IDC_TITLE) ctrlSetText format ["%1", getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName")];
 
 		{
 			_x params ["_ctrl", "_tooltip"];
@@ -371,7 +371,8 @@ switch (toLower _mode) do {
 					};
 
 					case ("funds"): {
-						UICTRL(IDC_FUNDS) ctrlSetText format ["%2%1", ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString, HALs_store_currencySymbol];
+						private _money = ([player] call HALs_money_fnc_getFunds) toFixed 0;
+						UICTRL(IDC_FUNDS) ctrlSetStructuredText parseText format["<t color='#aaffaa'>%2 %1</t>", (parseNumber _money) call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 
 					case ("item"): {
@@ -398,13 +399,13 @@ switch (toLower _mode) do {
 						] select {_x != ""} select 0;
 
 						_pictureCtrl ctrlSetText (_ctrlListbox lbPicture _idx);
-						_textCtrl ctrlSetStructuredText parseText format ["<t font='PuristaMedium'>%1</t>", _description];
+						_textCtrl ctrlSetStructuredText parseText format ["%1", _description];
 						_titleCtrl ctrlSetStructuredText parseText format [
-							"<t size='1.3' font ='PuristaMedium'>%1</t><br/>%3:  <t color='#aaffaa'>%2%5</t><br/>%4",
-							_ctrlListbox lbText _idx, (_ctrlListbox lbValue _idx) call HALs_fnc_numberToString, localize "STR_HALS_STORE_TEXT_PRICE",
+							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%5 %2</t><br/>%4",
+							_ctrlListbox lbText _idx, (_ctrlListbox lbValue _idx) call HALs_fnc_numberToString, toUpper localize "STR_HALS_STORE_TEXT_PRICE",
 							[
-								format ["<t color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
-								format ["<t color='#A0DF3B'>%1</t>:  %2", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
+								format ["<t shadow='2' font ='PuristaMedium' color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
+								format ["<t shadow='2' font ='PuristaMedium' color='#A0DF3B'>%1</t>:  %2", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
 							] select (_stock > 0), HALs_store_currencySymbol
 						];
 
