@@ -420,7 +420,7 @@ switch (toLower _mode) do {
 							_ctrlBar ctrlCommit 0;
 							_ctrlBarText ctrlCommit 0;
 
-							_y = _y + ((ctrlPosition _ctrlBar) select 3) + pixelH * 2;
+							_y = _y + ((ctrlPosition _ctrlBar) select 3) + pixelH * 3;
 						} count (STAT_BARS select {ctrlFade (_x select 0) < 1});
 
 						_textCtrl ctrlSetPositionY _y;
