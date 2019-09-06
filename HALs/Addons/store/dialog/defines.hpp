@@ -160,7 +160,7 @@ class RscItemListBox {
 	tooltipColorShade[] = {0, 0, 0, 0.65};
 
 	class ListScrollBar: ScrollBar {
-		color[] = {1, 1, 1, 1};
+		color[] = {1, 1, 1, 0.6};
 		autoScrollEnabled = 1;
 	};
 

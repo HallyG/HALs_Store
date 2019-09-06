@@ -187,7 +187,7 @@ class RscDisplayStore {
 							idc = IDC_ITEM_TEXT_DES;
 							x = 0;
 							y = 0;
-							w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
+							w = GRID_X(pixelGridNoUIScale, 2, ITEM_W - 1);
 							h = GRID_Y(pixelGridNoUIScale, 2, 21);
 							size = FONT(0.9);
 
