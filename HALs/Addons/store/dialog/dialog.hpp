@@ -1,6 +1,5 @@
 #include "defines.hpp"
 #include "idcs.hpp"
-#include "sizes.hpp"
 
 #define GRID 2
 #define SCALEFACTOR getNumber (configFile >> "uiScaleFactor")
@@ -9,9 +8,9 @@
 #define FONT(num) (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
 
 #define TOT_W 130
-#define TOT_H 90
+#define TOT_H 80
 #define MAIN_W 110
-#define MAIN_H 90
+#define MAIN_H TOT_H
 
 #define COMBO_W 35
 #define LIST_W 54
