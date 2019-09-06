@@ -86,8 +86,8 @@
 #define TR_AUTOCOLLAPSE   2
 
 // Default grid
-#define GUI_GRID_WAbs			((safezoneW / safezoneH) min 1.2)
-#define GUI_GRID_HAbs			(GUI_GRID_WAbs / 1.2)
+#define GUI_GRID_WAbs		((safezoneW / safezoneH) min 1.2)
+#define GUI_GRID_HAbs		(GUI_GRID_WAbs / 1.2)
 #define GUI_GRID_W			(GUI_GRID_WAbs / 40)
 #define GUI_GRID_H			(GUI_GRID_HAbs / 25)
 #define GUI_GRID_X			(safezoneX)
@@ -95,7 +95,7 @@
 
 // Default text sizes
 #define GUI_TEXT_SIZE_SMALL		(GUI_GRID_H * 0.8)
-#define GUI_TEXT_SIZE_MEDIUM		(GUI_GRID_H * 1)
+#define GUI_TEXT_SIZE_MEDIUM	(GUI_GRID_H * 1)
 #define GUI_TEXT_SIZE_LARGE		(GUI_GRID_H * 1.2)
 
 // Pixel grid
@@ -151,7 +151,7 @@ class HALsStore_RscListBox {
 	itemBackground[] = {1, 1, 1, 0.1};
 	access = 0;
 	arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
-	arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";	
+	arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
 	autoScrollDelay = 5;
 	autoScrollRewind = 0;
 	autoScrollSpeed = -1;
@@ -183,16 +183,16 @@ class HALsStore_RscListBox {
 	rowHeight = "2 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 	shadow = 0;
 	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-	soundSelect[] = {"\A3\ui_f\data\sound\RscListbox\soundSelect",0.09,1};	
+	soundSelect[] = {"\A3\ui_f\data\sound\RscListbox\soundSelect",0.09,1};
 	style = 16;
 	tooltipColorBox[] = {1,1,1,1};
 	tooltipColorShade[] = {0,0,0,0.65};
-	tooltipColorText[] = {1,1,1,1};	
+	tooltipColorText[] = {1,1,1,1};
 	type = 5;
 	w = 0.3;
 	x = 0;
 	y = 0;
-	
+
 	class ListScrollBar {
 		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
 		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
@@ -209,7 +209,7 @@ class HALsStore_RscListBox {
 		shadow = 0;
 		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
 		width = 0;
-	};		
+	};
 };
 class HALsStore_RscStructuredText {
 	type = 13;
@@ -430,7 +430,7 @@ class HALsStore_ctrlCombo {
 		0.1,
 		1
 	};
-	
+
 	class ComboScrollBar {
 		width = 0;
 		height = 0;
@@ -465,7 +465,7 @@ class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
 	font = "RobotoCondensed";
 	h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 	maxHistoryDelay = 1;
-	shadow = 0;	
+	shadow = 0;
 	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 	soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse",0.1,1};
 	soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand",0.1,1};
@@ -473,8 +473,8 @@ class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
 	tooltipColorText[] = {1,1,1,1};
 	tooltipColorBox[] = {1,1,1,1};
 	tooltipColorShade[] = {0,0,0,0.65};
-	wholeHeight = 0.45;	
-	
+	wholeHeight = 0.45;
+
 	class ComboScrollBar {
 		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
 		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
@@ -563,13 +563,16 @@ class HALsStore_ctrlCheckbox {
 		1
 	};
 };
-class HALsStore_ctrlCheckboxGreen: HALsStore_ctrlCheckbox {
-	color[] = {0.627451,0.87451,0.231373,1};
-	colorFocused[] = {0.627451,0.87451,0.231373,1};
-	colorPressed[] = {0.627451,0.87451,0.231373,1};
-	colorBackground[] = {0,0,0,0};
-	colorBackgroundFocused[] = {0,0,0,0};
-	textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
+
+class RscCtrlCheckboxGreen: HALsStore_ctrlCheckbox {
+	color[] = {0.627451, 0.87451, 0.231373,1 };
+	colorFocused[] = {0.627451, 0.87451, 0.231373, 1};
+	colorPressed[] = {0.627451, 0.87451, 0.231373, 1};
+	colorBackground[] = {0, 0, 0, 0};
+	colorBackgroundHover[] = {0, 0, 0, 0};
+	colorBackgroundFocused[] = {0, 0, 0, 0};
+	colorBackgroundPressed[] = {0, 0, 0, 0};
+	/*textureChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 	textureUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
 	textureFocusedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 	textureFocusedUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
@@ -578,11 +581,11 @@ class HALsStore_ctrlCheckboxGreen: HALsStore_ctrlCheckbox {
 	texturePressedChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
 	texturePressedUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
 	textureDisabledChecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureChecked_ca.paa";
-	textureDisabledUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";
+	textureDisabledUnchecked = "\a3\3DEN\Data\Controls\ctrlCheckbox\textureUnchecked_ca.paa";*/
 };
 
 
-class HALsStore_ctrlControlsGroup: HALsStore_ctrlDefault {
+class HALsControlsGroup: HALsStore_ctrlDefault {
 	type = CT_CONTROLS_GROUP;
 	style = ST_MULTI;
 	x = 0;
@@ -602,7 +605,8 @@ class HALsStore_ctrlControlsGroup: HALsStore_ctrlDefault {
 		height = 0;//2 * GRID_H;
 	};
 };
-class HALsStore_ctrlControlsGroupNoScrollbars: HALsStore_ctrlControlsGroup {
+
+class HALsControlsGroupNoScrollbars: HALsControlsGroup {
 	class VScrollbar: VScrollBar {
 		width = 0;
 	};
