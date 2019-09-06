@@ -26,7 +26,7 @@ if (isNull _display) exitWith {};
 private _currentTrader = player getVariable ["HALs_store_trader_current", objNull];
 if !(_currentTrader isEqualTo _trader) exitWith {};
 
-private _dropDown = _display controlsGroupCtrl 75020;
+private _dropDown = (_display displayCtrl 75000) controlsGroupCtrl 75020;
 private _categoryActive = toLower (_dropDown lbData (lbCurSel _dropDown));
 
 if (_categoryActive in _category) then {
