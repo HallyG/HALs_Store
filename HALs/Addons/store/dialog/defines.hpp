@@ -243,7 +243,7 @@ class RscItemProgress {
 class RscItemStatProgress: RscItemProgress {
 	fade = 1;
 	colorBar[] = {1, 1, 1, 1};
-	colorFrame[] = {0, 0, 0, 1};
+	//colorFrame[] = {0, 0, 0, 1};
 	texture = "#(argb,8,8,3)color(1,1,1,1)";
 };
 

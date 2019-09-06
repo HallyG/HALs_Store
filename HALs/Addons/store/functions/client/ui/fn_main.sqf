@@ -322,9 +322,11 @@ switch (toLower _mode) do {
 						];
 
 						private _ctrlList = CTRL(IDC_LISTBOX);
+						private _ctrlText = CTRL(IDC_ITEM);
 						private _index = _ctrlList getVariable ["idx", -1];
 						if !(_amount > 0 && _index > -1) exitWith {
-							CTRL(IDC_ITEM) ctrlSetStructuredText parseText "";
+							_ctrlText ctrlSetStructuredText parseText "";
+							_ctrlText ctrlSetTooltip "";
 						};
 
 						private _money = [player] call HALs_money_fnc_getFunds;
@@ -332,7 +334,7 @@ switch (toLower _mode) do {
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 						private _total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
 
-						private _ctrlText = CTRL(IDC_ITEM);
+
 						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='2'>%1<br/>%3%2%4</t>",
 							format [
 								"<t align='left' shadow='2' color='#%3'>x%2</t><t align='right' color='#aaffaa' shadow='1'>%4%1</t>", //<t color='#aaffaa'>%2 %1</t>
@@ -344,6 +346,7 @@ switch (toLower _mode) do {
 
 						//Update positions of controls
 						_ctrlText ctrlSetPositionH ctrlTextHeight _ctrlText;
+						_ctrlText ctrlSetTooltip format ["Total cost: %1%2", HALs_store_currencySymbol, _total call HALs_fnc_numberToString];
 						_ctrlText ctrlCommit 0;
 
 						private _ctrlEdit = CTRL(IDC_EDIT);

@@ -322,7 +322,6 @@ class RscDisplayStore {
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H + 21 - SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H); //GRIDH(0.5);
-
 					colorBar[] = {0.9, 0, 0, 0.6};
 					colorExtBar[] = {1, 1, 1, 0};
 					colorFrame[] = {0, 0, 0, 0};
@@ -334,7 +333,6 @@ class RscDisplayStore {
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H + 21 - SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H); //GRIDH(0.5);
-
 					colorBar[] = {0.9, 0.9, 0.9, 0.9};
 					colorExtBar[] = {1, 1, 1, 0};
 					colorFrame[] = {0, 0, 0, 0};
@@ -403,7 +401,7 @@ class RscDisplayStore {
 									periodOver = 1.2;
 									text = "$STR_HALS_STORE_BUTTON_PURCHASE";
 									textSecondary = "";
-									tooltip = "$STR_HALS_STORE_BUTTON_PURCHASE";
+									//tooltip = "$STR_HALS_STORE_BUTTON_PURCHASE";
 									tooltipColorShade[] = {0,0,0,0.65};
 									tooltipColorText[] = {1,1,1,1};
 									tooltipColorBox[] = {0,0,0,0};
