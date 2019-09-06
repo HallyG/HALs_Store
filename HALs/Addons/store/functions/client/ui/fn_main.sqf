@@ -330,11 +330,15 @@ switch (toLower _mode) do {
 						private _money = [player] call HALs_money_fnc_getFunds;
 						private _stock = [_trader, _ctrlList getVariable "data"] call HALs_store_fnc_getTraderStock;
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
-						private _total = _amount * _price * (1 - _sale);
+						private _total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
 
 						private _ctrlText = CTRL(IDC_ITEM);
-						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='0'>%1%3%2%4</t>",
-							format ["<t size='1'>%4%1</t> <t size ='1' shadow='1' color='#%3'>x%2</t><br/>", _price call HALs_fnc_numberToString, _amount, ['b2ec00', 'ea0000'] select (_amount > _stock), HALs_store_currencySymbol], "", [format ["<t size='0.95'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
+						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='2'>%1<br/>%3%2%4</t>",
+							format [
+								"<t align='left' shadow='2' color='#%3'>x%2</t><t align='right' color='#aaffaa' shadow='1'>%4%1</t>", //<t color='#aaffaa'>%2 %1</t>
+								_price call HALs_fnc_numberToString, _amount, ['b2ec00', 'ea0000'] select (_amount > _stock), HALs_store_currencySymbol
+							],
+							"", [format ["<t size='1' shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
 							format ["<t size='1.1' color='#%2'>- %3%1</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
 						];
 
@@ -344,13 +348,13 @@ switch (toLower _mode) do {
 
 						private _ctrlEdit = CTRL(IDC_EDIT);
 						private _pos = ctrlPosition _ctrlText;
-						private _y = (_pos select 1) + (_pos select 3) + 4 * pixelH;
+						private _y = (_pos select 1) + (_pos select 3) + 3 * pixelH;
 						_ctrlEdit ctrlSetPositionY _y;
 						_ctrlEdit ctrlCommit 0;
 
 						private _ctrlButton = CTRL(IDC_BUTTON_BUY);
 						private _ctrlCheckbox = CTRL(IDC_CHECKBOX_BUY);
-						_y = _y + ctrlTextHeight _ctrlEdit + 4 * pixelH;
+						_y = _y + ((ctrlPosition _ctrlEdit) select 3) + 3 * pixelH;
 						_ctrlButton ctrlSetPositionY _y;
 						_ctrlCheckbox ctrlSetPositionY _y;
 						_ctrlButton ctrlCommit 0;

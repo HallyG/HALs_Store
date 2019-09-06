@@ -519,11 +519,11 @@ class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
 	colorPictureRight[] = {1,1,1,1};
 	colorPictureRightDisabled[] = {1,1,1,0.25};
 	colorPictureRightSelected[] = {1,1,1,1};
-	colorPictureSelected[] = {1,1,1,1};
+	colorPictureSelected[] = {0,0,0,1};
 	colorScrollbar[] = {1,0,0,1};
 	colorSelect[] = {0,0,0,1};
 	colorSelect2Right[] = {0,0,0,1};
-	colorSelectBackground[] = {1,1,1,0.7};
+	colorSelectBackground[] = {0.95, 0.95, 0.95, 1}; //
 	colorSelectRight[] = {0,0,0,1};
 	colorText[] = {1,1,1,1};
 	colorTextRight[] = {1,1,1,1};
@@ -535,27 +535,13 @@ class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
 	soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse",0.1,1};
 	soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand",0.1,1};
 	soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect",0.1,1};
-	tooltipColorText[] = {1,1,1,1};
-	tooltipColorBox[] = {1,1,1,1};
-	tooltipColorShade[] = {0,0,0,0.65};
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {1, 1, 1, 1};
+	tooltipColorShade[] = {0, 0, 0, 0.65};
 	wholeHeight = 0.45;
 
-	class ComboScrollBar {
-		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
-		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
-		autoScrollDelay = 5;
-		autoScrollEnabled = 0;
-		autoScrollRewind = 0;
-		autoScrollSpeed = -1;
-		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
-		color[] = {1,1,1,1};
-		colorActive[] = {1,1,1,1};
-		colorDisabled[] = {1,1,1,0.3};
-		height = 0;
-		scrollSpeed = 0.06;
-		shadow = 0;
-		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
-		width = 0;
+	class ComboScrollBar: ScrollBar {
+		color[] = {1, 1, 1, 1};
 	};
 };
 
