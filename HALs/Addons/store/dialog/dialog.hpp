@@ -8,6 +8,8 @@
 #define GRID_Y(gridType, gridScale, num) (pixelH * gridType * (((num) * (gridScale)) / SCALEFACTOR))
 #define FONT(num) (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
 
+#define TOT_W 140
+#define TOT_H 90
 #define MAIN_W 110
 #define MAIN_H 90
 #define COMBO_W 35
@@ -25,10 +27,10 @@ class RscDisplayStore {
 	class controls {
 		class HALs_store_dialog: HALsControlsGroupNoScrollbars {
 			idc = IDD_RscDisplayStore;
-			x = safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, MAIN_W/2);
-			y = safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, MAIN_H/2);
-			w = GRID_X(pixelGridNoUIScale, 2, MAIN_W);
-			h = GRID_Y(pixelGridNoUIScale, 2, MAIN_H);
+			x = safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, TOT_W/2);
+			y = safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, TOT_H/2);
+			w = GRID_X(pixelGridNoUIScale, 2, TOT_W);
+			h = GRID_Y(pixelGridNoUIScale, 2, TOT_H);
 
 			class controls {
 				class TitleBackground: RscItemText {
