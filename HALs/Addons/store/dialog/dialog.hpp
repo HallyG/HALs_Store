@@ -5,7 +5,8 @@
 #define SCALEFACTOR getNumber (configFile >> "uiScaleFactor")
 #define GRID_X(gridType, gridScale, num) (pixelW * gridType * (((num) * (gridScale)) / SCALEFACTOR))
 #define GRID_Y(gridType, gridScale, num) (pixelH * gridType * (((num) * (gridScale)) / SCALEFACTOR))
-#define FONT(num) (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
+#define FONT(num) (1.5 * pixelH * pixelGridNoUIScale * num)
+//(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
 
 #define TOT_W 130
 #define TOT_H 80
