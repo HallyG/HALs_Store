@@ -46,6 +46,7 @@ switch (toLower _mode) do {
 	case ("onunload"): {
 		closeDialog 2;
 		uiNamespace setVariable ["HALs_store_display", displayNull];
+
 		player setVariable ["HALs_store_trader_current", objNull, true];
 		HALs_store_blur ppEffectAdjust [0];
 		HALs_store_blur ppEffectCommit 0.3;
@@ -133,7 +134,7 @@ switch (toLower _mode) do {
 						_ctrlList lbSetData [_idx, _classname];
 						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetPicture [_idx, _picture];
-						_ctrlList lbSetTextRight [_idx, format ["%2%1", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
+						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
 						//_ctrlList lbSetTooltip [_idx, _displayName];
 
 						if (_price > _money) then {
@@ -340,8 +341,8 @@ switch (toLower _mode) do {
 
 						private _ctrlList = CTRL(IDC_LISTBOX);
 						private _ctrlText = CTRLT(IDC_ITEM);
-						private _index = _ctrlList getVariable ["idx", -1];
-						if !(_amount > 0 && _index > -1) exitWith {
+
+						if !(_amount > 0 && (_ctrlList getVariable ["idx", -1]) > -1) exitWith {
 							_ctrlText ctrlSetStructuredText parseText "";
 							_ctrlText ctrlSetTooltip "";
 						};
@@ -350,25 +351,22 @@ switch (toLower _mode) do {
 						private _stock = [_trader, _ctrlList getVariable "data"] call HALs_store_fnc_getTraderStock;
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 						private _total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
+						private _totalStr = _total call HALs_fnc_numberToString;
 
-
-						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='2'>%1<br/>%3%2%4</t>",
-							format [
-								"<t align='left' shadow='2' color='#%3'>x%2</t><t align='right' color='#aaffaa' shadow='1'>%4%1</t>", //<t color='#aaffaa'>%2 %1</t>
-								_price call HALs_fnc_numberToString, _amount, ['b2ec00', 'ea0000'] select (_amount > _stock), HALs_store_currencySymbol
-							],
-							"", [format ["<t size='1' shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
-							format ["<t size='1.1' color='#%2'>- %3%1</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
+						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
+							format ["<t align='left' shadow='2' color='#%2'>x%1</t>", _amount, ['ffffff'/*'b2ec00'*/, 'ea0000'] select (_amount > _stock)],
+							format ["<t align='right' color='#aaffaa' shadow='1'>%1 %2</t>", _price call HALs_fnc_numberToString, HALs_store_currencySymbol],
+							[format ["<t size='1' shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
+							format ["<t size='1.1' color='#%2'>- %1 %3</t>", _totalStr, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
 						];
 
-						//Update positions of controls
+						// Update positions of controls
 						_ctrlText ctrlSetPositionH ctrlTextHeight _ctrlText;
-						_ctrlText ctrlSetTooltip format ["Total cost: %1%2", HALs_store_currencySymbol, _total call HALs_fnc_numberToString];
+						_ctrlText ctrlSetTooltip format ["Total cost: %1 %2", _totalStr, HALs_store_currencySymbol];
 						_ctrlText ctrlCommit 0;
 
 						private _ctrlEdit = CTRLT(IDC_EDIT);
-						private _pos = ctrlPosition _ctrlText;
-						private _y = (_pos select 1) + (_pos select 3) + 3 * pixelH;
+						private _y = ((ctrlPosition _ctrlText) select 1) + ((ctrlPosition _ctrlText) select 3) + 3 * pixelH;
 						_ctrlEdit ctrlSetPositionY _y;
 						_ctrlEdit ctrlCommit 0;
 
@@ -404,7 +402,7 @@ switch (toLower _mode) do {
 
 					case ("funds"): {
 						private _money = ([player] call HALs_money_fnc_getFunds) toFixed 0;
-						CTRL(IDC_FUNDS) ctrlSetStructuredText parseText format["<t color='#aaffaa'>%2 %1</t>", (parseNumber _money) call HALs_fnc_numberToString, HALs_store_currencySymbol];
+						CTRL(IDC_FUNDS) ctrlSetStructuredText parseText format["<t color='#aaffaa'>%1 %2</t>", (parseNumber _money) call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 
 					case ("item"): {
@@ -433,7 +431,7 @@ switch (toLower _mode) do {
 						_pictureCtrl ctrlSetText (_ctrlListbox lbPicture _idx);
 						_textCtrl ctrlSetStructuredText parseText format ["%1", _description];
 						_titleCtrl ctrlSetStructuredText parseText format [
-							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%5 %2</t><br/>%4",
+							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%2 %5</t><br/>%4",
 							_ctrlListbox lbText _idx, (_ctrlListbox lbValue _idx) call HALs_fnc_numberToString, toUpper localize "STR_HALS_STORE_TEXT_PRICE",
 							[
 								format ["<t shadow='2' font ='PuristaMedium' color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
@@ -537,6 +535,7 @@ switch (toLower _mode) do {
 					_progress = 0;
 					_fade = 1;
 					_text = "";
+
 					if (count (_stats select _forEachIndex) > 0) then {
 						_progress = _stats select _forEachIndex select 0;
 						_text = _stats select _forEachIndex select 1;
