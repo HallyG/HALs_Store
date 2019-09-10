@@ -13,14 +13,16 @@
 	["TEST"] call HALs_fnc_log;
 __________________________________________________________________*/
 params [
-	["_message", "", [""]]
+	["_msg", "", [""]],
+	["_line", -1, [0]]
 ];
 
-_scriptName = if (isNil "_fnc_scriptName") then {""} else {_fnc_scriptName};
+private _scriptName = if (isNil "_fnc_scriptName") then {""} else {_fnc_scriptName};
+private _log = if (isMultiplayer) then {profileName + "/" + _scriptName} else {_scriptName};
+_log = if (_line > -1) then {format ["%1(%2)", _scriptName, _line]} else {_scriptName};
 
-diag_log format [
-	"%1/HALs_fnc_log:%2~ %3",
-	profileName,
-	format [[" [%1] ", " "] select (_scriptName isEqualTo ""), _scriptName],
-	_message
-];
+if (count _log > 0) then {
+	diag_log format ["[%1]: %2", _log, _msg];
+} else {
+	diag_log format ["%1", _msg];
+}

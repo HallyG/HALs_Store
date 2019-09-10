@@ -1,7 +1,7 @@
 class HALs {
 	class Common {
 		file = "HALs\Addons\core\functions";
-		class log {};
+		class log {headerType = -1};
 	};
 
 	class Numbers {
