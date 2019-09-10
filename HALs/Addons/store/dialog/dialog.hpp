@@ -5,23 +5,47 @@
 #define SCALEFACTOR getNumber (configFile >> "uiScaleFactor")
 #define GRID_X(gridType, gridScale, num) (pixelW * gridType * (((num) * (gridScale)) / SCALEFACTOR))
 #define GRID_Y(gridType, gridScale, num) (pixelH * gridType * (((num) * (gridScale)) / SCALEFACTOR))
-#define FONT(num) (1.5 * pixelH * pixelGridNoUIScale * num)
-//(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
 
+// General ctrl MACROS
+#define FONT(num) (1.5 * pixelH * pixelGridNoUIScale * num) //(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
+#define BAR_W 3
+#define BAR_H 3
+#define SPACE_W 1
+#define SPACE_H 1
+
+
+#define DIALOG_W (128)
+#define DIALOG_H (80)
+#define DIALOG_X (safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, DIALOG_W/2))
+#define DIALOG_Y (safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, DIALOG_H/2))
+
+
+
+
+#define STORE_W (110)
+#define STORE_H (DIALOG_H)
+
+#define TRADER_W (DIALOG_W - STORE_W)
+#define TRADER_H (DIALOG_H)
+#define TRADER_Y (DIALOG_Y + GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*3))
+#define TRADER_X (DIALOG_X + GRID_X(pixelGridNoUIScale, 2, STORE_W + SPACE_W))
+
+
+// Background ctrl MACROS
+#define FUNDS_W (20)
+#define FUNDS_H (BAR_H)
+#define FUNDS_X (STORE_W - BAR_W - FUNDS_W)
+
+// Trader ctrl MACROS
+#define CONT_PIC_H 21
 #define TOT_W 130
 #define TOT_H 80
 #define MAIN_W 110
 #define MAIN_H TOT_H
-
 #define COMBO_W 35
 #define LIST_W 54
 #define ITEM_W 52
 #define CARGO_W 18
-
-#define BAR_H 3
-#define BAR_W 3
-#define SPACE_W 1
-#define SPACE_H 1
 
 class RscDisplayStore {
 	idd = 85999;
@@ -29,19 +53,137 @@ class RscDisplayStore {
 	onUnload = "['onUnload', _this] call HALs_store_fnc_main";
 
 	class controls {
+		class ContainerGroup: HALsControlsGroupNoScrollbars {
+			idc = IDC_GROUP_TRADER;
+			x = TRADER_X;
+			y = TRADER_Y;
+			w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+			h = GRID_Y(pixelGridNoUIScale, 2, TRADER_H);
+
+			class controls {
+				class ContainerCombo: HALsStore_ctrlComboItem {
+				    idc = IDC_BUY_ITEM_COMBO;
+				    x = 0;
+				    y = 0;
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+				    sizeEx = FONT(1);
+				};
+
+				class ContainerPictureBackground: RscItemText {
+				    idc = -1;
+				    x = 0;
+				    y = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - BAR_H);
+				    colorBackground[] = {0, 0, 0, 0.4};
+				};
+
+				class ContainerPicture: HALsStore_ctrlStaticPictureKeepAspect {
+				    idc = IDC_BUY_PICTURE;
+				    x = 0;
+				    y = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - BAR_H);
+				    colorBackground[] = {0, 0, 0, 0.7};
+				};
+
+				class ContainerLoadBackground: RscItemText {
+				    idc = -1;
+				    x = 0;
+				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - SPACE_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H);
+				    colorBackground[] = {0.05, 0.05, 0.05, 0.7};
+				};
+
+				class ContainerLoadNew: RscItemProgress {
+				    idc = IDC_PROGRESS_NEWLOAD;
+				   	x = 0;
+				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - SPACE_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H);
+				    colorBar[] = {0.9, 0, 0, 0.6};
+				    colorExtBar[] = {1, 1, 1, 0};
+				    colorFrame[] = {0, 0, 0, 0};
+				};
+
+				class ContainerLoadPrev: RscItemProgress {
+				    idc = IDC_PROGRESS_LOAD;
+				    x = 0;
+				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - SPACE_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H);
+				    colorBar[] = {0.9, 0.9, 0.9, 0.9};
+				    colorExtBar[] = {1, 1, 1, 0};
+				    colorFrame[] = {0, 0, 0, 0};
+				};
+
+				class PurchaseSummary: RscItemStructuredText {
+				    idc = IDC_ITEM;
+				    x = 0; //GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
+				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+
+				    class Attributes {
+				        align = "right";
+				        color = "#ffffff";
+				        shadow = 1;
+				        font = "PuristaMedium";
+				    };
+
+				    colorBackground[] = {0, 0, 0, 0.7};
+				    size = FONT(0.9);
+				};
+
+				class PurchaseCheckbox: RscCtrlCheckboxGreen {
+				    idc = IDC_CHECKBOX_BUY;
+				    x = 0;
+				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H + BAR_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+				    tooltip = "$STR_HALS_STORE_CHECKBOX_EQUIP";
+				};
+
+				class PurchaseAmountEdit: HALsStore_ctrlEdit {
+				    idc = IDC_EDIT;
+				    x = 0;
+				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H + BAR_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+				    maxChars = 5;
+				    style = "16 + 512 + 0x01";
+				    colorBackground[] = {0, 0, 0, 0.7};
+				    tooltip = "Number of items to buy";
+				    sizeEx = FONT(0.9);
+				};
+
+				class PurchaseButton: RscCtrlButtonAction {
+				    idc = IDC_BUTTON_BUY;
+				    x = GRID_X(pixelGridNoUIScale, 2, BAR_W + SPACE_W);
+				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H + BAR_H);
+				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
+				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+					text = "$STR_HALS_STORE_BUTTON_PURCHASE";
+					action = "['BUTTON', ['BUY', []]] call HALs_store_fnc_main;";
+				};
+			};
+		};
+
 		class HALs_store_dialog: HALsControlsGroupNoScrollbars {
-			idc = IDD_RscDisplayStore;
-			x = safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, TOT_W/2);
-			y = safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, TOT_H/2);
-			w = GRID_X(pixelGridNoUIScale, 2, TOT_W);
-			h = GRID_Y(pixelGridNoUIScale, 2, TOT_H);
+			idc = IDC_GROUP_ITEMS;
+			x = safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, DIALOG_W/2);
+			y = safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, DIALOG_H/2);
+			w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
+			h = GRID_Y(pixelGridNoUIScale, 2, STORE_H);
 
 			class controls {
 				class TitleBackground: RscItemText {
 					idc = -1;
 					x = 0;
 					y = 0;
-					w = GRID_X(pixelGridNoUIScale, 2, MAIN_W);
+					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					colorBackground[] = {0, 0, 0, 0.7};
 				};
@@ -50,17 +192,17 @@ class RscDisplayStore {
 					idc = -1;
 					x = 0;
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H);
-					w = GRID_X(pixelGridNoUIScale, 2, MAIN_W);
+					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, MAIN_H - (BAR_H + SPACE_H));
 					colorBackground[] = {0, 0, 0, 0.7};
 				};
 
 				class TitleFunds: RscItemStructuredText {
 					idc = IDC_FUNDS;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W - BAR_W - 20);
+					x = GRID_X(pixelGridNoUIScale, 2, FUNDS_X);
 					y = 0;
-					w = GRID_X(pixelGridNoUIScale, 2, 20);
-					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+					w = GRID_X(pixelGridNoUIScale, 2, FUNDS_W);
+					h = GRID_Y(pixelGridNoUIScale, 2, FUNDS_H);
 
 					class Attributes {
 						align = "right";
@@ -74,7 +216,7 @@ class RscDisplayStore {
 					idc = IDC_TITLE;
 					x = 0;
 					y = 0;
-					w = GRID_X(pixelGridNoUIScale, 2, MAIN_W);
+					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					colorText[] = {0.95, 0.95, 0.95, 1};
 					sizeEx = FONT(1);
@@ -83,7 +225,7 @@ class RscDisplayStore {
 
 				class CloseButton: HALsStore_ctrlButtonPictureKeepAspect {
 					idc = IDC_BUTTON_CLOSE;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W - BAR_W);
+					x = GRID_X(pixelGridNoUIScale, 2, STORE_W - BAR_W);
 					y = 0;
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -107,7 +249,7 @@ class RscDisplayStore {
 				};
 
 				class ItemCheckbox1: RscCtrlCheckboxGreen {
-					idc = IDC_CHECKBOX1;
+					idc = IDC_CHECKBOX + 1;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_H*2 - SPACE_H*2);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
@@ -115,7 +257,7 @@ class RscDisplayStore {
 				};
 
 				class ItemCheckbox2: RscCtrlCheckboxGreen {
-					idc = IDC_CHECKBOX2;
+					idc = IDC_CHECKBOX + 2;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_H - SPACE_H);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
@@ -123,7 +265,7 @@ class RscDisplayStore {
 				};
 
 				class ItemCheckbox3: RscCtrlCheckboxGreen {
-					idc = IDC_CHECKBOX3;
+					idc = IDC_CHECKBOX + 3;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
@@ -167,7 +309,7 @@ class RscDisplayStore {
 				};
 
 				class ItemDescriptionGroup: HALsControlsGroup {
-					idc = IDC_ITEM_TEXT_GROUP;
+					idc = -1;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
 					y = GRID_Y(pixelGridNoUIScale, 2, 30 + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
@@ -180,7 +322,6 @@ class RscDisplayStore {
 							y = 0;
 							w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
 							h = GRID_Y(pixelGridNoUIScale, 2, 21);
-							//size = FONT(0.9);
 							shadow = 0;
 						};
 
@@ -276,136 +417,6 @@ class RscDisplayStore {
 							sizeEx = FONT(0.8);
 						};
 					};
-				};
-
-
-				class ComboContainers: HALsStore_ctrlComboItem {
-					idc = IDC_BUY_ITEM_COMBO;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					sizeEx = FONT(1);
-					tooltip = "Purchase item to";
-				};
-
-				class ContainerPictureBackground: RscItemText {
-					idc = -1;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*3 + SPACE_H*3);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, 21 - BAR_H);
-					colorBackground[] = {0, 0, 0, 0.4};
-				};
-
-				class ContainerPicture: HALsStore_ctrlStaticPictureKeepAspect {
-					idc = IDC_BUY_PICTURE;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*3 + SPACE_H*3);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, 21 - BAR_H);
-					colorBackground[] = {0, 0, 0, 0.7};
-				};
-
-				class TraderLoadBackground: RscItemText {
-					idc = -1;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H + 21 - SPACE_H);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H);
-					colorBackground[] = {0.05, 0.05, 0.05, 0.7};
-				};
-
-				class TraderLoadNew: RscItemProgress {
-					idc = IDC_PROGRESS_NEWLOAD;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H + 21 - SPACE_H);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H); //GRIDH(0.5);
-					colorBar[] = {0.9, 0, 0, 0.6};
-					colorExtBar[] = {1, 1, 1, 0};
-					colorFrame[] = {0, 0, 0, 0};
-				};
-
-				class TraderLoadPrev: RscItemProgress {
-					idc = IDC_PROGRESS_LOAD;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H + 21 - SPACE_H);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H); //GRIDH(0.5);
-					colorBar[] = {0.9, 0.9, 0.9, 0.9};
-					colorExtBar[] = {1, 1, 1, 0};
-					colorFrame[] = {0, 0, 0, 0};
-				};
-
-				class PurchaseSummary: RscItemStructuredText {
-					idc = IDC_ITEM;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*4 + 21);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-
-					class Attributes {
-						align = "right";
-						color = "#ffffff";
-						shadow = 1;
-						font = "PuristaMedium";
-					};
-
-					colorBackground[] = {0, 0, 0, 0.7};
-					size = FONT(0.9);
-				};
-
-				class PurchaseCheckbox: RscCtrlCheckboxGreen {
-					idc = IDC_CHECKBOX_BUY;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*3 + SPACE_H*4 + 21);
-					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					tooltip = "$STR_HALS_STORE_CHECKBOX_EQUIP";
-				};
-
-				class PurchaseAmountEdit: HALsStore_ctrlEdit {
-					idc = IDC_EDIT;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*3 + SPACE_H*4 + 21);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W);// GRIDW(6);
-					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					maxChars = 5;
-					style = "16 + 512 + 0x01";
-					colorBackground[] = {0, 0, 0, 0.7};
-					tooltip = "Number of items to buy";
-					sizeEx = FONT(0.9);
-				};
-
-				class PurchaseButton: HALsStore_ctrlButton {
-					idc = IDC_BUTTON_BUY;
-					x = GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W + BAR_W + SPACE_W);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*3 + SPACE_H*4 + 21);
-					w = GRID_X(pixelGridNoUIScale, 2, CARGO_W - BAR_W - SPACE_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-									colorBackground[] = {0, 0, 0, 0.7};
-									colorBackground2[] = {0.75,0.75,0.75,1};
-									colorBackgroundFocused[] = {1,1,1,1};
-									colorFocused[] = {0,0,0,1};
-									colorFocusedSecondary[] = {0,0,0,1};
-									colorSecondary[] = {1,1,1,1};
-									colorText[] = {1,1,1,1};
-									font = "PuristaLight";
-									fontSecondary = "PuristaLight";
-									size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; // UITXTSIZE(1.75);
-									sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; // UITXTSIZE(1.75);
-									sizeSecondary = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; // UITXTSIZE(1.75);
-									period = 1.2;
-									periodFocus = 1.2;
-									periodOver = 1.2;
-									text = "$STR_HALS_STORE_BUTTON_PURCHASE";
-									textSecondary = "";
-									//tooltip = "$STR_HALS_STORE_BUTTON_PURCHASE";
-									tooltipColorShade[] = {0,0,0,0.65};
-									tooltipColorText[] = {1,1,1,1};
-									tooltipColorBox[] = {0,0,0,0};
-									action = "['BUTTON', ['BUY', []]] call HALs_store_fnc_main;";
 				};
 			};
 		};

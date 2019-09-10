@@ -609,3 +609,25 @@ class RscCtrlCheckboxGreen: HALsStore_ctrlCheckbox {
 	colorBackgroundFocused[] = {0, 0, 0, 0};
 	colorBackgroundPressed[] = {0, 0, 0, 0};
 };
+
+
+class RscCtrlButtonAction: HALsStore_ctrlButton {
+	colorBackground[] = {0, 0, 0, 0.7};
+	colorBackground2[] = {0.75, 0.75 ,0.75, 1};
+	colorBackgroundFocused[] = {1, 1, 1, 1};
+	colorFocused[] = {0, 0, 0, 1};
+	colorFocusedSecondary[] = {0,0,0,1};
+	colorSecondary[] = {1, 1, 1, 1};
+	colorText[] = {1, 1, 1, 1};
+	font = "PuristaLight";
+	fontSecondary = "PuristaLight";
+	size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; // UITXTSIZE(1.75);
+	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; // UITXTSIZE(1.75);
+	sizeSecondary = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)"; // UITXTSIZE(1.75);
+	period = 1.2;
+	periodFocus = 1.2;
+	periodOver = 1.2;
+	tooltipColorShade[] = {0, 0, 0, 0.65};
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {0, 0, 0, 0};
+};

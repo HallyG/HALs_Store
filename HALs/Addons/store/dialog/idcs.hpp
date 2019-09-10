@@ -1,4 +1,6 @@
-#define IDD_RscDisplayStore  75000
+#define IDC_GROUP_ITEMS  75000
+#define IDC_GROUP_TRADER 75001
+
 #define IDC_LISTBOX 75010
 #define IDC_COMBO_CATEGORY 75020
 #define IDC_BUTTON_CLOSE  75030
@@ -6,10 +8,10 @@
 #define IDC_ITEM_PICTURE  75050
 #define IDC_ITEM_TEXT  75060
 #define IDC_ITEM_TEXT_DES 75061
-#define IDC_ITEM_TEXT_GROUP  75062
-#define IDC_CHECKBOX1  75070
-#define IDC_CHECKBOX2  75080
-#define IDC_CHECKBOX3  75090
+#define IDC_CHECKBOX  75070
+
+
+
 #define IDC_BUTTON_BUY  75100
 #define IDC_FUNDS  75110
 #define IDC_EDIT 75120
@@ -36,12 +38,6 @@
 #define IDC_STATS_PROGRESS_5  75450
 #define IDC_STATS_PROGRESS_TEXT_5  75451
 
-#define GET_DISPLAY (uiNamespace getVariable ["HALs_store_display", displayNull])
-#define CTRL(IDC)  ((GET_DISPLAY getVariable ["HALs_store_idc", controlNull]) controlsGroupCtrl IDC)
-#define CTRLSEL(IDC) (lbCurSel CTRL(IDC))
-#define UIDATA(IDC)  (CTRL(IDC) lbData CTRLSEL(IDC))
-#define UIVALUE(IDC) (CTRL(IDC) lbValue CTRLSEL(IDC))
-
 #define STAT_BARS [\
     [CTRL(IDC_STATS_PROGRESS_1), CTRL(IDC_STATS_PROGRESS_TEXT_1)],\
     [CTRL(IDC_STATS_PROGRESS_2), CTRL(IDC_STATS_PROGRESS_TEXT_2)],\
@@ -49,3 +45,10 @@
     [CTRL(IDC_STATS_PROGRESS_4), CTRL(IDC_STATS_PROGRESS_TEXT_4)],\
     [CTRL(IDC_STATS_PROGRESS_5), CTRL(IDC_STATS_PROGRESS_TEXT_5)]\
 ]
+
+
+#define GET_DISPLAY (uiNamespace getVariable ["HALs_store_display", displayNull])
+#define CTRL(IDC)  ((GET_DISPLAY getVariable ["ctrl_group_items", controlNull]) controlsGroupCtrl IDC)
+#define CTRLT(IDC)  ((GET_DISPLAY getVariable ["ctrl_group_trader", controlNull]) controlsGroupCtrl IDC)
+#define CTRLSEL(IDC) (lbCurSel CTRL(IDC))
+#define UIDATA(IDC)  (CTRL(IDC) lbData CTRLSEL(IDC))
