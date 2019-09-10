@@ -9,25 +9,26 @@
 	2: Stock change <NUMBER>
 
 	Return Value:
-	<NUMBER>
+	None
 
 	Example:
 	[_trader, _item, 1] call HALs_store_fnc_setTraderStock;
 __________________________________________________________________*/
-if (!isServer) exitWith {};
-
 params [
 	["_trader", objNull, [objNull]],
 	["_classname", "", [""]],
 	["_amount", 0, [0]]
 ];
 
-private _classes = _trader getVariable ["HALs_store_trader_classes", []];
-private _selection = _classes find _classname;
+if (!isServer) exitWith {};
+if (_classname isEqualTo "") exitWith {};
+if (_amount isEqualTo 0) exitWith {};
 
-if (_selection isEqualTo -1) exitWith {};
 private _stocks = _trader getVariable ["HALs_store_trader_stocks", []];
-private _stock = _stocks select _selection;
+private _idx = _stocks find (toLower _classname);
 
-_stocks set [_selection, ((_stock + _amount) max 0) min 999999];
+if (_idx isEqualTo -1) exitWith {};
+private _stock = _stocks select (_idx + 1);
+_stocks set [(_idx + 1), 0 max (_stock + _amount) min 999999];
+
 _trader setVariable ["HALs_store_trader_stocks", _stocks, true];
