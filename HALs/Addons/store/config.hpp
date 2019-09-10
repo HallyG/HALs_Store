@@ -1,3 +1,21 @@
+/*
+	Macro: ERROR_WITH_TITLE()
+
+	Parameters:
+	0: CLASSNAME - Classname of item
+	1: PRICE - Default item price
+	2: STOCK - Default item stock
+__________________________________________________________________*/
+#define ITEM(CLASSNAME, PRICE, STOCK)\
+	class CLASSNAME {\
+		price = PRICE;\
+		stock = STOCK;\
+	};
+
+//#define ITEM(CLASSNAME, PRICE) ITEM(CLASSNAME, PRICE, DEFAULT_STOCK)
+//#define ITEM(CLASSNAME) ITEM(CLASSNAME, DEFAULT_PRICE, DEFAULT_STOCK)
+
+
 class cfgHALsStore {
 	containerTypes[] = {"LandVehicle", "Air", "Ship"};
 	containerRadius = 10;
@@ -9,62 +27,21 @@ class cfgHALsStore {
 			displayName = "Rocket Launchers";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\secondaryWeapon_ca.paa";
 
-			class launch_NLAW_F {
-				price = 2500;
-				stock = 100;
-			};
-			class launch_RPG32_F {
-				price = 1500;
-				stock = 100;
-			};
-			class launch_RPG32_ghex_F {
-				price = 1500;
-				stock = 100;
-			};
-			class launch_RPG7_F {
-				price = 1000;
-				stock = 100;
-			};
-			class launch_B_Titan_F {
-				price = 4500;
-				stock = 100;
-			};
-			class launch_I_Titan_F {
-				price = 4500;
-				stock = 100;
-			};
-			class launch_O_Titan_F {
-				price = 4500;
-				stock = 100;
-			};
-			class launch_O_Titan_ghex_F {
-				price = 4500;
-				stock = 100;
-			};
-			class launch_B_Titan_tna_F {
-				price = 4500;
-				stock = 100;
-			};
-			class launch_B_Titan_short_F {
-				price = 3500;
-				stock = 100;
-			};
-			class launch_I_Titan_short_F {
-				price = 3500;
-				stock = 100;
-			};
-			class launch_O_Titan_short_F {
-				price = 3500;
-				stock = 100;
-			};
-			class launch_B_Titan_short_tna_F {
-				price = 3500;
-				stock = 100;
-			};
-			class launch_O_Titan_short_ghex_F {
-				price = 3500;
-				stock = 100;
-			};
+			#define RL_STOCK 2
+			ITEM(launch_NLAW_F, 2500, RL_STOCK);
+			ITEM(launch_RPG32_F, 1500, RL_STOCK);
+			ITEM(launch_RPG32_ghex_F, 1500, RL_STOCK);
+			ITEM(launch_RPG7_F, 1000, 5);
+			ITEM(launch_B_Titan_F, 4500, RL_STOCK);
+			ITEM(launch_I_Titan_F, 4500, RL_STOCK);
+			ITEM(launch_O_Titan_F, 4500, RL_STOCK);
+			ITEM(launch_O_Titan_ghex_F, 4500, RL_STOCK);
+			ITEM(launch_B_Titan_tna_F, 4500, RL_STOCK);
+			ITEM(launch_B_Titan_short_F, 3500, RL_STOCK);
+			ITEM(launch_I_Titan_short_F, 3500, RL_STOCK);
+			ITEM(launch_O_Titan_short_F, 3500, RL_STOCK);
+			ITEM(launch_B_Titan_short_tna_F, 3500, RL_STOCK);
+			ITEM(launch_O_Titan_short_ghex_F, 3500, RL_STOCK);
 		};
 		class handguns {
 			displayName = "Handguns";
@@ -625,7 +602,7 @@ class cfgHALsStore {
 
 		class weapon {
 			displayName = "Weapons Store";
-			categories[] = {"handguns", "launchers", "magazines", "mmgs", "muzzles", "optics", "pointers", "smgs", "underbarrel"};
+			categories[] = {"launchers"}; //{"handguns", "launchers", "magazines", "mmgs", "muzzles", "optics", "pointers", "smgs", "underbarrel"};
 		};
 	};
 };
