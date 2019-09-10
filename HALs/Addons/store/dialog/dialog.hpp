@@ -28,15 +28,11 @@
 // Trader/Purchase information
 #define TRADER_W (DIALOG_W - STORE_W)
 #define TRADER_H (DIALOG_H)
-#define TRADER_Y (DIALOG_Y + GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*3))
+#define TRADER_Y (DIALOG_Y + GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H/*BAR_H*2 + SPACE_H*3*/))
 #define TRADER_X (DIALOG_X + GRID_X(pixelGridNoUIScale, 2, STORE_W + SPACE_W))
 #define TRADER_PIC_H 21
 
 // Trader ctrl MACROS
-#define TOT_W 130
-#define TOT_H 80
-#define MAIN_W 110
-#define MAIN_H TOT_H
 #define COMBO_W 35
 #define LIST_W 54
 #define ITEM_W 52
@@ -139,6 +135,10 @@ class RscDisplayStore {
 				    w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				    tooltip = "$STR_HALS_STORE_CHECKBOX_EQUIP";
+					colorBackground[] = {0, 0, 0, 0.7};
+					colorBackgroundHover[] = {0, 0, 0, 0.7};
+					colorBackgroundFocused[] = {0, 0, 0, 0.7};
+					colorBackgroundPressed[] = {0, 0, 0, 0.7};
 				};
 
 				class PurchaseAmountEdit: HALsStore_ctrlEdit {
@@ -150,6 +150,7 @@ class RscDisplayStore {
 				    maxChars = 4;
 				    style = "16 + 512 + 0x01";
 				    colorBackground[] = {0, 0, 0, 0.7};
+					colorText[] = {1, 1, 1, 1};
 				    tooltip = "Number of items to buy";
 				    sizeEx = FONT(0.9);
 				};
@@ -178,8 +179,8 @@ class RscDisplayStore {
 
 		class HALs_store_dialog: HALsControlsGroupNoScrollbars {
 			idc = IDC_GROUP_ITEMS;
-			x = safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, DIALOG_W/2);
-			y = safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, DIALOG_H/2);
+			x = DIALOG_X;
+			y = DIALOG_Y;
 			w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 			h = GRID_Y(pixelGridNoUIScale, 2, STORE_H);
 
@@ -198,7 +199,7 @@ class RscDisplayStore {
 					x = 0;
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, MAIN_H - (BAR_H + SPACE_H));
+					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (BAR_H + SPACE_H));
 					colorBackground[] = {0, 0, 0, 0.7};
 				};
 
@@ -228,19 +229,14 @@ class RscDisplayStore {
 					style = 0;
 				};
 
-				class CloseButton: HALsStore_ctrlButtonPictureKeepAspect {
-					idc = IDC_BUTTON_CLOSE;
+				class CloseButton: RscButtonClose {
+					idc = -1;
 					x = GRID_X(pixelGridNoUIScale, 2, STORE_W - BAR_W);
 					y = 0;
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					text = "\a3\3DEN\Data\ControlsGroups\Tutorial\close_ca.paa";
-					tooltip = "Close";
 					action = "['onUnload'] call HALs_store_fnc_main;";
-					colorText[] = {1, 1, 1, 1};
-					colorActive[] = {1, 1, 1, 1};
-					color[] = {1, 1, 1, 0.5};
-					colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R', 0])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0])", 0};
 				};
 
 				class ComboCategories: HALsStore_ctrlComboItem {
@@ -282,7 +278,7 @@ class RscDisplayStore {
 					x = GRID_X(pixelGridNoUIScale, 2, SPACE_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, LIST_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, MAIN_H - (BAR_H*2 + SPACE_H*4));
+					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (BAR_H*2 + SPACE_H*4));
 					sizeEx = FONT(0.8);
 					font = "PuristaMedium";
 				};
@@ -309,7 +305,7 @@ class RscDisplayStore {
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
 					y = GRID_Y(pixelGridNoUIScale, 2, 30 + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, MAIN_H - 31 - SPACE_H);
+					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - 31 - SPACE_H);
 					colorBackground[] = {0.05, 0.05, 0.05, 0.3};
 				};
 
@@ -318,7 +314,7 @@ class RscDisplayStore {
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
 					y = GRID_Y(pixelGridNoUIScale, 2, 30 + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, MAIN_H - 31 - SPACE_H);
+					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - 31 - SPACE_H);
 
 					class controls {
 						class ItemText: RscItemStructuredText {
