@@ -2,9 +2,7 @@
 #define CTRL(IDC) ((GET_DISPLAY getVariable ["ctrl_group_items", controlNull]) controlsGroupCtrl IDC)
 #define CTRLT(IDC) ((GET_DISPLAY getVariable ["ctrl_group_trader", controlNull]) controlsGroupCtrl IDC)
 
-
-
-
+#define IDD_DISPLAY_STORE 85999
 #define IDC_GROUP_ITEMS  75000
 #define IDC_GROUP_TRADER 75001
 

@@ -6,8 +6,6 @@
 #define GRID_Y(gridType, gridScale, num) (pixelH * gridType * (((num) * (gridScale)) / SCALEFACTOR))
 #define FONT(num) (1.5 * pixelH * pixelGridNoUIScale * num) //(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
 
-
-
 #define DIALOG_W (128)
 #define DIALOG_H (80)
 #define DIALOG_X (safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, DIALOG_W/2))
@@ -45,7 +43,7 @@
 #define CARGO_W 18
 
 class RscDisplayStore {
-	idd = 85999;
+	idd = IDD_DISPLAY_STORE;
 	onLoad = "['onLoad', _this] call HALs_store_fnc_main";
 	onUnload = "['onUnload', _this] call HALs_store_fnc_main";
 
@@ -149,7 +147,7 @@ class RscDisplayStore {
 				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-				    maxChars = 5;
+				    maxChars = 4;
 				    style = "16 + 512 + 0x01";
 				    colorBackground[] = {0, 0, 0, 0.7};
 				    tooltip = "Number of items to buy";
@@ -165,7 +163,6 @@ class RscDisplayStore {
 					text = "$STR_HALS_STORE_BUTTON_PURCHASE";
 					action = "['BUTTON', ['BUY', []]] call HALs_store_fnc_main;";
 				};
-
 
 				class SellButton: RscCtrlButtonAction {
 					idc = IDC_BUTTON_SELL;
