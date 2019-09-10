@@ -44,7 +44,7 @@ class RscDisplayStore {
 	onUnload = "['onUnload', _this] call HALs_store_fnc_main";
 
 	class controls {
-		class ContainerGroup: HALsControlsGroupNoScrollbars {
+		class ContainerGroup: RscItemCtrlGroupNoScrollbars {
 			idc = IDC_GROUP_TRADER;
 			x = TRADER_X;
 			y = TRADER_Y;
@@ -52,7 +52,7 @@ class RscDisplayStore {
 			h = GRID_Y(pixelGridNoUIScale, 2, TRADER_H);
 
 			class controls {
-				class ContainerCombo: HALsStore_ctrlComboItem {
+				class ContainerCombo: RscItemComboBox {
 				    idc = IDC_BUY_ITEM_COMBO;
 				    x = 0;
 				    y = 0;
@@ -70,7 +70,7 @@ class RscDisplayStore {
 				    colorBackground[] = {0, 0, 0, 0.4};
 				};
 
-				class ContainerPicture: HALsStore_ctrlStaticPictureKeepAspect {
+				class ContainerPicture: RscItemCtrlStaticPictureKeepAspect {
 				    idc = IDC_BUY_PICTURE;
 				    x = 0;
 				    y = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -128,7 +128,7 @@ class RscDisplayStore {
 				    size = FONT(0.9);
 				};
 
-				class PurchaseCheckbox: RscCtrlCheckboxGreen {
+				class PurchaseCheckbox: RscItemCheckboxGreen {
 				    idc = IDC_CHECKBOX_BUY;
 				    x = 0;
 				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H);
@@ -141,7 +141,7 @@ class RscDisplayStore {
 					colorBackgroundPressed[] = {0, 0, 0, 0.7};
 				};
 
-				class PurchaseAmountEdit: HALsStore_ctrlEdit {
+				class PurchaseAmountEdit: RscItemEdit {
 				    idc = IDC_EDIT;
 				    x = 0;
 				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H);
@@ -155,7 +155,7 @@ class RscDisplayStore {
 				    sizeEx = FONT(0.9);
 				};
 
-				class PurchaseButton: RscCtrlButtonAction {
+				class PurchaseButton: RscItemButtonAction {
 				    idc = IDC_BUTTON_BUY;
 				    x = GRID_X(pixelGridNoUIScale, 2, BAR_W + SPACE_W);
 				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H);
@@ -165,7 +165,7 @@ class RscDisplayStore {
 					action = "['BUTTON', ['BUY', []]] call HALs_store_fnc_main;";
 				};
 
-				class SellButton: RscCtrlButtonAction {
+				class SellButton: RscItemButtonAction {
 					idc = IDC_BUTTON_SELL;
 					x = GRID_X(pixelGridNoUIScale, 2, BAR_W + SPACE_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H + SPACE_H + BAR_H);
@@ -177,7 +177,7 @@ class RscDisplayStore {
 			};
 		};
 
-		class HALs_store_dialog: HALsControlsGroupNoScrollbars {
+		class HALs_store_dialog: RscItemCtrlGroupNoScrollbars {
 			idc = IDC_GROUP_ITEMS;
 			x = DIALOG_X;
 			y = DIALOG_Y;
@@ -229,7 +229,7 @@ class RscDisplayStore {
 					style = 0;
 				};
 
-				class CloseButton: RscButtonClose {
+				class CloseButton: RscItemButtonClose {
 					idc = -1;
 					x = GRID_X(pixelGridNoUIScale, 2, STORE_W - BAR_W);
 					y = 0;
@@ -239,7 +239,7 @@ class RscDisplayStore {
 					action = "['onUnload'] call HALs_store_fnc_main;";
 				};
 
-				class ComboCategories: HALsStore_ctrlComboItem {
+				class ComboCategories: RscItemComboBox {
 					idc = IDC_COMBO_CATEGORY;
 					x = GRID_X(pixelGridNoUIScale, 2, SPACE_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
@@ -249,7 +249,7 @@ class RscDisplayStore {
 					colorBackground[] = {0, 0, 0, 0.95};
 				};
 
-				class ItemCheckbox1: RscCtrlCheckboxGreen {
+				class ItemCheckbox1: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 1;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_H*2 - SPACE_H*2);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
@@ -257,7 +257,7 @@ class RscDisplayStore {
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				};
 
-				class ItemCheckbox2: RscCtrlCheckboxGreen {
+				class ItemCheckbox2: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 2;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_H - SPACE_H);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
@@ -265,7 +265,7 @@ class RscDisplayStore {
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				};
 
-				class ItemCheckbox3: RscCtrlCheckboxGreen {
+				class ItemCheckbox3: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 3;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
@@ -292,7 +292,7 @@ class RscDisplayStore {
 					colorBackground[] = {1, 1, 1, 0.2};
 				};
 
-				class ItemPicture: HALsStore_ctrlStaticPictureKeepAspect {
+				class ItemPicture: RscItemCtrlStaticPictureKeepAspect {
 					idc = IDC_ITEM_PICTURE;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H);
@@ -309,7 +309,7 @@ class RscDisplayStore {
 					colorBackground[] = {0.05, 0.05, 0.05, 0.3};
 				};
 
-				class ItemDescriptionGroup: HALsControlsGroup {
+				class ItemDescriptionGroup: RscItemCtrlGroup {
 					idc = -1;
 					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
 					y = GRID_Y(pixelGridNoUIScale, 2, 30 + SPACE_H);

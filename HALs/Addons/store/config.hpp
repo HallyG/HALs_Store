@@ -616,11 +616,13 @@ class cfgHALsStore {
 			};
 		};
 	};
+
 	class stores {
 		class navigation {
 			displayName = "Navigation Store";
 			categories[] = {"navigation"};
 		};
+
 		class weapon {
 			displayName = "Weapons Store";
 			categories[] = {"handguns", "launchers", "magazines", "mmgs", "muzzles", "optics", "pointers", "smgs", "underbarrel"};

@@ -127,7 +127,7 @@ class RscItemListBox {
 	fade = 0;
 	access = 0;
 	type = CT_LISTBOX;
-	rowHeight = "4.32 * (1 / (getResolution select 3)) * pixelGrid * 1.5"; //0; //"1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+	rowHeight = "1.5 * pixelH * pixelGridNoUIScale * 1.75"; //4.32 * (1 / (getResolution select 3)) * pixelGrid * 1.5"; //"1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
 	colorText[] = {1, 1, 1, 1};
 	colorDisabled[] = {1, 1, 1, 0.25};
 	colorScrollbar[] = {1, 0, 0, 0};
@@ -136,11 +136,7 @@ class RscItemListBox {
 	colorSelectBackground[] = {0.95, 0.95, 0.95, 1};
 	colorSelectBackground2[] = {1, 1, 1, 0.5};
 	colorBackground[] = {1, 1, 1, 0.15};
-	soundSelect[] = {
-		"\A3\ui_f\data\sound\RscListbox\soundSelect",
-		0.09,
-		1
-	};
+	soundSelect[] = {"\A3\ui_f\data\sound\RscListbox\soundSelect", 0.09, 1};
 	autoScrollSpeed = -1;
 	autoScrollDelay = 5;
 	autoScrollRewind = 0;
@@ -247,7 +243,7 @@ class RscItemStatProgress: RscItemProgress {
 	texture = "#(argb,8,8,3)color(1,1,1,1)";
 };
 
-class HALsControlsGroup {
+class RscItemCtrlGroup {
 	type = CT_CONTROLS_GROUP;
 	style = ST_MULTI;
 	x = 0;
@@ -267,7 +263,7 @@ class HALsControlsGroup {
 	class Controls {};
 };
 
-class HALsControlsGroupNoScrollbars: HALsControlsGroup {
+class RscItemCtrlGroupNoScrollbars: RscItemCtrlGroup {
 	class VScrollbar: VScrollBar {
 		width = 0;
 	};
@@ -277,21 +273,7 @@ class HALsControlsGroupNoScrollbars: HALsControlsGroup {
 	};
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class HALsStore_ctrlDefault {
+class RscItemCtrlDefault {
 	access = 0;
 	idc = -1;
 	style = ST_LEFT;
@@ -306,9 +288,10 @@ class HALsStore_ctrlDefault {
 	h = 0;
 	tooltip = "";
 	tooltipMaxWidth = 0.5;
-	tooltipColorShade[] = {0,0,0,0.65};
-	tooltipColorText[] = {1,1,1,1};
-	tooltipColorBox[] = {0,0,0,0};
+	tooltipColorShade[] = {0, 0, 0, 0.65};
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {0, 0, 0, 0};
+
 	class ScrollBar {
 		width = 0;
 		height = 0;
@@ -317,81 +300,101 @@ class HALsStore_ctrlDefault {
 		arrowFull = "\a3\3DEN\Data\Controls\ctrlDefault\arrowFull_ca.paa";
 		border = "\a3\3DEN\Data\Controls\ctrlDefault\border_ca.paa";
 		thumb = "\a3\3DEN\Data\Controls\ctrlDefault\thumb_ca.paa";
-		color[] = {1,1,1,1};
+		color[] = {1, 1, 1, 1};
 	};
-};
-class HALsStore_ctrlDefaultText: HALsStore_ctrlDefault {
+
 	sizeEx = "4.32 * (1 / (getResolution select 3)) * pixelGrid * 0.5";
 	font = "RobotoCondensedLight";
 	shadow = 1;
 };
-class HALsStore_ctrlDefaultButton: HALsStore_ctrlDefaultText {
-	soundClick[] =
-	{
-		"\A3\ui_f\data\sound\RscButton\soundClick",
-		0.09,
-		1
-	};
-	soundEnter[] =
-	{
-		"\A3\ui_f\data\sound\RscButton\soundEnter",
-		0.09,
-		1
-	};
-	soundPush[] =
-	{
-		"\A3\ui_f\data\sound\RscButton\soundPush",
-		0.09,
-		1
-	};
-	soundEscape[] =
-	{
-		"\A3\ui_f\data\sound\RscButton\soundEscape",
-		0.09,
-		1
-	};
-};
 
-class HALsStore_ctrlStatic: HALsStore_ctrlDefaultText {
+class RscItemCtrlStaticPictureKeepAspect: RscItemCtrlDefault {
 	type = CT_STATIC;
-	colorBackground[] = {0,0,0,0};
+	style = ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
+	colorBackground[] = {0, 0, 0, 0};
 	text = "";
 	lineSpacing = 1;
 	fixedWidth = 0;
-	colorText[] = {1,1,1,1};
-	colorShadow[] = {0,0,0,1};
+	colorText[] = {1 ,1, 1, 1};
+	colorShadow[] = {0, 0, 0, 1};
 	moving = 0;
 	autoplay = 0;
 	loops = 0;
 	tileW = 1;
 	tileH = 1;
-	onCanDestroy = "";
-	onDestroy = "";
-	onMouseEnter = "";
-	onMouseExit = "";
-	onSetFocus = "";
-	onKillFocus = "";
-	onKeyDown = "";
-	onKeyUp = "";
-	onMouseButtonDown = "";
-	onMouseButtonUp = "";
-	onMouseButtonClick = "";
-	onMouseButtonDblClick = "";
-	onMouseZChanged = "";
-	onMouseMoving = "";
-	onMouseHolding = "";
-	onVideoStopped = "";
 };
 
-class HALsStore_ctrlStaticPictureKeepAspect: HALsStore_ctrlStatic {
-	style = ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
+class RscItemEdit: RscItemCtrlDefault {
+	type = CT_EDIT;
+	style = 0x00 + 0x40;
+	colorBackground[] = {0, 0, 0, 0.5};
+	colorText[] = {1, 1, 1, 1};
+	colorDisabled[] = {1, 1, 1, 0.25};
+	colorSelection[] = {
+		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
+		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
+		1
+	};
+
+	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	font = "PuristaMedium";
+	autocomplete = 0;
+	canModify = 1;
+	text = "";
+	w = 0.12;
+	h = 0.035;
 };
 
-class HALsStore_ctrlButton: HALsStore_ctrlDefaultButton {
+class RscItemComboBox {
+	type = 4;
+	style = ST_LEFT + LB_TEXTURES + ST_NO_RECT;
+	blinkingPeriod = 0;
+	deletable = 0;
+	x = 0;
+	y = 0;
+	w = 0;
+	h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+	shadow = 0;
+	maxHistoryDelay = 1;
+	wholeHeight = 0.45;
+	colorSelect[] = {0, 0, 0, 1};
+	colorActive[] = {1, 0, 0, 1};
+	colorBackground[] = {0, 0, 0, 0.7};
+	colorText[] = {1, 1, 1, 1};
+	colorTextRight[] = {1, 1, 1, 1};
+	colorDisabled[] = {1, 1, 1, 0.25};
+	colorPicture[] = {1, 1, 1, 1};
+	colorPictureDisabled[] = {1, 1, 1, 0.25};
+	colorPictureRight[] = {1 ,1, 1, 1};
+	colorPictureRightSelected[] = {0, 0, 0, 1};
+	colorPictureRightDisabled[] = {1, 1, 1, 0.25};
+	colorPictureSelected[] = {0, 0, 0, 1};
+	colorScrollbar[] = {1, 0, 0, 1};
+	colorSelect2Right[] = {0, 0, 0, 1};
+	colorSelectRight[] = {0, 0, 0, 1};
+	colorSelectBackground[] = {0.95, 0.95, 0.95, 1};
+	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+	arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+	font = "RobotoCondensed";
+	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse", 0.1, 1};
+	soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand", 0.1, 1};
+	soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
+	tooltipColorShade[] = {0, 0, 0, 0.65};
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {0, 0, 0, 0};
+
+	class ComboScrollBar: ScrollBar {
+		color[] = {1, 1, 1, 1};
+	};
+};
+
+class RscItemButton: RscItemCtrlDefault {
 	type = CT_BUTTON;
 	style = ST_CENTER + ST_FRAME + ST_HUD_BACKGROUND;
-	colorBackground[] = {0,0,0,1};
-	colorBackgroundDisabled[] = {0,0,0,0.5};
+	colorBackground[] = {0, 0, 0, 1};
+	colorBackgroundDisabled[] = {0, 0, 0, 0.5};
 	colorBackgroundActive[] = {
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.77])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.51])",
@@ -406,11 +409,11 @@ class HALsStore_ctrlButton: HALsStore_ctrlDefaultButton {
 	};
 	font = "PuristaLight";
 	text = "";
-	colorText[] = {1,1,1,1};
-	colorDisabled[] = {1,1,1,0.25};
+	colorText[] = {1, 1, 1, 1};
+	colorDisabled[] = {1, 1, 1, 0.25};
 	borderSize = 0;
-	colorBorder[] = {0,0,0,0};
-	colorShadow[] = {0,0,0,0};
+	colorBorder[] = {0, 0, 0, 0};
+	colorShadow[] = {0, 0, 0, 0};
 	offsetX = 0;
 	offsetY = 0;
 	offsetPressedX = "pixelW";
@@ -418,205 +421,25 @@ class HALsStore_ctrlButton: HALsStore_ctrlDefaultButton {
 	period = 0;
 	periodFocus = 2;
 	periodOver = 0.5;
+	soundClick[] = {"\A3\ui_f\data\sound\RscButton\soundClick", 0.09, 1};
+	soundEnter[] = {"\A3\ui_f\data\sound\RscButton\soundEnter", 0.09, 1};
+	soundPush[] = {"\A3\ui_f\data\sound\RscButton\soundPush", 0.09, 1};
+	soundEscape[] = {"\A3\ui_f\data\sound\RscButton\soundEscape", 0.09, 1};
 };
 
-class HALsStore_ctrlButtonPictureKeepAspect: HALsStore_ctrlButton {
+class RscItemButtonClose: RscItemButton {
 	style = ST_CENTER + ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
+	colorActive[] = {1, 1, 1, 1};
+	color[] = {1, 1, 1, 0.5};
+	colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R', 0])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0])", 0};
 };
 
-class HALsStore_ctrlEdit: HALsStore_ctrlDefaultText {
-	w = 0.12;
-	h = 0.035;
-	type = CT_EDIT;
-	style = 0x00+0x40;
-	colorBackground[] = {0,0,0,0.5};
-	colorText[] = {1,1,1,1};
-	colorDisabled[] = {1, 1, 1, 0.25};
-	colorSelection[]={"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])","(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",1};
-	sizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-	shadow = 1;
-	font="PuristaMedium";
-	autocomplete=0;
-	canModify = 1;
-	text = "";
-	tooltipColorShade[] = {0,0,0,0.65};
-	tooltipColorText[] = {1,1,1,1};
-	tooltipColorBox[] = {0,0,0,0};
-};
-
-class HALsStore_ctrlCombo {
-	type = 4;
-	style = ST_LEFT + LB_TEXTURES + ST_NO_RECT;
-	blinkingPeriod = 0;
-	deletable = 0;
-	x = 0;
-	y = 0;
-	w = 0;
-	h = 0;
-	shadow = 0;
-	maxHistoryDelay = 1;
-	wholeHeight=0.44999999;
-	colorSelect[]={0,0,0,1};
-	colorText[]={1,1,1,1};
-	colorBackground[]={0,0,0,1};
-	colorSelectBackground[]={1,1,1,0.69999999};
-	colorScrollbar[]={1,0,0,1};
-	colorSelectRight[]={0,0,0,1};
-	colorSelect2Right[]={0,0,0,1};
-	colorActive[]={1,0,0,1};
-	colorDisabled[]={1,1,1,0.25};
-	colorPicture[]={1,1,1,1};
-	colorPictureSelected[]={1,1,1,1};
-	colorPictureDisabled[]={1,1,1,0.25};
-	colorPictureRight[]={1,1,1,1};
-	colorPictureRightSelected[]={1,1,1,1};
-	colorPictureRightDisabled[]={1,1,1,0.25};
-	tooltipColorShade[] = {0,0,0,0.65};
-	tooltipColorText[] = {1,1,1,1};
-	tooltipColorBox[] = {0,0,0,0};
-	arrowEmpty="\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
-	arrowFull="\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
-	font="RobotoCondensed";
-	sizeEx="(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-
-	soundSelect[]= {
-		"\A3\ui_f\data\sound\RscCombo\soundSelect",
-		0.1,
-		1
-	};
-	soundExpand[]= {
-		"\A3\ui_f\data\sound\RscCombo\soundExpand",
-		0.1,
-		1
-	};
-	soundCollapse[]= {
-		"\A3\ui_f\data\sound\RscCombo\soundCollapse",
-		0.1,
-		1
-	};
-
-	class ComboScrollBar {
-		width = 0;
-		height = 0;
-		scrollSpeed = 0.01;
-		color[]= {1,1,1,1};
-		thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
-		arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
-		arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
-		border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
-	};
-};
-
-class HALsStore_ctrlComboItem: HALsStore_ctrlCombo {
-	access = 0;
-	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
-	arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
-	colorActive[] = {1,0,0,1};
-	colorBackground[] = {0,0,0,0.7};
-	colorDisabled[] = {1,1,1,0.25};
-	colorPicture[] = {1,1,1,1};
-	colorPictureDisabled[] = {1,1,1,0.25};
-	colorPictureRight[] = {1,1,1,1};
-	colorPictureRightDisabled[] = {1,1,1,0.25};
-	colorPictureRightSelected[] = {1,1,1,1};
-	colorPictureSelected[] = {0,0,0,1};
-	colorScrollbar[] = {1,0,0,1};
-	colorSelect[] = {0,0,0,1};
-	colorSelect2Right[] = {0,0,0,1};
-	colorSelectBackground[] = {0.95, 0.95, 0.95, 1}; //
-	colorSelectRight[] = {0,0,0,1};
-	colorText[] = {1,1,1,1};
-	colorTextRight[] = {1,1,1,1};
-	font = "RobotoCondensed";
-	h = "((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
-	maxHistoryDelay = 1;
-	shadow = 0;
-	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-	soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse",0.1,1};
-	soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand",0.1,1};
-	soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect",0.1,1};
-	tooltipColorText[] = {1, 1, 1, 1};
-	tooltipColorBox[] = {1, 1, 1, 1};
-	tooltipColorShade[] = {0, 0, 0, 0.65};
-	wholeHeight = 0.45;
-
-	class ComboScrollBar: ScrollBar {
-		color[] = {1, 1, 1, 1};
-	};
-};
-
-class HALsStore_ctrlCheckbox {
-	idc = -1;
-	type = CT_CHECKBOX;
-	deletable = 0;
-	style = ST_LEFT;
-	checked = 0;
-	x = "0.375 * safezoneW + safezoneX";
-	y = "0.36 * safezoneH + safezoneY";
-	w = "0.025 * safezoneW";
-	h = "0.04 * safezoneH";
-	color[] = {1,1,1,0.7};
-	colorFocused[] = {1,1,1,1};
-	colorHover[] = {1,1,1,1};
-	colorPressed[] = {1,1,1,1};
-	colorDisabled[] = {1,1,1,0.2};
-	colorBackground[] = {0,0,0,0.8};
-	colorBackgroundFocused[] = {0,0,0,0.8};
-	colorBackgroundHover[] = {0,0,0,0.8};
-	colorBackgroundPressed[] = {0,0,0,0.8};
-	colorBackgroundDisabled[] = {0,0,0,0};
-	textureChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
-	textureUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
-	textureFocusedChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
-	textureFocusedUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
-	textureHoverChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
-	textureHoverUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
-	texturePressedChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
-	texturePressedUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
-	textureDisabledChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
-	textureDisabledUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
-	tooltipColorShade[] = {0,0,0,0.65};
-	tooltipColorText[] = {1,1,1,1};
-	tooltipColorBox[] = {0,0,0,0};
-	soundClick[] = {
-		"\A3\ui_f\data\sound\RscButton\soundClick",
-		0.09,
-		1
-	};
-	soundEnter[] = {
-		"\A3\ui_f\data\sound\RscButton\soundEnter",
-		0.09,
-		1
-	};
-	soundPush[] = {
-		"\A3\ui_f\data\sound\RscButton\soundPush",
-		0.09,
-		1
-	};
-	soundEscape[] = {
-		"\A3\ui_f\data\sound\RscButton\soundEscape",
-		0.09,
-		1
-	};
-};
-
-class RscCtrlCheckboxGreen: HALsStore_ctrlCheckbox {
-	color[] = {0.627451, 0.87451, 0.231373,1 };
-	colorFocused[] = {0.627451, 0.87451, 0.231373, 1};
-	colorPressed[] = {0.627451, 0.87451, 0.231373, 1};
-	colorBackground[] = {0, 0, 0, 0};
-	colorBackgroundHover[] = {0, 0, 0, 0};
-	colorBackgroundFocused[] = {0, 0, 0, 0};
-	colorBackgroundPressed[] = {0, 0, 0, 0};
-};
-
-
-class RscCtrlButtonAction: HALsStore_ctrlButton {
+class RscItemButtonAction: RscItemButton {
 	colorBackground[] = {0, 0, 0, 0.7};
 	colorBackground2[] = {0.75, 0.75 ,0.75, 1};
 	colorBackgroundFocused[] = {1, 1, 1, 1};
 	colorFocused[] = {0, 0, 0, 1};
-	colorFocusedSecondary[] = {0,0,0,1};
+	colorFocusedSecondary[] = {0, 0, 0, 1};
 	colorSecondary[] = {1, 1, 1, 1};
 	colorText[] = {1, 1, 1, 1};
 	font = "PuristaLight";
@@ -630,4 +453,43 @@ class RscCtrlButtonAction: HALsStore_ctrlButton {
 	tooltipColorShade[] = {0, 0, 0, 0.65};
 	tooltipColorText[] = {1, 1, 1, 1};
 	tooltipColorBox[] = {0, 0, 0, 0};
+};
+
+class RscItemCheckboxGreen {
+	idc = -1;
+	type = CT_CHECKBOX;
+	deletable = 0;
+	style = ST_LEFT;
+	checked = 0;
+	x = "0.375 * safezoneW + safezoneX";
+	y = "0.36 * safezoneH + safezoneY";
+	w = "0.025 * safezoneW";
+	h = "0.04 * safezoneH";
+	color[] = {0.627451, 0.87451, 0.231373, 1};
+	colorFocused[] = {0.627451, 0.87451, 0.231373, 1};
+	colorPressed[] = {0.627451, 0.87451, 0.231373, 1};
+	colorHover[] = {1, 1, 1, 1};
+	colorDisabled[] = {1, 1, 1, 0.2};
+	colorBackground[] = {0, 0, 0, 0};
+	colorBackgroundHover[] = {0, 0, 0, 0};
+	colorBackgroundFocused[] = {0, 0, 0, 0};
+	colorBackgroundPressed[] = {0, 0, 0, 0};
+	colorBackgroundDisabled[] = {0, 0, 0, 0};
+	textureChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	textureFocusedChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureFocusedUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	textureHoverChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureHoverUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	texturePressedChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	texturePressedUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	textureDisabledChecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
+	textureDisabledUnchecked = "A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
+	tooltipColorShade[] = {0, 0, 0, 0.65};
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {0, 0, 0, 0};
+	soundClick[] = {"\A3\ui_f\data\sound\RscButton\soundClick", 0.09, 1};
+	soundEnter[] = {"\A3\ui_f\data\sound\RscButton\soundEnter", 0.09, 1};
+	soundPush[] = {"\A3\ui_f\data\sound\RscButton\soundPush", 0.09, 1};
+	soundEscape[] = {"\A3\ui_f\data\sound\RscButton\soundEscape", 0.09, 1};
 };
