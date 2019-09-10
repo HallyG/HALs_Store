@@ -13,7 +13,8 @@
 	Example:
 	["init"] call HALs_store_fnc_main;
 __________________________________________________________________*/
-#include "..\..\script_component.hpp"
+#include "\a3\ui_f\hpp\definedikcodes.inc"
+#include "..\..\..\dialog\idcs.hpp"
 
 params [
 	["_mode", "onload", [""]],
