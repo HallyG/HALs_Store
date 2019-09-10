@@ -109,10 +109,13 @@ switch (toLower _mode) do {
 
 			case ("update"): {
 				private _ctrlList = CTRL(IDC_LISTBOX);
+				private _isChecked1 = cbChecked CTRL(IDC_CHECKBOX + 1);
+				private _isChecked2 = cbChecked CTRL(IDC_CHECKBOX + 2);
 				lbClear _ctrlList;
 
 				private _money = [player] call HALs_money_fnc_getFunds;
-				private _items = _trader getVariable [format ["HALs_store_%1_items", CTRL(IDC_COMBO_CATEGORY) getVariable ["data", ""]], []];
+				private _configCategory = missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> CTRL(IDC_COMBO_CATEGORY) getVariable "data";
+				private _items = "true" configClasses (_configCategory) apply {[configName _x, 0 max getNumber (_x >> "price")]};
 
 				if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
 					_filterItems = [];
@@ -123,19 +126,19 @@ switch (toLower _mode) do {
 				};
 
 				{
-					_x params ["_classname", "_displayName", "_picture", "_price"];
-
+					_x params ["_classname", "_price"];
 					private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-					_showAffordable = not (cbChecked CTRL(IDC_CHECKBOX + 1) && {_price > _money});
-					_showAvaliable = not (cbChecked CTRL(IDC_CHECKBOX + 2) && {_stock < 1});
+					_showAffordable = not (_isChecked1 && {_price > _money});
+					_showAvaliable = not (_isChecked2 && {_stock < 1});
 
 					if (_showAffordable && _showAvaliable) then {
-						private _idx = _ctrlList lbAdd _displayName;
+						private _cfg = _classname call HALs_fnc_getConfigClass;
+						private _idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
+
 						_ctrlList lbSetData [_idx, _classname];
-						_ctrlList lbSetValue [_idx, _price];
-						_ctrlList lbSetPicture [_idx, _picture];
+						_ctrlList lbSetValue [_idx, 0 max _price min 999999];
+						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
 						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
-						//_ctrlList lbSetTooltip [_idx, _displayName];
 
 						if (_price > _money) then {
 							//_ctrlList lbSetTooltip [_idx, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
@@ -167,10 +170,12 @@ switch (toLower _mode) do {
 					_ctrl setVariable ["data", _ctrl lbData _idx];
 					["listbox", ["update", []]] call  HALs_store_fnc_main
 				}];
+
+				private _categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "categories");
 				{
 					_ctrlCategory lbAdd (getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> "displayName"));
 					_ctrlCategory lbSetData [_forEachIndex, _x];
-				} forEach (_trader getVariable ["HALs_store_trader_categories", []]);
+				} forEach _categories;
 
 				if (lbSize _ctrlCategory > 0) then {_ctrlCategory lbSetCurSel 0};
 
@@ -425,7 +430,8 @@ switch (toLower _mode) do {
 						private _description = [
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
 							[_config >> "Library" >> "libTextDesc", ""] call HALs_fnc_getConfigValue,
-							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
+							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue,
+							[configfile >> "CfgMagazines" >> _itemClass >> "descriptionShort", "text", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} select 0;
 
 						_pictureCtrl ctrlSetText (_ctrlListbox lbPicture _idx);
