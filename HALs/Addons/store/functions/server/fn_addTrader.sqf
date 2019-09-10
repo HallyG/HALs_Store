@@ -51,26 +51,15 @@ try {
 			throw [format ["Duplicate items  [category: %1, type: %2]", toUpper _x, toUpper _traderType], __LINE__];
 		};
 
-		_classes append _items;
-
+		{
+			_classes pushBack _x;
+			_stocks pushBack toLower _x;
+			_stocks pushBack (getNumber (_configCategory >> _x >> "stock") max 0);
+			nil
+		} count _items;
 	} forEach _categories;
 
-	/*_trader setVariable [format ["HALs_store_%1_items", _category], _items apply {
-				private _config = _x call HALs_fnc_getConfigClass;
-				private _price = 0 max getNumber (_configCategory >> _x >> "price") min 999999;
-				private _stock = 0 max getNumber (_configCategory >> _x >> "stock") min 999999;
-				_classes pushback _x;
-
-
-				[_x, getText (_config >> "displayName"), getText (_config >> "picture"), 0 max getNumber (_configCategory >> _x >> "price") min 999999]
-			}, true];*/
-
-
-
-
-
 	_trader setVariable ["HALs_store_trader_type", _traderType, true];
-	_trader setVariable ["HALs_store_trader_categories", _categories, true];
 	_trader setVariable ["HALs_store_trader_classes", _classes, true];
 	_trader setVariable ["HALs_store_trader_stocks", _stocks, true];
 

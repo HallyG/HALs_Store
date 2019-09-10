@@ -37,7 +37,8 @@ try {
 	_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 	_money = [_unit] call HALs_money_fnc_getFunds;
 	_amountCanAdd = [_container, _classname, _amount, true] call HALs_store_fnc_canAddItem;
-	_categories = (_trader getVariable ["HALs_store_trader_categories", []]) select {isClass (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> _classname)};
+	_categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable "HALs_store_trader_type" >> "categories");
+	_categories = _categories select {isClass (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> _classname)};
 	_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
 
 
