@@ -1,17 +1,11 @@
 #include "defines.hpp"
 #include "idcs.hpp"
 
-#define GRID 2
 #define SCALEFACTOR getNumber (configFile >> "uiScaleFactor")
 #define GRID_X(gridType, gridScale, num) (pixelW * gridType * (((num) * (gridScale)) / SCALEFACTOR))
 #define GRID_Y(gridType, gridScale, num) (pixelH * gridType * (((num) * (gridScale)) / SCALEFACTOR))
-
-// General ctrl MACROS
 #define FONT(num) (1.5 * pixelH * pixelGridNoUIScale * num) //(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
-#define BAR_W 3
-#define BAR_H 3
-#define SPACE_W 1
-#define SPACE_H 1
+
 
 
 #define DIALOG_W (128)
@@ -19,25 +13,28 @@
 #define DIALOG_X (safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, DIALOG_W/2))
 #define DIALOG_Y (safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, DIALOG_H/2))
 
+// General MACROs
+#define BAR_W 3
+#define BAR_H 3
+#define SPACE_W 1
+#define SPACE_H 1
 
-
-
+// Item selection/information MACROs
 #define STORE_W (110)
 #define STORE_H (DIALOG_H)
 
-#define TRADER_W (DIALOG_W - STORE_W)
-#define TRADER_H (DIALOG_H)
-#define TRADER_Y (DIALOG_Y + GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*3))
-#define TRADER_X (DIALOG_X + GRID_X(pixelGridNoUIScale, 2, STORE_W + SPACE_W))
-
-
-// Background ctrl MACROS
 #define FUNDS_W (20)
 #define FUNDS_H (BAR_H)
 #define FUNDS_X (STORE_W - BAR_W - FUNDS_W)
 
+// Trader/Purchase information
+#define TRADER_W (DIALOG_W - STORE_W)
+#define TRADER_H (DIALOG_H)
+#define TRADER_Y (DIALOG_Y + GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*3))
+#define TRADER_X (DIALOG_X + GRID_X(pixelGridNoUIScale, 2, STORE_W + SPACE_W))
+#define TRADER_PIC_H 21
+
 // Trader ctrl MACROS
-#define CONT_PIC_H 21
 #define TOT_W 130
 #define TOT_H 80
 #define MAIN_W 110
@@ -75,7 +72,7 @@ class RscDisplayStore {
 				    x = 0;
 				    y = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
-				    h = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - BAR_H);
+				    h = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H - BAR_H);
 				    colorBackground[] = {0, 0, 0, 0.4};
 				};
 
@@ -84,14 +81,14 @@ class RscDisplayStore {
 				    x = 0;
 				    y = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
-				    h = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - BAR_H);
+				    h = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H - BAR_H);
 				    colorBackground[] = {0, 0, 0, 0.7};
 				};
 
 				class ContainerLoadBackground: RscItemText {
 				    idc = -1;
 				    x = 0;
-				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - SPACE_H);
+				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H - SPACE_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H);
 				    colorBackground[] = {0.05, 0.05, 0.05, 0.7};
@@ -100,7 +97,7 @@ class RscDisplayStore {
 				class ContainerLoadNew: RscItemProgress {
 				    idc = IDC_PROGRESS_NEWLOAD;
 				   	x = 0;
-				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - SPACE_H);
+				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H - SPACE_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H);
 				    colorBar[] = {0.9, 0, 0, 0.6};
@@ -111,7 +108,7 @@ class RscDisplayStore {
 				class ContainerLoadPrev: RscItemProgress {
 				    idc = IDC_PROGRESS_LOAD;
 				    x = 0;
-				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H - SPACE_H);
+				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H - SPACE_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, SPACE_H);
 				    colorBar[] = {0.9, 0.9, 0.9, 0.9};
@@ -122,7 +119,7 @@ class RscDisplayStore {
 				class PurchaseSummary: RscItemStructuredText {
 				    idc = IDC_ITEM;
 				    x = 0; //GRID_X(pixelGridNoUIScale, 2, MAIN_W + SPACE_W); //GRIDX(36.2);
-				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H);
+				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 
@@ -140,7 +137,7 @@ class RscDisplayStore {
 				class PurchaseCheckbox: RscCtrlCheckboxGreen {
 				    idc = IDC_CHECKBOX_BUY;
 				    x = 0;
-				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H + BAR_H);
+				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				    tooltip = "$STR_HALS_STORE_CHECKBOX_EQUIP";
@@ -149,7 +146,7 @@ class RscDisplayStore {
 				class PurchaseAmountEdit: HALsStore_ctrlEdit {
 				    idc = IDC_EDIT;
 				    x = 0;
-				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H + BAR_H);
+				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				    maxChars = 5;
@@ -162,11 +159,22 @@ class RscDisplayStore {
 				class PurchaseButton: RscCtrlButtonAction {
 				    idc = IDC_BUTTON_BUY;
 				    x = GRID_X(pixelGridNoUIScale, 2, BAR_W + SPACE_W);
-				    y = GRID_Y(pixelGridNoUIScale, 2, CONT_PIC_H + SPACE_H + BAR_H);
+				    y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H);
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					text = "$STR_HALS_STORE_BUTTON_PURCHASE";
 					action = "['BUTTON', ['BUY', []]] call HALs_store_fnc_main;";
+				};
+
+
+				class SellButton: RscCtrlButtonAction {
+					idc = IDC_BUTTON_SELL;
+					x = GRID_X(pixelGridNoUIScale, 2, BAR_W + SPACE_W);
+					y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H + SPACE_H + BAR_H);
+					w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
+					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+					text = "SELL"; //"$STR_HALS_STORE_BUTTON_SELL";
+					action = "['BUTTON', ['SELL', []]] call HALs_store_fnc_main;";
 				};
 			};
 		};

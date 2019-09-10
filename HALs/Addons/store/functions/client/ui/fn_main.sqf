@@ -110,7 +110,6 @@ switch (toLower _mode) do {
 				lbClear _ctrlList;
 
 				private _money = [player] call HALs_money_fnc_getFunds;
-
 				private _items = _trader getVariable [format ["HALs_store_%1_items", CTRL(IDC_COMBO_CATEGORY) getVariable ["data", ""]], []];
 
 				if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
@@ -134,7 +133,7 @@ switch (toLower _mode) do {
 						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetPicture [_idx, _picture];
 						_ctrlList lbSetTextRight [_idx, format ["%2%1", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
-						_ctrlList lbSetTooltip [_idx, _displayName];
+						//_ctrlList lbSetTooltip [_idx, _displayName];
 
 						if (_price > _money) then {
 							//_ctrlList lbSetTooltip [_idx, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
@@ -305,6 +304,11 @@ switch (toLower _mode) do {
 
 				[player, _list getVariable "data", _list getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 2];
 			};
+
+			case ("sell"): {
+
+
+			};
 		};
 	};
 
@@ -374,6 +378,11 @@ switch (toLower _mode) do {
 						_ctrlCheckbox ctrlSetPositionY _y;
 						_ctrlButton ctrlCommit 0;
 						_ctrlCheckbox ctrlCommit 0;
+
+						private _ctrlButtonSell = CTRLT(IDC_BUTTON_SELL);
+						_y = _y + ((ctrlPosition _ctrlEdit) select 3) + 3 * pixelH;
+						_ctrlButtonSell ctrlSetPositionY _y;
+						_ctrlButtonSell ctrlCommit 0;
 					};
 
 					case ("cargo"): {

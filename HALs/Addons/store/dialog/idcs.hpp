@@ -1,3 +1,10 @@
+#define GET_DISPLAY (uiNamespace getVariable ["HALs_store_display", displayNull])
+#define CTRL(IDC) ((GET_DISPLAY getVariable ["ctrl_group_items", controlNull]) controlsGroupCtrl IDC)
+#define CTRLT(IDC) ((GET_DISPLAY getVariable ["ctrl_group_trader", controlNull]) controlsGroupCtrl IDC)
+
+
+
+
 #define IDC_GROUP_ITEMS  75000
 #define IDC_GROUP_TRADER 75001
 
@@ -13,6 +20,8 @@
 
 
 #define IDC_BUTTON_BUY  75100
+#define IDC_BUTTON_SELL  75101
+
 #define IDC_FUNDS  75110
 #define IDC_EDIT 75120
 #define IDC_TITLE  75130
@@ -45,10 +54,3 @@
     [CTRL(IDC_STATS_PROGRESS_4), CTRL(IDC_STATS_PROGRESS_TEXT_4)],\
     [CTRL(IDC_STATS_PROGRESS_5), CTRL(IDC_STATS_PROGRESS_TEXT_5)]\
 ]
-
-
-#define GET_DISPLAY (uiNamespace getVariable ["HALs_store_display", displayNull])
-#define CTRL(IDC)  ((GET_DISPLAY getVariable ["ctrl_group_items", controlNull]) controlsGroupCtrl IDC)
-#define CTRLT(IDC)  ((GET_DISPLAY getVariable ["ctrl_group_trader", controlNull]) controlsGroupCtrl IDC)
-#define CTRLSEL(IDC) (lbCurSel CTRL(IDC))
-#define UIDATA(IDC)  (CTRL(IDC) lbData CTRLSEL(IDC))
