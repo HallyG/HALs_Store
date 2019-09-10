@@ -31,5 +31,5 @@ _trader addAction [localize "STR_HALS_STORE_ACTION", {
 
 	HALs_store_vehicles = _vehicles apply {[typeOf _x, format ["%1 (%2m)", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), round (_x distance2D _trader)], ""/*"a3\ui_f\data\gui\Rsc\RscDisplayGarage\car_ca.paa"*/, _x]};
 
-		createDialog "RscDisplayStore";
+	createDialog "RscDisplayStore";
 }, [], 10, true, true, "", "alive _target && isNull objectParent _this", 5];

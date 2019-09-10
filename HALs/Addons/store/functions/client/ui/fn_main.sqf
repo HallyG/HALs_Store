@@ -47,7 +47,7 @@ switch (toLower _mode) do {
 		closeDialog 2;
 		uiNamespace setVariable ["HALs_store_display", displayNull];
 
-		player setVariable ["HALs_store_trader_current", objNull, true];
+		player setVariable ["HALs_store_trader_current", nil, true];
 		HALs_store_blur ppEffectAdjust [0];
 		HALs_store_blur ppEffectCommit 0.3;
 	};
