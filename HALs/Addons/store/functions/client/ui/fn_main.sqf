@@ -173,9 +173,11 @@ switch (toLower _mode) do {
 
 				private _categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "categories");
 				{
-					_ctrlCategory lbAdd (getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> "displayName"));
-					_ctrlCategory lbSetData [_forEachIndex, _x];
-				} forEach _categories;
+					private _cfg = missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x;
+					private _id = _ctrlCategory lbAdd (getText (_cfg >> "displayName"));
+					_ctrlCategory lbSetData [_id, _x];
+					//_ctrlCategory lbSetPictureRight [_id, getText (_cfg >> "picture")];
+				} count _categories;
 
 				if (lbSize _ctrlCategory > 0) then {_ctrlCategory lbSetCurSel 0};
 
@@ -431,7 +433,7 @@ switch (toLower _mode) do {
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
 							[_config >> "Library" >> "libTextDesc", ""] call HALs_fnc_getConfigValue,
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue,
-							[configfile >> "CfgMagazines" >> _itemClass >> "descriptionShort", "text", ""] call HALs_fnc_getConfigValue
+							[configfile >> "CfgMagazines" >> _itemClass >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} select 0;
 
 						_pictureCtrl ctrlSetText (_ctrlListbox lbPicture _idx);

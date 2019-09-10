@@ -60,7 +60,6 @@ try {
 	} forEach _categories;
 
 	_trader setVariable ["HALs_store_trader_type", _traderType, true];
-	_trader setVariable ["HALs_store_trader_classes", _classes, true];
 	_trader setVariable ["HALs_store_trader_stocks", _stocks, true];
 
 	if !(typeOf _trader isKindOf ["CAManBase", configFile >> "cfgVehicles"]) then {
@@ -73,9 +72,7 @@ try {
 	[_trader] remoteExec ["HALs_store_fnc_addAction", 0, true];
 	true
 } catch {
-	_exception params ["_err", "_line"];
-
-	[_err, _line] call HALs_fnc_log;
-	[_err] call BIS_fnc_error;
+	[_exception] call HALs_fnc_log;
+	[_exception select 0] call BIS_fnc_error;
 	false
 };
