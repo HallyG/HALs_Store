@@ -1,24 +1,21 @@
 /*
 	Function: HALs_store_fnc_purchase
 	Author: HallyG
-	Handles item purchasing.
+	Handles the purchase transcations on the server.
 
 	Argument(s):
-	0: Buyer 			<OBJECT>
-	2: Category 		<STRING>
-	3: Item classname	<STRING>
-	4: Item Price 		<NUMBER>
-	5: Number of items 	<NUMBER>
+	0: Buyer <OBJECT>
+	1: Item Classname <STRING>
+	3: Item price <NUMBER>
+	4: Number of items <NUMBER>
+	5: Container <OBJECT>
+	6: Equip on purchase <BOOLEAN>
 
 	Return Value:
 	None
 
 	Example:
-	[
-		player,
-		"hgun_P07_F", 50, 10,
-		vestContainer player
-	] call HALs_store_fnc_purchase;
+	[player, "hgun_P07_F", 100, 5, vestContainer player] call HALs_store_fnc_purchase;
 __________________________________________________________________*/
 params [
 	["_unit", objNull, [objNull]],
@@ -41,16 +38,17 @@ try {
 
 	// Fetch stock
 	private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-	if (_stock <= 0) then {throw [localize "STR_HALS_STORE_ITEM_UNAVALIABLE"]};
+	if (_stock < 1) then {throw [localize "STR_HALS_STORE_ITEM_UNAVALIABLE"]};
 
 	// Calculate how many items the container can actually hold
 	private _amtMax = [_container, _classname, _amt, true] call HALs_store_fnc_canAddItem;
 	if (_amtMax > _stock) then {throw [localize "STR_HALS_STORE_ITEM_OUTOFSTOCK"]};
 
 	// Calculate predicted cost
+	private _price = _price max 0;
 	private _money = [_unit] call HALs_money_fnc_getFunds;
-	private _sale = 1 - (_trader getVariable ["HALs_store_trader_sale", 0]);
-	private _total = (_price max 0) * (0 max _sale min 1) * _amt;
+	private _sale = 0 max (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1;
+	private _total = _price * _sale * _amt;
 	if (_total > _money) then {throw [localize "STR_HALS_STORE_ITEM_TOOEXPENSIVE"]};
 
 	// Variable to track how many items were added
@@ -91,7 +89,7 @@ try {
 	};
 
 	// Calculate actual cost
-	_total = (_price max 0) * (0 max _sale min 1) * _amtAdded;
+	_total = _price * _sale * _amtAdded;
 
 	// Update unit's funds and trader's stock
 	[_trader, _classname, -_amtAdded] call HALs_store_fnc_updateStock;
