@@ -302,6 +302,8 @@ class RscDisplayStore {
 					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (BAR_H*2 + SPACE_H*4));
 					sizeEx = FONT(0.8);
 					font = "PuristaMedium";
+					colorTextRight[] = {0.666667, 1, 0.666667, 1};
+					colorSelectRight[] = {0.666667, 1, 0.666667, 1};
 				};
 
 				class ItemPictureBackground: RscItemText {
