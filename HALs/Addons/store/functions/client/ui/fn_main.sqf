@@ -108,14 +108,21 @@ switch (toLower _mode) do {
 
 			case ("update"): {
 				private _ctrlList = CTRL(IDC_LISTBOX);
-				private _isChecked1 = cbChecked CTRL(IDC_CHECKBOX + 1);
-				private _isChecked2 = cbChecked CTRL(IDC_CHECKBOX + 2);
 				lbClear _ctrlList;
 
-				private _money = [player] call HALs_money_fnc_getFunds;
-				private _configCategory = missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> CTRL(IDC_COMBO_CATEGORY) getVariable "data";
-				private _items = "true" configClasses (_configCategory) apply {[configName _x, 0 max getNumber (_x >> "price")]};
+				private _items = [];
+				private _curCategory = CTRL(IDC_COMBO_CATEGORY) getVariable "data";
+				if (_curCategory isEqualTo "all") then {
+					private _categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "categories");
+					{
+						private _itemsCat = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x) apply {[configName _x, getNumber (_x >> "price") max 0]};
+						_items append _itemsCat;
+					} count (_categories);
+				} else {
+					_items = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _curCategory) apply {[configName _x, getNumber (_x >> "price") max 0]};
+				};
 
+				// Compatible items only
 				if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
 					_filterItems = [];
 
@@ -123,6 +130,13 @@ switch (toLower _mode) do {
 
 					_items = _items select {(_x select 0) in _filterItems};
 				};
+
+				// Exit early if there are no items
+				if (count _items isEqualTo 0) exitWith {_ctrlList lbSetCurSel -1;};
+
+				private _isChecked1 = cbChecked CTRL(IDC_CHECKBOX + 1);
+				private _isChecked2 = cbChecked CTRL(IDC_CHECKBOX + 2);
+				private _money = [player] call HALs_money_fnc_getFunds;
 
 				{
 					_x params ["_classname", "_price"];
@@ -173,6 +187,8 @@ switch (toLower _mode) do {
 				// Sort categories in ascending order by displayName
 				_categories = [_categories, {getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> "displayName")}, true] call HALs_fnc_sortArray;
 
+				_ctrlCategory lbAdd "All";
+				_ctrlCategory lbSetData [0, "all"];
 				{
 					private _cfg = missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x;
 					private _id = _ctrlCategory lbAdd (getText (_cfg >> "displayName"));
