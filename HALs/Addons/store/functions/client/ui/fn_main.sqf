@@ -491,7 +491,7 @@ switch (toLower _mode) do {
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
 							[_config >> "Library" >> "libTextDesc", ""] call HALs_fnc_getConfigValue,
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
-						] select {_x != ""} select 0;
+						] select {_x != ""} param [0, ""];
 
 						CTRL(IDC_ITEM_PICTURE) ctrlSetText (_ctrlList lbPicture _idx);
 						_ctrlText ctrlSetStructuredText parseText _description;
