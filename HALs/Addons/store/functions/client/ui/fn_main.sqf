@@ -138,7 +138,7 @@ switch (toLower _mode) do {
 						_ctrlList lbSetData [_idx, _classname];
 						_ctrlList lbSetValue [_idx, 0 max _price min 999999];
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
-						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price call HALs_fnc_numberToString, HALs_store_currencySymbol]];
+						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
 
 						if (_price > _money) then {
 							//_ctrlList lbSetTooltip [_idx, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
@@ -381,7 +381,7 @@ switch (toLower _mode) do {
 
 						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
 							format ["<t align='left' shadow='2' color='#%2'>x%1</t>", _amount, ['ffffff'/*'b2ec00'*/, 'ea0000'] select (_amount > _stock)],
-							format ["<t align='right' color='#aaffaa' shadow='1'>%1 %2</t>", _price call HALs_fnc_numberToString, HALs_store_currencySymbol],
+							format ["<t align='right' color='#aaffaa' shadow='1'>%1 %2</t>", _price, HALs_store_currencySymbol],
 							[format ["<t size='1' shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
 							format ["<t size='1.1' color='#%2'>- %1 %3</t>", _totalStr, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
 						];
@@ -537,7 +537,7 @@ switch (toLower _mode) do {
 							HALs_store_updated = true;
 						};
 
-						HALs_store_nextUpdateTick = diag_tickTime + 0.1;
+						HALs_store_nextUpdateTick = diag_tickTime + 0.25;
 					};
 				}];
 			};
