@@ -135,12 +135,10 @@ switch (toLower _mode) do {
 						_cfg = _classname call HALs_fnc_getConfigClass;
 						_idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
 
-						_ctrlList lbSetData [_idx, _classname];
+						_ctrlList lbSetData [_idx, format ["%1:%2", _classname, _stock]];
 						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
 						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
-
-						// Store stock and price?
 
 						if (_price > _money) then {
 							_ctrlList lbSetColorRight [_idx, [0.8, 0, 0, 1]]; //0.91
@@ -285,9 +283,11 @@ switch (toLower _mode) do {
 				};
 
 				// Insufficient stock
+				_dataArr = (_ctrlList lbData _idx) splitString ":";
+				_classname = _dataArr select 0;
+				_stock = parseNumber (_dataArr select 1);
 				_amount = CTRLT(IDC_EDIT) getVariable ["amt", 1];
-				_classname = _ctrlList getVariable "data";
-				_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
+
 				if (_stock < 1 ||  _amount < 1 || _amount > _stock) exitWith {
 					_ctrlButton ctrlEnable false;
 				};
@@ -295,6 +295,7 @@ switch (toLower _mode) do {
 				// Insufficient Funds
 				_price = _ctrlList lbValue _idx;
 				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
+
 				if (_price * _amount * _sale > ([player] call HALs_money_fnc_getFunds)) exitWith {
 					_ctrlButton ctrlEnable false;
 				};
@@ -323,13 +324,12 @@ switch (toLower _mode) do {
 			};
 
 			case ("buy"): {
-				private _list = CTRL(IDC_LISTBOX);
+				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data";
+				private _purchaseData = [player, (_ctrlList getVariable "data") splitString ":" select 0, _ctrlList getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)
+				];
 
-				[
-					player, _list getVariable "data", _list getVariable "value", CTRLT(IDC_EDIT) getVariable "amt",
-					_container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)
-				] remoteExecCall ["HALs_store_fnc_purchase", 2];
+				_purchaseData remoteExecCall ["HALs_store_fnc_purchase", 2];
 			};
 
 			case ("sell"): {};
@@ -377,7 +377,6 @@ switch (toLower _mode) do {
 					params ["_mode", "_this"];
 
 					case ("buy"): {
-						//speed up
 						params [
 							["_price", 0, [0]],
 							["_amount", 0, [0]]
@@ -390,18 +389,18 @@ switch (toLower _mode) do {
 							_ctrlText ctrlSetStructuredText parseText "";
 						};
 
-						private _money = [player] call HALs_money_fnc_getFunds;
-						private _stock = [_trader, _ctrlList lbData _idx] call HALs_store_fnc_getTraderStock; //replace?
-						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
-						private _total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
-						private _totalStr = _total call HALs_fnc_numberToString;
+						private _dataArr = (_ctrlList lbData _idx) splitString ":";
+						_stock = parseNumber (_dataArr select 1);
+						_money = [player] call HALs_money_fnc_getFunds;
+						_sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
+						_total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
 
 						_ctrlText ctrlSetStructuredText parseText format [
 							"<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
 							format ["<t align='left' color='#%2'>x%1</t>", _amount, ['ffffff'/*'b2ec00'*/, 'ea0000'] select (_amount > _stock)],
 							format ["<t color='#aaffaa' shadow='1'>%1 %2</t>", _price, HALs_store_currencySymbol],
 							[format ["<t shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
-							format ["<t size='1.1' color='#%2'>- %1 %3</t>", _totalStr, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
+							format ["<t size='1.1' color='#%2'>- %1 %3</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
 						];
 
 						// Update positions of controls
@@ -452,10 +451,10 @@ switch (toLower _mode) do {
 					};
 
 					case ("item"): {
-						private _ctrlListbox = CTRL(IDC_LISTBOX);
+						private _ctrlList = CTRL(IDC_LISTBOX);
 						private _ctrlTitle = CTRL(IDC_ITEM_TEXT);
 						private _ctrlText = CTRL(IDC_ITEM_TEXT_DES);
-						private _idx = CTRL(IDC_LISTBOX) getVariable ["idx", -1];
+						private _idx = _ctrlList getVariable ["idx", -1];
 
 						if (_idx isEqualTo -1) exitWith {
 							CTRL(IDC_ITEM_PICTURE) ctrlSetText "";
@@ -463,23 +462,23 @@ switch (toLower _mode) do {
 							_ctrlText ctrlSetStructuredText parseText "";
 						};
 
-						private _classname = _ctrlListbox lbData _idx;  //replace?
-						private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-						private _config = _classname call HALs_fnc_getConfigClass;
-
-						private _description = [
+						_dataArr = (_ctrlList lbData _idx) splitString ":";
+						_classname = _dataArr select 0;
+						_stock = parseNumber (_dataArr select 1);
+						
+						_config = _classname call HALs_fnc_getConfigClass;
+						_description = [
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
 							[_config >> "Library" >> "libTextDesc", ""] call HALs_fnc_getConfigValue,
-							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue,
-							[configfile >> "CfgMagazines" >> _itemClass >> "descriptionShort", ""] call HALs_fnc_getConfigValue
+							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} select 0;
 
-						CTRL(IDC_ITEM_PICTURE) ctrlSetText (_ctrlListbox lbPicture _idx);
+						CTRL(IDC_ITEM_PICTURE) ctrlSetText (_ctrlList lbPicture _idx);
 						_ctrlText ctrlSetStructuredText parseText _description;
 						_ctrlTitle ctrlSetStructuredText parseText format [
 							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%2 %5</t><br/>%4",
-							_ctrlListbox lbText _idx,
-							(_ctrlListbox lbValue _idx) call HALs_fnc_numberToString,
+							_ctrlList lbText _idx,
+							(_ctrlList lbValue _idx) call HALs_fnc_numberToString,
 							toUpper localize "STR_HALS_STORE_TEXT_PRICE",
 							[
 								format ["<t shadow='2' font ='PuristaMedium' color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
@@ -575,9 +574,10 @@ switch (toLower _mode) do {
 
 			case ("stats"): {
 				params [
-					["_classname", "", [""]]
+					["_data", "", [""]]
 				];
 
+				private _classname = (_data splitString ":") select 0;
 				private _stats = [_classname call HALs_fnc_getConfigClass] call HALs_store_fnc_getItemStats;
 				{
 					_x params ["_ctrlBar", "_ctrlBarText"];
@@ -604,10 +604,11 @@ switch (toLower _mode) do {
 			case ("update"): {
 				params [
 					["_container", "", [""]],
-					["_classname", "", [""]],
+					["_data", "", [""]],
 					["_amount", 1, [1]]
 				];
 
+				private _classname = (_data splitString ":") select 0;
 				private _bar = CTRLT(IDC_PROGRESS_LOAD);
 				private _barNew = CTRLT(IDC_PROGRESS_NEWLOAD);
 
