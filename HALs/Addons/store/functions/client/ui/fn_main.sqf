@@ -604,10 +604,10 @@ switch (toLower _mode) do {
 					_barNew progressSetPosition 0;
 				};
 
-				private _load = _classname call HALs_store_fnc_getItemMass;
-
 				// Check if it's a backpack with items
 				private _type = [_classname] call HALs_store_fnc_getItemType;
+				private _load = _classname call HALs_store_fnc_getItemMass;
+				//speedup
 				if (_type isEqualTo 3) then {
 					_arrayCargo = [];
 
@@ -622,12 +622,7 @@ switch (toLower _mode) do {
 
 				private _progress = linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
 				private _canAdd = _container canAdd [_classname, _amount];
-				private _colour = [0, 0.9, 0, 0.6];
-
-				if (not _canAdd || _progress > 1) then {
-					_progress = 1;
-					_colour = [0.9, 0, 0, 0.6];
-				};
+				private _colour = [[0, 0.9, 0, 0.6], [0.9, 0, 0, 0.6]] select (not _canAdd);
 
 				_bar progressSetPosition (_currentLoad / _maxLoad);
 				_barNew progressSetPosition _progress;
