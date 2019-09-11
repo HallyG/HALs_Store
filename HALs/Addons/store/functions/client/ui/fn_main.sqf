@@ -127,30 +127,28 @@ switch (toLower _mode) do {
 
 				{
 					_x params ["_classname", "_price"];
-					private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
+
+					_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 					_showAffordable = not (_isChecked1 && {_price > _money});
 					_showAvaliable = not (_isChecked2 && {_stock < 1});
 
 					if (_showAffordable && _showAvaliable) then {
-						private _cfg = _classname call HALs_fnc_getConfigClass;
-						private _idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
+						_cfg = _classname call HALs_fnc_getConfigClass;
+						_idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
 
 						_ctrlList lbSetData [_idx, _classname];
-						_ctrlList lbSetValue [_idx, 0 max _price min 999999];
+						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
 						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
 
 						if (_price > _money) then {
 							_ctrlList lbSetColorRight [_idx, [0.8, 0, 0, 1]]; //0.91
 							_ctrlList lbSetSelectColorRight [_idx, [0.8, 0, 0, 1]];
-						} else {
-							_ctrlList lbSetColorRight [_idx, [0.666667, 1, 0.666667, 1]];
-							_ctrlList lbSetSelectColorRight [_idx, [0.666667, 1, 0.666667, 1]];
 						};
 					};
 				} count _items;
 
-				lbSort [_ctrlList, ["ASC", "DESC"] select (CTRL(IDC_LISTBOX_SORT) getVariable ["dir", 0])];
+				lbSort [_ctrlList, CTRL(IDC_LISTBOX_SORT) getVariable ["dirStr", "ASC"]];
 				_ctrlList lbSetCurSel ((_ctrlList getVariable ["idx", -1]) max 0);
 			};
 		};
@@ -276,6 +274,7 @@ switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
 			case ("enabled"): {
+				//speed up
 				private _ctrlButton = CTRLT(IDC_BUTTON_BUY);
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _idx = _ctrlList getVariable ["idx", -1];
@@ -329,10 +328,13 @@ switch (toLower _mode) do {
 				};
 
 				_sortDir = (_sortDir * -1) + 1;
+				private _str = ["ASC", "DESC"] select _sortDir;
+
 				_ctrlButton ctrlSetText (["↑", "↓"] select _sortDir);
 				_ctrlButton setVariable ["dir", _sortDir];
+				_ctrlButton setVariable ["dirStr", _str];
 
-				lbSort [_ctrlList, ["ASC", "DESC"] select _sortDir];
+				lbSort [_ctrlList, _str];
 				ctrlSetFocus _ctrlList;
 				_ctrlList lbSetCurSel ((_ctrlList getVariable ["idx", -1]) max 0);
 			};
@@ -359,6 +361,7 @@ switch (toLower _mode) do {
 					params ["_mode", "_this"];
 
 					case ("buy"): {
+						//speed up
 						params [
 							["_price", 0, [0]],
 							["_amount", 0, [0]]
@@ -431,6 +434,7 @@ switch (toLower _mode) do {
 					};
 
 					case ("item"): {
+						//speed up
 						private _idx = CTRL(IDC_LISTBOX) getVariable ["idx", -1];
 						private _pictureCtrl = CTRL(IDC_ITEM_PICTURE);
 						private _titleCtrl = CTRL(IDC_ITEM_TEXT);
