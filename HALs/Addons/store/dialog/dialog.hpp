@@ -6,19 +6,31 @@
 #define GRID_Y(gridType, gridScale, num) (pixelH * gridType * (((num) * (gridScale)) / SCALEFACTOR))
 #define FONT(num) (1.5 * pixelH * pixelGridNoUIScale * num) //(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * num)
 
+// General MACROs
+#define BAR_W 3
+#define BAR_H 3
+#define BUFFER_W 2
+#define BUFFER_H 2
+#define SPACE_W 1
+#define SPACE_H 1
+
+// Trader ctrl MACROS
+#define COMBO_W 35
+#define CARGO_W 18
+#define LIST_W (COMBO_W + SPACE_W*4 + BAR_W*4) //54
+
+#define ITEM_W 52
+#define ITEM_X (LIST_W + BUFFER_W + BUFFER_W)
+#define ITEM_Y (BAR_H*2 + SPACE_H*2 + SPACE_H)
+#define PIC_H 21
+
 #define DIALOG_W (128)
 #define DIALOG_H (80)
 #define DIALOG_X (safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, DIALOG_W/2))
 #define DIALOG_Y (safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, DIALOG_H/2))
 
-// General MACROs
-#define BAR_W 3
-#define BAR_H 3
-#define SPACE_W 1
-#define SPACE_H 1
-
 // Item selection/information MACROs
-#define STORE_W (110)
+#define STORE_W (109)
 #define STORE_H (DIALOG_H)
 
 #define FUNDS_W (20)
@@ -31,12 +43,6 @@
 #define TRADER_Y (DIALOG_Y + GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H/*BAR_H*2 + SPACE_H*3*/))
 #define TRADER_X (DIALOG_X + GRID_X(pixelGridNoUIScale, 2, STORE_W + SPACE_W))
 #define TRADER_PIC_H 21
-
-// Trader ctrl MACROS
-#define COMBO_W 35
-#define LIST_W 54
-#define ITEM_W 52
-#define CARGO_W 18
 
 class RscDisplayStore {
 	idd = IDD_DISPLAY_STORE;
@@ -243,7 +249,7 @@ class RscDisplayStore {
 
 				class ComboCategories: RscItemComboBox {
 					idc = IDC_COMBO_CATEGORY;
-					x = GRID_X(pixelGridNoUIScale, 2, SPACE_W);
+					x = GRID_X(pixelGridNoUIScale, 2, BUFFER_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, COMBO_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -253,7 +259,7 @@ class RscDisplayStore {
 
 				class ItemListboxSortButton: RscItemButtonAction {
 					idc = IDC_LISTBOX_SORT;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_W*3 - SPACE_W*3);
+					x = GRID_X(pixelGridNoUIScale, 2, BUFFER_W + COMBO_W + SPACE_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -272,7 +278,7 @@ class RscDisplayStore {
 
 				class ItemCheckbox1: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 1;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_W*2 - SPACE_W*2);
+					x = GRID_X(pixelGridNoUIScale, 2, BUFFER_W + COMBO_W + SPACE_W*2 + BAR_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -280,7 +286,7 @@ class RscDisplayStore {
 
 				class ItemCheckbox2: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 2;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_W - SPACE_W);
+					x = GRID_X(pixelGridNoUIScale, 2, BUFFER_W + COMBO_W + SPACE_W*3 + BAR_W*2);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -288,7 +294,7 @@ class RscDisplayStore {
 
 				class ItemCheckbox3: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 3;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2);
+					x = GRID_X(pixelGridNoUIScale, 2, BUFFER_W + COMBO_W + SPACE_W*4 + BAR_W*3);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -296,10 +302,10 @@ class RscDisplayStore {
 
 				class ItemListbox: RscItemListBox {
 					idc = IDC_LISTBOX;
-					x = GRID_X(pixelGridNoUIScale, 2, SPACE_W);
+					x = GRID_X(pixelGridNoUIScale, 2, BUFFER_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, LIST_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (BAR_H*2 + SPACE_H*4));
+					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (BAR_H*2 + SPACE_H*3 + BUFFER_H));
 					sizeEx = FONT(0.8);
 					font = "PuristaMedium";
 					colorTextRight[] = {0.666667, 1, 0.666667, 1};
@@ -311,36 +317,36 @@ class RscDisplayStore {
 
 				class ItemPictureBackground: RscItemText {
 					idc = -1;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H);
+					x = GRID_X(pixelGridNoUIScale, 2, ITEM_X);
+					y = GRID_Y(pixelGridNoUIScale, 2, ITEM_Y);
 					w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, 21);
+					h = GRID_Y(pixelGridNoUIScale, 2, PIC_H);
 					colorBackground[] = {1, 1, 1, 0.2};
 				};
 
 				class ItemPicture: RscItemCtrlStaticPictureKeepAspect {
 					idc = IDC_ITEM_PICTURE;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
-					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H*2 + SPACE_H*2 + SPACE_H);
+					x = GRID_X(pixelGridNoUIScale, 2, ITEM_X);
+					y = GRID_Y(pixelGridNoUIScale, 2, ITEM_Y);
 					w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, 21);
+					h = GRID_Y(pixelGridNoUIScale, 2, PIC_H);
 				};
 
 				class ItemDescriptionBackground: RscItemText {
 					idc = -1;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
-					y = GRID_Y(pixelGridNoUIScale, 2, 30 + SPACE_H);
+					x = GRID_X(pixelGridNoUIScale, 2, ITEM_X);
+					y = GRID_Y(pixelGridNoUIScale, 2, ITEM_Y + PIC_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - 31 - SPACE_H);
+					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (ITEM_Y + PIC_H + SPACE_H + BUFFER_H));
 					colorBackground[] = {0.05, 0.05, 0.05, 0.3};
 				};
 
 				class ItemDescriptionGroup: RscItemCtrlGroup {
 					idc = -1;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W + 3);
-					y = GRID_Y(pixelGridNoUIScale, 2, 30 + SPACE_H);
+					x = GRID_X(pixelGridNoUIScale, 2, ITEM_X);
+					y = GRID_Y(pixelGridNoUIScale, 2, ITEM_Y + PIC_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - 31 - SPACE_H);
+					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (ITEM_Y + PIC_H + SPACE_H + BUFFER_H));
 
 					class controls {
 						class ItemText: RscItemStructuredText {
@@ -348,7 +354,7 @@ class RscDisplayStore {
 							x = 0;
 							y = 0;
 							w = GRID_X(pixelGridNoUIScale, 2, ITEM_W);
-							h = GRID_Y(pixelGridNoUIScale, 2, 21);
+							h = GRID_Y(pixelGridNoUIScale, 2, PIC_H);
 							shadow = 0;
 						};
 
@@ -357,7 +363,7 @@ class RscDisplayStore {
 							x = 0;
 							y = 0;
 							w = GRID_X(pixelGridNoUIScale, 2, ITEM_W - 1);
-							h = GRID_Y(pixelGridNoUIScale, 2, 21);
+							h = GRID_Y(pixelGridNoUIScale, 2, PIC_H);
 							size = FONT(0.9);
 
 							class Attributes {
