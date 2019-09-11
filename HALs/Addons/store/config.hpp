@@ -19,6 +19,26 @@ class cfgHALsStore {
 	debug = 1;
 
 	class categories {
+		class handguns {
+			displayName = "Handguns";
+			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\handgun_ca.paa";
+
+			#define HDG_STOCK 20
+			class hgun_Pistol_Signal_F {
+				price = 1337;
+				stock = 1;
+				description = "<t size='1' shadow='2' color='#FFB217'>yeet.</t>"
+			};
+
+			ITEM(hgun_Pistol_heavy_01_F, 300, HDG_STOCK);
+			ITEM(hgun_Pistol_heavy_01_green_F, 300, HDG_STOCK);
+			ITEM(hgun_ACPC2_F, 150, HDG_STOCK);
+			ITEM(hgun_Pistol_01_F, 150, HDG_STOCK);
+			ITEM(hgun_P07_F, 150, HDG_STOCK);
+			ITEM(hgun_P07_khk_F, 150, HDG_STOCK);
+			ITEM(hgun_Rook40_F, 150, HDG_STOCK);
+			ITEM(hgun_Pistol_heavy_02_F, 300, HDG_STOCK);
+		};
 		class launchers {
 			displayName = "Rocket Launchers";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\secondaryWeapon_ca.paa";
@@ -113,21 +133,6 @@ class cfgHALsStore {
 			ITEM(SMG_05_F, 300, SMG_STOCK);
 			ITEM(SMG_02_F, 300, SMG_STOCK);
 			ITEM(SMG_01_F, 300, SMG_STOCK);
-		};
-		class handguns {
-			displayName = "Handguns";
-			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\handgun_ca.paa";
-
-			#define HDG_STOCK 20
-			ITEM(hgun_Pistol_heavy_01_F, 300, HDG_STOCK);
-			ITEM(hgun_Pistol_heavy_01_green_F, 300, HDG_STOCK);
-			ITEM(hgun_ACPC2_F, 150, HDG_STOCK);
-			ITEM(hgun_Pistol_01_F, 150, HDG_STOCK);
-			ITEM(hgun_P07_F, 150, HDG_STOCK);
-			ITEM(hgun_P07_khk_F, 150, HDG_STOCK);
-			ITEM(hgun_Rook40_F, 150, HDG_STOCK);
-			ITEM(hgun_Pistol_Signal_F, 1337, 1);
-			ITEM(hgun_Pistol_heavy_02_F, 300, HDG_STOCK);
 		};
 
 		/*
