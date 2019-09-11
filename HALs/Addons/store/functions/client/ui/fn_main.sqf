@@ -99,6 +99,9 @@ switch (toLower _mode) do {
 
 					["progress", ["stats", [_data]]] call  HALs_store_fnc_main;
 					["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
+
+					_value = _ctrl getVariable "value";
+
 					["text", ["update", ["buy", [_value, _amt]]]] call HALs_store_fnc_main;
 					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data", _data, _amt]]] call  HALs_store_fnc_main;
 					["edit", ["update", []]] call  HALs_store_fnc_main;
@@ -258,9 +261,9 @@ switch (toLower _mode) do {
 
 					_ctrl setVariable ["amt", _amt];
 
-					// HERE CTRLT
 					_listbox = CTRL(IDC_LISTBOX);
 					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data", _listbox getVariable "data", _amt]]] call  HALs_store_fnc_main;
+
 					["text", ["update", ["buy", [_listbox getVariable "value", _amt]]]] call  HALs_store_fnc_main;
 					["button", ["enabled", []]] call  HALs_store_fnc_main;
 				}];
@@ -395,8 +398,8 @@ switch (toLower _mode) do {
 
 					case ("buy"): {
 						params [
-							["_price", 0, [0]],
-							["_amount", 0, [0]]
+							["_price", 0],
+							["_amount", 0]
 						];
 
 						private _ctrlText = CTRLT(IDC_ITEM);
@@ -407,10 +410,10 @@ switch (toLower _mode) do {
 						};
 
 						private _dataArr = (_ctrlList lbData _idx) splitString ":";
-						_stock = parseNumber (_dataArr param [1, ""]);
-						_money = [player] call HALs_money_fnc_getFunds;
-						_sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
-						_total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
+						private _stock = parseNumber (_dataArr param [1, ""]);
+						private _money = [player] call HALs_money_fnc_getFunds;
+						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
+						private _total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
 
 						_ctrlText ctrlSetStructuredText parseText format [
 							"<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
