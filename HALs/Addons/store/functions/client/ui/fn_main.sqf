@@ -274,46 +274,61 @@ switch (toLower _mode) do {
 			params ["_mode", "_this"];
 
 			case ("enabled"): {
-				//speed up
 				private _ctrlButton = CTRLT(IDC_BUTTON_BUY);
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _idx = _ctrlList getVariable ["idx", -1];
 
+				// No selection
 				if (_idx isEqualTo -1) exitWith {
 					_ctrlButton ctrlEnable false;
 				};
 
-				_price = _ctrlList getVariable "value";
-				_amount = CTRLT(IDC_EDIT) getVariable "amt";
-				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
-				_money = [player] call HALs_money_fnc_getFunds;
-
+				// Insufficient stock
+				_amount = CTRLT(IDC_EDIT) getVariable ["amt", 1];
 				_classname = _ctrlList getVariable "data";
 				_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
+				if (_stock < 1 ||  _amount < 1 || _amount > _stock) exitWith {
+					_ctrlButton ctrlEnable false;
+				};
 
-				//--- Check if purchase is valid
-				_canBuy = !((_price * _amount * _sale > _money) || _stock < 1 || _amount > _stock || _amount < 1);
+				// Insufficient Funds
+				_price = _ctrlList getVariable ["value", 0];
+				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
+				if (_price * _amount * _sale > ([player] call HALs_money_fnc_getFunds)) exitWith {
+					_ctrlButton ctrlEnable false;
+				};
 
-				//--- Check if the item can be equipped
-				_doEquip = cbChecked CTRLT(IDC_CHECKBOX_BUY);
-				_canEquipPlayer = [player, _classname] call HALs_store_fnc_canEquipItem;
+				// Fetch container and check if items can be added
 				_container = (CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data") call BIS_fnc_objectFromNetId;
+				_canAdd = !isNull _container && {_container canAdd [_classname, _amount]};
 
-				//--- Player can equip item and can add the rest of the items to the container
-				_canEquip = _doEquip && {_canEquipPlayer && {!isNull _container && {_container canAdd [_classname, _amount - 1]}}};
-				//--- Player can equip item
-				_canEquipEmpty = _doEquip && {_canEquipPlayer} && {_amount isEqualTo 1};
-				//--- Can add all items to container
-				_canAdd = !(isNull _container) && {_container canAdd [_classname, _amount]};
+				// The item should not be equipped
+				if (!cbChecked CTRLT(IDC_CHECKBOX_BUY)) exitWith {
+					_ctrlButton ctrlEnable _canAdd;
+				};
 
-				_ctrlButton ctrlEnable ((_canBuy && _canAdd || _canBuy && _canEquip) || _canBuy && _canEquipEmpty);
+				// Check if the item can be equipped
+				_canEquipPlayer = [player, _classname] call HALs_store_fnc_canEquipItem;
+
+				// Can't equip item
+				if (!_canEquipPlayer) exitWith {
+					_ctrlButton ctrlEnable _canAdd;
+				};
+
+				_canEquip = !isNull _container && {_container canAdd [_classname, _amount - 1]};
+				_canEquipEmpty = _amount isEqualTo 1;
+
+				_ctrlButton ctrlEnable (_canEquip || _canEquipEmpty);
 			};
 
 			case ("buy"): {
 				private _list = CTRL(IDC_LISTBOX);
 				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data";
 
-				[player, _list getVariable "data", _list getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 2];
+				[
+					player, _list getVariable "data", _list getVariable "value", CTRLT(IDC_EDIT) getVariable "amt",
+					_container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)
+				] remoteExecCall ["HALs_store_fnc_purchase", 2];
 			};
 
 			case ("sell"): {};
