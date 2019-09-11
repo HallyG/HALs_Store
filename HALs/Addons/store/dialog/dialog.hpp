@@ -162,6 +162,7 @@ class RscDisplayStore {
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					text = "$STR_HALS_STORE_BUTTON_PURCHASE";
+					sizeEx = FONT(1);
 					action = "['button', ['buy', []]] call HALs_store_fnc_main;";
 				};
 
@@ -172,6 +173,7 @@ class RscDisplayStore {
 					w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					text = "SELL"; //"$STR_HALS_STORE_BUTTON_SELL";
+					sizeEx = FONT(1);
 					action = "['button', ['sell', []]] call HALs_store_fnc_main;";
 				};
 			};
@@ -263,8 +265,9 @@ class RscDisplayStore {
 					colorShadow[] = {0, 0, 0, 0};
 					colorBackgroundFocused[] = {1, 1, 1, 0};
 					shadow = 2;
+					sizeEx = FONT(1);
 					font = "PuristaMedium";
-					tooltip = "Sort listbox";
+					tooltip = "Alphabetise the listbox";
 				};
 
 				class ItemCheckbox1: RscItemCheckboxGreen {

@@ -127,13 +127,13 @@ class RscItemListBox {
 	fade = 0;
 	access = 0;
 	type = CT_LISTBOX;
-	rowHeight = "1.5 * pixelH * pixelGridNoUIScale * 1.75"; //4.32 * (1 / (getResolution select 3)) * pixelGrid * 1.5"; //"1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+	rowHeight = "1.5 * pixelH * pixelGridNoUIScale * 1.75";
 	colorText[] = {1, 1, 1, 1};
 	colorDisabled[] = {1, 1, 1, 0.25};
 	colorScrollbar[] = {1, 0, 0, 0};
 	colorSelect[] = {0, 0, 0, 1};
 	colorSelect2[] = {0, 0, 0, 1};
-	colorSelectBackground[] = {0.95, 0.95, 0.95, 1};
+	colorSelectBackground[] = {1, 1, 1, 0.5};
 	colorSelectBackground2[] = {1, 1, 1, 0.5};
 	colorBackground[] = {1, 1, 1, 0.15};
 	soundSelect[] = {"\A3\ui_f\data\sound\RscListbox\soundSelect", 0.09, 1};
@@ -170,8 +170,8 @@ class RscItemListBox {
 	colorShadow[] = {0, 0, 0, 0.5};
 	period = 0;
 	maxHistoryDelay = 1;
-	itemSpacing = 0; //"(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-	itemBackground[] = {0, 1, 1, 1};
+	itemSpacing = 0.001;
+	itemBackground[] = {0, 1, 1, 0.1};
 };
 
 class RscItemText {
