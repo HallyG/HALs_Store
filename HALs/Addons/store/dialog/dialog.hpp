@@ -304,6 +304,9 @@ class RscDisplayStore {
 					font = "PuristaMedium";
 					colorTextRight[] = {0.666667, 1, 0.666667, 1};
 					colorSelectRight[] = {0.666667, 1, 0.666667, 1};
+					colorSelect[] = {1, 0.7, 0.09, 1};
+					colorSelectBackground[] = {1, 1, 1, 0.2};
+					colorSelectBackground2[] = {1, 1, 1, 0.2};
 				};
 
 				class ItemPictureBackground: RscItemText {
