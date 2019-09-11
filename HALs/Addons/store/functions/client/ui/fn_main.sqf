@@ -151,6 +151,7 @@ switch (toLower _mode) do {
 					};
 				} count _items;
 
+				lbSort [_ctrlList, ["ASC", "DESC"] select (CTRL(IDC_LISTBOX_SORT) getVariable ["dir", 0])];
 				_ctrlList lbSetCurSel ((_ctrlList getVariable ["idx", -1]) max 0);
 			};
 		};
@@ -317,9 +318,24 @@ switch (toLower _mode) do {
 				[player, _list getVariable "data", _list getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)] remoteExecCall ["HALs_store_fnc_purchase", 2];
 			};
 
-			case ("sell"): {
+			case ("sell"): {};
 
+			case ("sort"): {
+				private _ctrlButton = CTRL(IDC_LISTBOX_SORT);
+				private _ctrlList = CTRL(IDC_LISTBOX);
 
+				private _sortDir = _ctrlButton getVariable ["dir", 0];
+				if (_sortDir isEqualTo -1) then {
+					_sortDir = 0;
+				};
+
+				_sortDir = (_sortDir * -1) + 1;
+				_ctrlButton ctrlSetText (["↑", "↓"] select _sortDir);
+				_ctrlButton setVariable ["dir", _sortDir];
+
+				lbSort [_ctrlList, ["ASC", "DESC"] select _sortDir];
+				ctrlSetFocus _ctrlList;
+				_ctrlList lbSetCurSel ((_ctrlList getVariable ["idx", -1]) max 0);
 			};
 		};
 	};

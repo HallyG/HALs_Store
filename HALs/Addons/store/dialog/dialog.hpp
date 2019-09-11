@@ -162,7 +162,7 @@ class RscDisplayStore {
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					text = "$STR_HALS_STORE_BUTTON_PURCHASE";
-					action = "['BUTTON', ['BUY', []]] call HALs_store_fnc_main;";
+					action = "['button', ['buy', []]] call HALs_store_fnc_main;";
 				};
 
 				class SellButton: RscItemButtonAction {
@@ -172,7 +172,7 @@ class RscDisplayStore {
 					w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					text = "SELL"; //"$STR_HALS_STORE_BUTTON_SELL";
-					action = "['BUTTON', ['SELL', []]] call HALs_store_fnc_main;";
+					action = "['button', ['sell', []]] call HALs_store_fnc_main;";
 				};
 			};
 		};
@@ -249,9 +249,27 @@ class RscDisplayStore {
 					colorBackground[] = {0, 0, 0, 0.95};
 				};
 
+				class ItemListboxSortButton: RscItemButtonAction {
+					idc = IDC_LISTBOX_SORT;
+					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_W*3 - SPACE_W*3);
+					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
+					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
+					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+					text = "↑";
+					action = "['button', ['sort', []]] call HALs_store_fnc_main;";
+					colorBackground[] = {0, 0, 0, 0};
+					colorBorder[] = {0, 0, 0, 1};
+					colorFocused[] = {0, 0, 0, 0};
+					colorShadow[] = {0, 0, 0, 0};
+					colorBackgroundFocused[] = {1, 1, 1, 0};
+					shadow = 2;
+					font = "PuristaMedium";
+					tooltip = "Sort listbox";
+				};
+
 				class ItemCheckbox1: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 1;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_H*2 - SPACE_H*2);
+					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_W*2 - SPACE_W*2);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
@@ -259,7 +277,7 @@ class RscDisplayStore {
 
 				class ItemCheckbox2: RscItemCheckboxGreen {
 					idc = IDC_CHECKBOX + 2;
-					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_H - SPACE_H);
+					x = GRID_X(pixelGridNoUIScale, 2, LIST_W - 2 - BAR_W - SPACE_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
