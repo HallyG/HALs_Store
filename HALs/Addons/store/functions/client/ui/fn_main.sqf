@@ -141,9 +141,8 @@ switch (toLower _mode) do {
 						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
 
 						if (_price > _money) then {
-							//_ctrlList lbSetTooltip [_idx, format [localize "STR_HALS_STORE_LISTBOX_NOMONEY", (_price - _money) call HALs_fnc_numberToString]];
-							_ctrlList lbSetColorRight [_idx, [0.91, 0, 0, 1]];
-							_ctrlList lbSetSelectColorRight [_idx, [0.91, 0, 0, 1]];
+							_ctrlList lbSetColorRight [_idx, [0.8, 0, 0, 1]]; //0.91
+							_ctrlList lbSetSelectColorRight [_idx, [0.8, 0, 0, 1]];
 						} else {
 							_ctrlList lbSetColorRight [_idx, [0.666667, 1, 0.666667, 1]];
 							_ctrlList lbSetSelectColorRight [_idx, [0.666667, 1, 0.666667, 1]];
@@ -428,7 +427,7 @@ switch (toLower _mode) do {
 
 					case ("funds"): {
 						private _money = ([player] call HALs_money_fnc_getFunds) toFixed 0;
-						CTRL(IDC_FUNDS) ctrlSetStructuredText parseText format["<t color='#aaffaa'>%1 %2</t>", (parseNumber _money) call HALs_fnc_numberToString, HALs_store_currencySymbol];
+						CTRL(IDC_FUNDS) ctrlSetStructuredText parseText format["<t valign='middle' align='right' color='#aaffaa'>%1 %2</t>", (parseNumber _money) call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 
 					case ("item"): {
