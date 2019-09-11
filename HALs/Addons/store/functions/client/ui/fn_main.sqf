@@ -172,11 +172,14 @@ switch (toLower _mode) do {
 				}];
 
 				private _categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "categories");
+
+				// Sort categories in ascending order by displayName
+				_categories = [_categories, {getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> "displayName")}, true] call HALs_fnc_sortArray;
+
 				{
 					private _cfg = missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x;
 					private _id = _ctrlCategory lbAdd (getText (_cfg >> "displayName"));
 					_ctrlCategory lbSetData [_id, _x];
-					//_ctrlCategory lbSetPictureRight [_id, getText (_cfg >> "picture")];
 				} count _categories;
 
 				if (lbSize _ctrlCategory > 0) then {_ctrlCategory lbSetCurSel 0};
