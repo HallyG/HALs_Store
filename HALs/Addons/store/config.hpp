@@ -12,10 +12,6 @@ __________________________________________________________________*/
 		stock = STOCK;\
 	};
 
-//#define ITEM(CLASSNAME, PRICE) ITEM(CLASSNAME, PRICE, DEFAULT_STOCK)
-//#define ITEM(CLASSNAME) ITEM(CLASSNAME, DEFAULT_PRICE, DEFAULT_STOCK)
-
-
 class cfgHALsStore {
 	containerTypes[] = {"LandVehicle", "Air", "Ship"};
 	containerRadius = 10;
@@ -28,229 +24,146 @@ class cfgHALsStore {
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\secondaryWeapon_ca.paa";
 
 			#define RL_STOCK 2
-			ITEM(launch_NLAW_F, 2500, RL_STOCK);
-			ITEM(launch_RPG32_F, 1500, RL_STOCK);
-			ITEM(launch_RPG32_ghex_F, 1500, RL_STOCK);
-			ITEM(launch_RPG7_F, 1000, 5);
-			ITEM(launch_B_Titan_F, 4500, RL_STOCK);
-			ITEM(launch_I_Titan_F, 4500, RL_STOCK);
-			ITEM(launch_O_Titan_F, 4500, RL_STOCK);
-			ITEM(launch_O_Titan_ghex_F, 4500, RL_STOCK);
-			ITEM(launch_B_Titan_tna_F, 4500, RL_STOCK);
-			ITEM(launch_B_Titan_short_F, 3500, RL_STOCK);
-			ITEM(launch_I_Titan_short_F, 3500, RL_STOCK);
-			ITEM(launch_O_Titan_short_F, 3500, RL_STOCK);
-			ITEM(launch_B_Titan_short_tna_F, 3500, RL_STOCK);
-			ITEM(launch_O_Titan_short_ghex_F, 3500, RL_STOCK);
+			ITEM(launch_RPG32_F, 3000, RL_STOCK);
+			ITEM(launch_RPG32_green_F, 3000, RL_STOCK);
+			ITEM(launch_RPG32_ghex_F, 3000, RL_STOCK);
+			ITEM(launch_RPG7_F, 3000, 5);
+			ITEM(launch_NLAW_F, 4000, RL_STOCK);
+			ITEM(launch_B_Titan_F, 5000, RL_STOCK);
+			ITEM(launch_I_Titan_F, 5000, RL_STOCK);
+			ITEM(launch_O_Titan_F, 5000, RL_STOCK);
+			ITEM(launch_O_Titan_ghex_F, 5000, RL_STOCK);
+			ITEM(launch_B_Titan_tna_F, 5000, RL_STOCK);
+			ITEM(launch_B_Titan_short_F, 5000, RL_STOCK);
+			ITEM(launch_I_Titan_short_F, 5000, RL_STOCK);
+			ITEM(launch_O_Titan_short_F, 5000, RL_STOCK);
+			ITEM(launch_B_Titan_short_tna_F, 5000, RL_STOCK);
+			ITEM(launch_O_Titan_short_ghex_F, 5000, RL_STOCK);
+			ITEM(launch_I_Titan_eaf_F, 5000, RL_STOCK);
+			ITEM(launch_B_Titan_olive_F, 5000, RL_STOCK);
+			ITEM(launch_O_Vorona_brown_F, 6000, RL_STOCK);
+			ITEM(launch_O_Vorona_green_F, 6000, RL_STOCK);
+			ITEM(launch_MRAWS_olive_F, 5500, RL_STOCK);
+			ITEM(launch_MRAWS_olive_rail_F, 5000, RL_STOCK);
+			ITEM(launch_MRAWS_green_F, 5500, RL_STOCK);
+			ITEM(launch_MRAWS_green_rail_F, 5000, RL_STOCK);
+			ITEM(launch_MRAWS_sand_F, 5500, RL_STOCK);
+			ITEM(launch_MRAWS_sand_rail_F, 5000, RL_STOCK);
 		};
-		class handguns {
-			displayName = "Handguns";
-			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\handgun_ca.paa";
+		class navigation {
+			displayName = "Navigation";
+			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\compass_ca.paa";
 
-			class hgun_ACPC2_F {
-				price = 350;
-				stock = 30;
-			};
-			class hgun_Pistol_01_F {
-				price = 300;
-				stock = 50;
-			};
-			class hgun_P07_khk_F {
-				price = 400;
-				stock = 30;
-			};
-			class hgun_P07_F {
-				price = 400;
-				stock = 30;
-			};
-			class hgun_Rook40_F {
-				price = 300;
-				stock = 50;
-			};
-			class hgun_Pistol_heavy_02_F {
-				price = 600;
-				stock = 20;
-			};
-			class hgun_Pistol_heavy_01_F {
-				price = 500;
-				stock = 20;
-			};
-			class hgun_Pistol_Signal_F {
-				price = 300;
-				stock = 20;
-			};
+			#define NN_STOCK 50
+			ITEM(ItemWatch, 50, NN_STOCK);
+			ITEM(ItemGPS, 100, NN_STOCK);
+			ITEM(ItemMap, 75, NN_STOCK);
+			ITEM(ItemCompass, 75, NN_STOCK);
+			ITEM(ItemRadio, 75, NN_STOCK);
+			ITEM(Binocular, 200, NN_STOCK);
+			ITEM(Rangefinder, 400, NN_STOCK);
+			ITEM(Laserdesignator, 750, NN_STOCK);
+			ITEM(Laserdesignator_02, 750, NN_STOCK);
+			ITEM(Laserdesignator_03, 750, NN_STOCK);
+			ITEM(NVGoggles, 500, NN_STOCK);
+			ITEM(NVGoggles_INDEP, 500, NN_STOCK);
+			ITEM(NVGoggles_OPFOR, 500, NN_STOCK);
+			ITEM(NVGoggles_tna_F, 500, NN_STOCK);
+			ITEM(O_NVGoggles_hex_F, 500, NN_STOCK);
+			ITEM(O_NVGoggles_urb_F, 500, NN_STOCK);
+			ITEM(O_NVGoggles_ghex_F, 500, NN_STOCK);
+			ITEM(NVGogglesB_blk_F, 3000, NN_STOCK);
+			ITEM(NVGogglesB_grn_F, 3000, NN_STOCK);
+			ITEM(NVGogglesB_gry_F, 3000, NN_STOCK);
+			ITEM(O_NVGoggles_grn_F, 500, NN_STOCK);
 		};
 		class underbarrel {
 			displayName = "Underbarrel Accessories";
 			picture = "";
 
-			class bipod_01_F_blk {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_01_F_mtp {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_01_F_snd {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_02_F_blk {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_02_F_hex {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_02_F_tan {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_03_F_blk {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_03_F_oli {
-				price = 10;
-				stock = 100;
-			};
-			class bipod_01_F_khk {
-				price = 10;
-				stock = 100;
-			};
-		};
-		class muzzles {
-			displayName = "Muzzle Accessories";
-			picture = "";
-
-			class muzzle_snds_338_black {
-				price = 50;
-				stock = 100;
-			};
-			class muzzle_snds_338_green {
-				price = 50;
-				stock = 100;
-			};
-			class muzzle_snds_338_sand {
-				price = 50;
-				stock = 100;
-			};
-			class muzzle_snds_93mmg {
-				price = 50;
-				stock = 100;
-			};
-			class muzzle_snds_93mmg_tan {
-				price = 50;
-				stock = 100;
-			};
-			class muzzle_snds_acp {
-				price = 10;
-				stock = 100;
-			};
-			class muzzle_snds_B {
-				price = 20;
-				stock = 100;
-			};
-			class muzzle_snds_H {
-				price = 20;
-				stock = 100;
-			};
-			class muzzle_snds_H_MG {
-				price = 20;
-				stock = 100;
-			};
-			class muzzle_snds_H_SW {
-				price = 20;
-				stock = 100;
-			};
-			class muzzle_snds_L {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_M {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_H_khk_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_H_snd_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_m_khk_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_m_snd_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_58_blk_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_58_wdm_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_58_ghex_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_58_hex_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_B_khk_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_B_snd_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_65_TI_blk_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_65_TI_hex_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_65_TI_ghex_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_H_MG_blk_F {
-				price = 100;
-				stock = 100;
-			};
-			class muzzle_snds_H_MG_khk_F {
-				price = 100;
-				stock = 100;
-			};
+			#define UB_STOCK 10
+			ITEM(bipod_02_F_arid, 75, UB_STOCK);
+			ITEM(bipod_03_F_blk, 75, UB_STOCK);
+			ITEM(bipod_02_F_blk, 75, UB_STOCK);
+			ITEM(bipod_01_F_blk, 75, UB_STOCK);
+			ITEM(bipod_02_F_hex, 75, UB_STOCK);
+			ITEM(bipod_01_F_khk, 75, UB_STOCK);
+			ITEM(bipod_02_F_lush, 75, UB_STOCK);
+			ITEM(bipod_01_F_mtp, 75, UB_STOCK);
+			ITEM(bipod_03_F_oli, 75, UB_STOCK);
+			ITEM(bipod_01_F_snd, 75, UB_STOCK);
+			ITEM(bipod_02_F_tan, 75, UB_STOCK);
 		};
 		class pointers {
 			displayName = "Pointer Accessories";
 			picture = "";
 
-			class acc_flashlight {
-				price = 300;
-				stock = 100;
-			};
-			class acc_flashlight_pistol {
-				price = 300;
-				stock = 100;
-			};
-			class acc_pointer_IR {
-				price = 800;
-				stock = 100;
-			};
+			#define PN_STOCK 10
+			ITEM(acc_flashlight, 75, PN_STOCK);
+			ITEM(acc_flashlight_smg_01, 75, PN_STOCK);
+			ITEM(acc_pointer_IR, 100, PN_STOCK);
+			ITEM(acc_flashlight_pistol, 75, PN_STOCK);
 		};
+		class smgs {
+			displayName = "Submachine guns";
+			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\primaryWeapon_ca.paa";
+
+			#define SMG_STOCK 20
+			ITEM(hgun_PDW2000_F, 300, SMG_STOCK);
+			ITEM(SMG_05_F, 300, SMG_STOCK);
+			ITEM(SMG_02_F, 300, SMG_STOCK);
+			ITEM(SMG_01_F, 300, SMG_STOCK);
+		};
+		class handguns {
+			displayName = "Handguns";
+			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\handgun_ca.paa";
+
+			#define HDG_STOCK 20
+			ITEM(hgun_Pistol_heavy_01_F, 300, HDG_STOCK);
+			ITEM(hgun_Pistol_heavy_01_green_F, 300, HDG_STOCK);
+			ITEM(hgun_ACPC2_F, 150, HDG_STOCK);
+			ITEM(hgun_Pistol_01_F, 150, HDG_STOCK);
+			ITEM(hgun_P07_F, 150, HDG_STOCK);
+			ITEM(hgun_P07_khk_F, 150, HDG_STOCK);
+			ITEM(hgun_Rook40_F, 150, HDG_STOCK);
+			ITEM(hgun_Pistol_Signal_F, 1337, 1);
+			ITEM(hgun_Pistol_heavy_02_F, 300, HDG_STOCK);
+		};
+
+		/*
+		class muzzles {
+			displayName = "Muzzle Accessories";
+			picture = "";
+
+			#define MZ_STOCK 5
+			ITEM(muzzle_snds_338_black, 300, MZ_STOCK); //5
+			ITEM(muzzle_snds_338_green, 300, MZ_STOCK);
+			ITEM(muzzle_snds_338_sand, 300, MZ_STOCK);
+			ITEM(muzzle_snds_93mmg, 300, MZ_STOCK); //4
+			ITEM(muzzle_snds_93mmg_tan, 300, MZ_STOCK);
+			ITEM(muzzle_snds_acp, 150, MZ_STOCK);
+			ITEM(muzzle_snds_B, 200, MZ_STOCK);//3
+			ITEM(muzzle_snds_B_khk_F, 200, MZ_STOCK);
+			ITEM(muzzle_snds_B_snd_F, 200, MZ_STOCK);
+			ITEM(muzzle_snds_H, 200, MZ_STOCK);//2
+			ITEM(muzzle_snds_H_khk_F, 200, MZ_STOCK);//2
+			ITEM(muzzle_snds_H_snd_F, 200, MZ_STOCK);
+			ITEM(muzzle_snds_H_MG, 200, MZ_STOCK);
+			ITEM(muzzle_snds_H_SW, 200, MZ_STOCK);
+			ITEM(muzzle_snds_L, 200, MZ_STOCK);//1
+			ITEM(muzzle_snds_M, 200, MZ_STOCK);
+			ITEM(muzzle_snds_58_blk_F, 150, MZ_STOCK);//1
+			ITEM(muzzle_snds_m_khk_F, 200, MZ_STOCK);
+			ITEM(muzzle_snds_m_snd_F, 200, MZ_STOCK);
+			ITEM(muzzle_snds_58_wdm_F, 150, MZ_STOCK);//1
+			ITEM(muzzle_snds_58_ghex_F, 150, MZ_STOCK);
+			ITEM(muzzle_snds_58_hex_F, 150, MZ_STOCK);
+			ITEM(muzzle_snds_65_TI_blk_F, 350, MZ_STOCK); //2
+			ITEM(muzzle_snds_65_TI_hex_F, 350, MZ_STOCK);
+			ITEM(muzzle_snds_65_TI_ghex_F, 350, MZ_STOCK);
+			ITEM(muzzle_snds_H_MG_blk_F, 200, MZ_STOCK);
+			ITEM(muzzle_snds_H_MG_khk_F, 200, MZ_STOCK);
+		};*/
 		class optics {
 			displayName = "Optics Accessories";
 			picture = "";
@@ -521,52 +434,6 @@ class cfgHALsStore {
 				stock = 100;
 			};
 		};
-		class navigation {
-			displayName = "Navigation";
-			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\compass_ca.paa";
-
-			class ItemMap {
-				price = 30;
-				stock = 10;
-			};
-			class ItemWatch {
-				price = 10;
-				stock = 10;
-			};
-			class ItemCompass {
-				price = 30;
-				stock = 10;
-			};
-			class ItemGPS {
-				price = 500;
-				stock = 5;
-			};
-			class Binocular {
-				price = 200;
-				stock = 5;
-			};
-		};
-		class smgs {
-			displayName = "Submachine guns";
-			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\primaryWeapon_ca.paa";
-
-			class hgun_PDW2000_F {
-				price = 400;
-				stock = 20;
-			};
-			class SMG_01_F {
-				price = 450;
-				stock = 20;
-			};
-			class SMG_02_F {
-				price = 450;
-				stock = 20;
-			};
-			class SMG_05_F {
-				price = 400;
-				stock = 20;
-			};
-		};
 		class mmgs {
 			displayName = "Medium machine gun";
 			picture = "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\primaryWeapon_ca.paa";
@@ -602,7 +469,7 @@ class cfgHALsStore {
 
 		class weapon {
 			displayName = "Weapons Store";
-			categories[] = {"launchers"}; //{"handguns", "launchers", "magazines", "mmgs", "muzzles", "optics", "pointers", "smgs", "underbarrel"};
+			categories[] = {"handguns", "launchers", "magazines", "mmgs", "optics", "pointers", "smgs", "underbarrel"};
 		};
 	};
 };
