@@ -13,7 +13,6 @@
 	Example:
 	["init"] call HALs_store_fnc_main;
 __________________________________________________________________*/
-#include "\a3\ui_f\hpp\definedikcodes.inc"
 #include "..\..\..\dialog\idcs.hpp"
 
 params [
@@ -140,6 +139,8 @@ switch (toLower _mode) do {
 						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
 						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
+
+						// Store stock and price?
 
 						if (_price > _money) then {
 							_ctrlList lbSetColorRight [_idx, [0.8, 0, 0, 1]]; //0.91
@@ -292,7 +293,7 @@ switch (toLower _mode) do {
 				};
 
 				// Insufficient Funds
-				_price = _ctrlList getVariable ["value", 0];
+				_price = _ctrlList lbValue _idx;
 				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
 				if (_price * _amount * _sale > ([player] call HALs_money_fnc_getFunds)) exitWith {
 					_ctrlButton ctrlEnable false;
@@ -382,47 +383,49 @@ switch (toLower _mode) do {
 							["_amount", 0, [0]]
 						];
 
-						private _ctrlList = CTRL(IDC_LISTBOX);
 						private _ctrlText = CTRLT(IDC_ITEM);
-
-						if !(_amount > 0 && (_ctrlList getVariable ["idx", -1]) > -1) exitWith {
+						private _ctrlList = CTRL(IDC_LISTBOX);
+						private _idx = _ctrlList getVariable ["idx", -1];
+						if (_amount < 1 || _idx isEqualTo -1) exitWith {
 							_ctrlText ctrlSetStructuredText parseText "";
-							_ctrlText ctrlSetTooltip "";
 						};
 
 						private _money = [player] call HALs_money_fnc_getFunds;
-						private _stock = [_trader, _ctrlList getVariable "data"] call HALs_store_fnc_getTraderStock;
+						private _stock = [_trader, _ctrlList lbData _idx] call HALs_store_fnc_getTraderStock; //replace?
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 						private _total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
 						private _totalStr = _total call HALs_fnc_numberToString;
 
-						_ctrlText ctrlSetStructuredText parseText format ["<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
-							format ["<t align='left' shadow='2' color='#%2'>x%1</t>", _amount, ['ffffff'/*'b2ec00'*/, 'ea0000'] select (_amount > _stock)],
-							format ["<t align='right' color='#aaffaa' shadow='1'>%1 %2</t>", _price, HALs_store_currencySymbol],
-							[format ["<t size='1' shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
+						_ctrlText ctrlSetStructuredText parseText format [
+							"<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
+							format ["<t align='left' color='#%2'>x%1</t>", _amount, ['ffffff'/*'b2ec00'*/, 'ea0000'] select (_amount > _stock)],
+							format ["<t color='#aaffaa' shadow='1'>%1 %2</t>", _price, HALs_store_currencySymbol],
+							[format ["<t shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
 							format ["<t size='1.1' color='#%2'>- %1 %3</t>", _totalStr, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
 						];
 
 						// Update positions of controls
 						_ctrlText ctrlSetPositionH ctrlTextHeight _ctrlText;
-						_ctrlText ctrlSetTooltip format ["Total cost: %1 %2", _totalStr, HALs_store_currencySymbol];
 						_ctrlText ctrlCommit 0;
 
-						private _ctrlEdit = CTRLT(IDC_EDIT);
+						_ctrlEdit = CTRLT(IDC_EDIT);
 						private _y = ((ctrlPosition _ctrlText) select 1) + ((ctrlPosition _ctrlText) select 3) + 3 * pixelH;
+
 						_ctrlEdit ctrlSetPositionY _y;
 						_ctrlEdit ctrlCommit 0;
 
-						private _ctrlButton = CTRLT(IDC_BUTTON_BUY);
-						private _ctrlCheckbox = CTRLT(IDC_CHECKBOX_BUY);
+						_ctrlButton = CTRLT(IDC_BUTTON_BUY);
+						_ctrlCheckbox = CTRLT(IDC_CHECKBOX_BUY);
 						_y = _y + ((ctrlPosition _ctrlEdit) select 3) + 3 * pixelH;
+
 						_ctrlButton ctrlSetPositionY _y;
 						_ctrlCheckbox ctrlSetPositionY _y;
 						_ctrlButton ctrlCommit 0;
 						_ctrlCheckbox ctrlCommit 0;
 
-						private _ctrlButtonSell = CTRLT(IDC_BUTTON_SELL);
+						_ctrlButtonSell = CTRLT(IDC_BUTTON_SELL);
 						_y = _y + ((ctrlPosition _ctrlEdit) select 3) + 3 * pixelH;
+
 						_ctrlButtonSell ctrlSetPositionY _y;
 						_ctrlButtonSell ctrlCommit 0;
 					};
@@ -449,20 +452,18 @@ switch (toLower _mode) do {
 					};
 
 					case ("item"): {
-						//speed up
+						private _ctrlListbox = CTRL(IDC_LISTBOX);
+						private _ctrlTitle = CTRL(IDC_ITEM_TEXT);
+						private _ctrlText = CTRL(IDC_ITEM_TEXT_DES);
 						private _idx = CTRL(IDC_LISTBOX) getVariable ["idx", -1];
-						private _pictureCtrl = CTRL(IDC_ITEM_PICTURE);
-						private _titleCtrl = CTRL(IDC_ITEM_TEXT);
-						private _textCtrl = CTRL(IDC_ITEM_TEXT_DES);
 
 						if (_idx isEqualTo -1) exitWith {
-							_pictureCtrl ctrlSetText "";
-							_titleCtrl ctrlSetStructuredText parseText "";
-							_textCtrl ctrlSetStructuredText parseText "";
+							CTRL(IDC_ITEM_PICTURE) ctrlSetText "";
+							_ctrlTitle ctrlSetStructuredText parseText "";
+							_ctrlText ctrlSetStructuredText parseText "";
 						};
 
-						private _ctrlListbox = CTRL(IDC_LISTBOX);
-						private _classname = _ctrlListbox lbData _idx;
+						private _classname = _ctrlListbox lbData _idx;  //replace?
 						private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 						private _config = _classname call HALs_fnc_getConfigClass;
 
@@ -473,21 +474,25 @@ switch (toLower _mode) do {
 							[configfile >> "CfgMagazines" >> _itemClass >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} select 0;
 
-						_pictureCtrl ctrlSetText (_ctrlListbox lbPicture _idx);
-						_textCtrl ctrlSetStructuredText parseText format ["%1", _description];
-						_titleCtrl ctrlSetStructuredText parseText format [
+						CTRL(IDC_ITEM_PICTURE) ctrlSetText (_ctrlListbox lbPicture _idx);
+						_ctrlText ctrlSetStructuredText parseText _description;
+						_ctrlTitle ctrlSetStructuredText parseText format [
 							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%2 %5</t><br/>%4",
-							_ctrlListbox lbText _idx, (_ctrlListbox lbValue _idx) call HALs_fnc_numberToString, toUpper localize "STR_HALS_STORE_TEXT_PRICE",
+							_ctrlListbox lbText _idx,
+							(_ctrlListbox lbValue _idx) call HALs_fnc_numberToString,
+							toUpper localize "STR_HALS_STORE_TEXT_PRICE",
 							[
 								format ["<t shadow='2' font ='PuristaMedium' color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
 								format ["<t shadow='2' font ='PuristaMedium' color='#A0DF3B'>%1</t>:  %2", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
-							] select (_stock > 0), HALs_store_currencySymbol
+							] select (_stock > 0),
+							HALs_store_currencySymbol
 						];
 
-						_titleCtrl ctrlSetPositionH ctrlTextHeight _titleCtrl;
-						_titleCtrl ctrlCommit 0;
+						_ctrlTitle ctrlSetPositionH ctrlTextHeight _ctrlTitle;
+						_ctrlTitle ctrlCommit 0;
 
-						private _y = ((ctrlPosition _titleCtrl) select 1) + ((ctrlPosition _titleCtrl) select 3) + pixelH * 4;
+						private _pos = ctrlPosition _ctrlTitle;
+						private _y = (_pos select 1) + (_pos select 3) + pixelH * 4;
 						{
 							_x params ["_ctrlBar", "_ctrlBarText"];
 
@@ -499,9 +504,9 @@ switch (toLower _mode) do {
 							_y = _y + ((ctrlPosition _ctrlBar) select 3) + pixelH * 3;
 						} count (STAT_BARS select {ctrlFade (_x select 0) < 1});
 
-						_textCtrl ctrlSetPositionY _y;
-						_textCtrl ctrlSetPositionH (ctrlTextHeight _textCtrl);
-						_textCtrl ctrlCommit 0;
+						_ctrlText ctrlSetPositionY _y;
+						_ctrlText ctrlSetPositionH (ctrlTextHeight _ctrlText);
+						_ctrlText ctrlCommit 0;
 					};
 				};
 			};
