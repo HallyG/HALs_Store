@@ -283,10 +283,10 @@ switch (toLower _mode) do {
 				};
 
 				// Insufficient stock
-				_dataArr = (_ctrlList lbData _idx) splitString ":";
-				_classname = _dataArr select 0;
-				_stock = parseNumber (_dataArr select 1);
 				_amount = CTRLT(IDC_EDIT) getVariable ["amt", 1];
+				_dataArr = (_ctrlList lbData _idx) splitString ":";
+				_classname = _dataArr param [0, ""];
+				_stock = parseNumber (_dataArr param [1, ""]);
 
 				if (_stock < 1 ||  _amount < 1 || _amount > _stock) exitWith {
 					_ctrlButton ctrlEnable false;
@@ -326,7 +326,8 @@ switch (toLower _mode) do {
 			case ("buy"): {
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data";
-				private _purchaseData = [player, (_ctrlList getVariable "data") splitString ":" select 0, _ctrlList getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)
+				private _classname = ((_ctrlList getVariable "data") splitString ":") param [0, ""];
+				private _purchaseData = [player, _classname, _ctrlList getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId, cbChecked CTRLT(IDC_CHECKBOX_BUY)
 				];
 
 				_purchaseData remoteExecCall ["HALs_store_fnc_purchase", 2];
@@ -390,7 +391,7 @@ switch (toLower _mode) do {
 						};
 
 						private _dataArr = (_ctrlList lbData _idx) splitString ":";
-						_stock = parseNumber (_dataArr select 1);
+						_stock = parseNumber (_dataArr param [1, ""]);
 						_money = [player] call HALs_money_fnc_getFunds;
 						_sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 						_total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
@@ -463,9 +464,9 @@ switch (toLower _mode) do {
 						};
 
 						_dataArr = (_ctrlList lbData _idx) splitString ":";
-						_classname = _dataArr select 0;
-						_stock = parseNumber (_dataArr select 1);
-						
+						_classname = _dataArr param [0, ""];
+						_stock = parseNumber (_dataArr param [1, ""]);
+
 						_config = _classname call HALs_fnc_getConfigClass;
 						_description = [
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
@@ -574,10 +575,10 @@ switch (toLower _mode) do {
 
 			case ("stats"): {
 				params [
-					["_data", "", [""]]
+					["_dataArr", "", [""]]
 				];
 
-				private _classname = (_data splitString ":") select 0;
+				private _classname = (_dataArr splitString ":") param [0, ""];
 				private _stats = [_classname call HALs_fnc_getConfigClass] call HALs_store_fnc_getItemStats;
 				{
 					_x params ["_ctrlBar", "_ctrlBarText"];
@@ -604,11 +605,11 @@ switch (toLower _mode) do {
 			case ("update"): {
 				params [
 					["_container", "", [""]],
-					["_data", "", [""]],
+					["_dataArr", "", [""]],
 					["_amount", 1, [1]]
 				];
 
-				private _classname = (_data splitString ":") select 0;
+				private _classname = (_dataArr splitString ":") param [0, ""];
 				private _bar = CTRLT(IDC_PROGRESS_LOAD);
 				private _barNew = CTRLT(IDC_PROGRESS_NEWLOAD);
 
