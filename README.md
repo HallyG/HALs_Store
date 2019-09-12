@@ -7,7 +7,7 @@
         <img src="https://img.shields.io/badge/Version-1.4.0-blue.svg?style=flat-square" alt="HALs Store Version">
     </a>
     <a href="https://github.com/HallyG/HALs_Store/blob/v1.4/LICENSE">
-        <img src="https://img.shields.io/badge/License-GPLv3-red.svg?style=flat-square" alt="HALs Store License">
+        <img src="https://img.shields.io/badge/License-APL-red.svg?style=flat-square" alt="HALs Store License">
     </a>
 </p>
 <p align="center">
