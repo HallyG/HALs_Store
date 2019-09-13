@@ -23,6 +23,7 @@ class HALs_store {
 		file = "HALs\Addons\store\functions\server";
 		class addTrader {};
 		class purchase {};
+		class sell {};
 	};
 
 	class Stock {
@@ -39,7 +40,7 @@ class HALs_store {
 		class canEquipItem {};
 		class equipItem {};
 	};
-	
+
 	class UI {
 		file = "HALs\Addons\store\functions\client\ui";
 		class main {};
