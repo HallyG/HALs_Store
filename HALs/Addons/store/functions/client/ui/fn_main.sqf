@@ -68,9 +68,9 @@ switch (toLower _mode) do {
 			_ctrl ctrlSetTooltip (localize _tooltip);
 			_ctrl ctrlAddEventHandler ["CheckedChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
 		} forEach [
-			[CTRL(IDC_CHECKBOX + 1), "STR_HALS_STORE_CHECKBOX_AFFORD"],
-			[CTRL(IDC_CHECKBOX + 2), "STR_HALS_STORE_CHECKBOX_STOCK"],
-			[CTRL(IDC_CHECKBOX + 3), "STR_HALS_STORE_CHECKBOX_COMPATIBLE"]
+			[CTRL(IDC_CHECKBOX + 1), "STR_HALS_STORE_CHECKBOX_AVALIABLE"],
+			[CTRL(IDC_CHECKBOX + 2), "STR_HALS_STORE_CHECKBOX_COMPATIBLE"],
+			[CTRL(IDC_CHECKBOX + 3), "STR_HALS_STORE_CHECKBOX_SELLFILTER"]
 		];
 
 		CTRLT(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["button", ["enabled", []]] call HALs_store_fnc_main}];
@@ -125,8 +125,20 @@ switch (toLower _mode) do {
 					_items = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _curCategory) apply {[configName _x, getNumber (_x >> "price") max 0]};
 				};
 
+				// Saleable items only
+				private _doSellItems = cbChecked CTRL(IDC_CHECKBOX + 3);
+				private _sellableItems = [];
+				if (_doSellItems) then {
+					CTRL(IDC_CHECKBOX + 1) cbSetChecked false;
+					CTRL(IDC_CHECKBOX + 2) cbSetChecked false;
+
+					_sellableItems = [];// [player] call HALs_store_fnc_getPlayerItems;
+					_items = _items select {(_x select 0) in _sellableItems};
+					hint str _items;
+				};
+
 				// Compatible items only
-				if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
+				if (cbChecked CTRL(IDC_CHECKBOX + 2)) then {
 					_filterItems = [];
 
 					{_filterItems append (_x call HALs_store_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
@@ -135,20 +147,24 @@ switch (toLower _mode) do {
 				};
 
 				// Exit early if there are no items
-				if (count _items isEqualTo 0) exitWith {_ctrlList lbSetCurSel -1;};
+				if (count _items isEqualTo 0) exitWith {_ctrlList lbSetCurSel -1};
 
+				// Add items to listbox
 				private _isChecked1 = cbChecked CTRL(IDC_CHECKBOX + 1);
-				private _isChecked2 = cbChecked CTRL(IDC_CHECKBOX + 2);
 				private _money = [player] call HALs_money_fnc_getFunds;
-
 				{
 					_x params ["_classname", "_price"];
 
-					_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-					_showAffordable = not (_isChecked1 && {_price > _money});
-					_showAvaliable = not (_isChecked2 && {_stock < 1});
+					_stock = 0;
+					if (_doSellItems) then {
+						_stock = {_x isEqualTo _className} count _sellableItems;
+					} else {
+						_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
+					};
 
-					if (_showAffordable && _showAvaliable) then {
+					_showAvaliable = not (_isChecked1 && {_price > _money || _stock < 1});
+
+					if (_showAvaliable) then {
 						_cfg = _classname call HALs_fnc_getConfigClass;
 						_idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
 
@@ -157,7 +173,7 @@ switch (toLower _mode) do {
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
 						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
 
-						if (_price > _money) then {
+						if (_price > _money && {!_doSellItems}) then {
 							_ctrlList lbSetColorRight [_idx, [0.8, 0, 0, 1]]; //0.91
 							_ctrlList lbSetSelectColorRight [_idx, [0.8, 0, 0, 1]];
 						};
@@ -293,23 +309,36 @@ switch (toLower _mode) do {
 
 			case ("enabled"): {
 				private _ctrlButton = CTRLT(IDC_BUTTON_BUY);
+				private _ctrlButtonSell = CTRLT(IDC_BUTTON_SELL);
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _idx = _ctrlList getVariable ["idx", -1];
 
 				// No selection
 				if (_idx isEqualTo -1) exitWith {
 					_ctrlButton ctrlEnable false;
+					_ctrlButtonSell ctrlEnable false;
 				};
 
+				((_ctrlList lbData _idx) splitString ":") params [
+					["_classname", ""],
+					["_stock", ""]
+				];
+
+				_stock = parseNumber _stock;
 				// Insufficient stock
 				_amount = CTRLT(IDC_EDIT) getVariable ["amt", 1];
-				_dataArr = (_ctrlList lbData _idx) splitString ":";
-				_classname = _dataArr param [0, ""];
-				_stock = parseNumber (_dataArr param [1, ""]);
-
 				if (_stock < 1 ||  _amount < 1 || _amount > _stock) exitWith {
 					_ctrlButton ctrlEnable false;
+					_ctrlButtonSell ctrlEnable false;
 				};
+
+				if (cbChecked CTRL(IDC_CHECKBOX+3)) exitWith {
+					_ctrlButton ctrlEnable false;
+					_ctrlButtonSell ctrlEnable true;
+				};
+
+				// No selling
+				_ctrlButtonSell ctrlEnable false;
 
 				// Insufficient Funds
 				_price = _ctrlList lbValue _idx;
@@ -352,7 +381,36 @@ switch (toLower _mode) do {
 				_purchaseData remoteExecCall ["HALs_store_fnc_purchase", 2];
 			};
 
-			case ("sell"): {};
+			case ("sell"): {
+				private _ctrlList = CTRL(IDC_LISTBOX);
+				private _classname = ((_ctrlList getVariable "data") splitString ":") param [0, ""];
+				private _price = _ctrlList getVariable "value";
+				private _sellData = [player, _classname, _price, CTRLT(IDC_EDIT) getVariable "amt"];
+
+				/*_sellData params ["_unit", "_classname", "_price", "_amount"];
+				private _amtRemoved = 0;
+				private _removed = false;
+
+				private _containers = [backpackContainer _unit, vestContainer _unit, uniformContainer _unit] select {!isNull _x};
+				for [{private _i = 0}, {_i < _amount}, {_i = _i + 1}] do {
+
+					private _idx = _containers findIf {[_x, _classname] call HALs_store_fnc_removeContainerItem};
+					if (_idx > -1) then {
+						_removed = true;
+					} else {
+						_removed = [player, _classname] call HALs_store_fnc_removePlayerItem;
+					};
+
+					if (_removed) then {_amtRemoved = _amtRemoved + 1};
+				};
+
+				if (_amtRemoved > 0) then {
+					_total = _amtRemoved * _price;
+					[_trader, _classname, _amtRemoved] call HALs_store_fnc_updateStock;
+					[_unit, _total] call HALs_money_fnc_addFunds;
+					systemChat format ["x%1 %2(s) sold for %3 %4!", _amtRemoved, _className, _total, HALs_store_currencySymbol];
+				}/*
+			};
 
 			case ("sort"): {
 				private _ctrlButton = CTRL(IDC_LISTBOX_SORT);
@@ -414,14 +472,24 @@ switch (toLower _mode) do {
 						private _stock = parseNumber (_dataArr param [1, ""]);
 						private _money = [player] call HALs_money_fnc_getFunds;
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
+
+						private _doSell = cbChecked CTRL(IDC_CHECKBOX + 3);
+						if (_doSell) then {
+							_sale = 0;
+							_price = _price;
+						};
+
 						private _total = parseNumber ((_amount * _price * (1 - _sale)) toFixed 0);
 
 						_ctrlText ctrlSetStructuredText parseText format [
 							"<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
 							format ["<t align='left' color='#%2'>x%1</t>", _amount, ['ffffff'/*'b2ec00'*/, 'ea0000'] select (_amount > _stock)],
 							format ["<t color='#aaffaa' shadow='1'>%1 %2</t>", _price, HALs_store_currencySymbol],
-							[format ["<t shadow='1'>- %1%2</t><br/>", _sale * 100, "%"], ""] select (_sale in [0]),
-							format ["<t size='1.1' color='#%2'>- %1 %3</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (_total > _money), HALs_store_currencySymbol]
+							[
+								format ["<t shadow='1'>%1%2</t><br/>", _sale * 100, "%"],
+								""
+							] select (_sale in [0]),
+							format ["<t size='1.1' color='#%2'>%4 %1 %3</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (!_doSell && {_total > _money}), HALs_store_currencySymbol, ["-", "+"] select _doSell]
 						];
 
 						// Update positions of controls
@@ -483,10 +551,14 @@ switch (toLower _mode) do {
 							_ctrlText ctrlSetStructuredText parseText "";
 						};
 
-						_dataArr = (_ctrlList lbData _idx) splitString ":";
-						_classname = _dataArr param [0, ""];
-						_stock = parseNumber (_dataArr param [1, ""]);
+						//private _doSell = cbChecked CTRL(IDC_CHECKBOX + 3);
 
+						((_ctrlList lbData _idx) splitString ":") params [
+							["_classname", ""],
+							["_stock", ""]
+						];
+
+						_stock = parseNumber _stock;
 						_config = _classname call HALs_fnc_getConfigClass;
 						_description = [
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
@@ -494,18 +566,20 @@ switch (toLower _mode) do {
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} param [0, ""];
 
+						_stockText = if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
+							format ["<t shadow='2' font ='PuristaMedium' color='#A0DF3B'>%1</t>:  %2", "AVAILABLE", _stock call HALs_fnc_numberToString];
+						} else {
+							[
+								format ["<t shadow='2' font ='PuristaMedium' color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
+								format ["<t shadow='2' font ='PuristaMedium' color='#A0DF3B'>%1</t>:  %2", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
+							] select (_stock > 0)
+						};
+
 						CTRL(IDC_ITEM_PICTURE) ctrlSetText (_ctrlList lbPicture _idx);
 						_ctrlText ctrlSetStructuredText parseText _description;
 						_ctrlTitle ctrlSetStructuredText parseText format [
 							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%2 %5</t><br/>%4",
-							_ctrlList lbText _idx,
-							(_ctrlList lbValue _idx) call HALs_fnc_numberToString,
-							toUpper localize "STR_HALS_STORE_TEXT_PRICE",
-							[
-								format ["<t shadow='2' font ='PuristaMedium' color='#DD2626'>%1</t>", localize "STR_HALS_STORE_TEXT_NOSTOCK"],
-								format ["<t shadow='2' font ='PuristaMedium' color='#A0DF3B'>%1</t>:  %2", localize "STR_HALS_STORE_TEXT_INSTOCK", _stock call HALs_fnc_numberToString]
-							] select (_stock > 0),
-							HALs_store_currencySymbol
+							_ctrlList lbText _idx, (_ctrlList lbValue _idx) call HALs_fnc_numberToString, toUpper localize "STR_HALS_STORE_TEXT_PRICE", _stockText, HALs_store_currencySymbol
 						];
 
 						_ctrlTitle ctrlSetPositionH ctrlTextHeight _ctrlTitle;
@@ -629,7 +703,11 @@ switch (toLower _mode) do {
 					["_amount", 1, [1]]
 				];
 
-				private _classname = (_dataArr splitString ":") param [0, ""];
+				(_dataArr splitString ":") params [
+					["_classname", ""],
+					["_stock", ""]
+				];
+
 				private _bar = CTRLT(IDC_PROGRESS_LOAD);
 				private _barNew = CTRLT(IDC_PROGRESS_NEWLOAD);
 
@@ -641,7 +719,7 @@ switch (toLower _mode) do {
 
 				private _currentLoad = [_container] call HALs_store_fnc_getCargoMass;
 				private _maxLoad = 1 max getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
-				if (_classname isEqualTo "") exitWith {
+				if (_classname isEqualTo "" || cbChecked CTRL(IDC_CHECKBOX + 3)) exitWith {
 					_bar progressSetPosition (_currentLoad / _maxLoad);
 					_barNew progressSetPosition 0;
 				};
@@ -649,7 +727,7 @@ switch (toLower _mode) do {
 				// Check if it's a backpack with items
 				private _type = [_classname] call HALs_store_fnc_getItemType;
 				private _load = _classname call HALs_store_fnc_getItemMass;
-				//speedup
+
 				if (_type isEqualTo 3) then {
 					_arrayCargo = [];
 
@@ -662,13 +740,22 @@ switch (toLower _mode) do {
 					};
 				};
 
-				private _progress = linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
-				private _canAdd = _container canAdd [_classname, _amount];
-				private _colour = [[0, 0.9, 0, 0.6], [0.9, 0, 0, 0.6]] select (not _canAdd);
+				/*if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
+					_amount = _amount min (parseNumber _stock);
+					_progress = linearConversion [0, _maxLoad, _currentLoad - (_load * _amount), 0, 1, true];
 
-				_bar progressSetPosition (_currentLoad / _maxLoad);
-				_barNew progressSetPosition _progress;
-				_barNew ctrlSetTextColor _colour;
+					_bar progressSetPosition _progress;
+					_barNew progressSetPosition (_currentLoad / _maxLoad);
+					_barNew ctrlSetTextColor [0.9, 0, 0, 0.6];
+				} else {*/
+					_progress = linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
+					_canAdd = _container canAdd [_classname, _amount];
+					_colour = [[0, 0.9, 0, 0.6], [0.9, 0, 0, 0.6]] select (not _canAdd);
+
+					_bar progressSetPosition (_currentLoad / _maxLoad);
+					_barNew progressSetPosition _progress;
+					_barNew ctrlSetTextColor _colour;
+				//};
 			};
 		};
 	};
