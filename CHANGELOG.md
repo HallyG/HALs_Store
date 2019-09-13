@@ -1,6 +1,19 @@
 # Changelog
 
 ## Version 1.4
+* **Added** Selling.
+    * Stringtable items:
+        `"STR_HALS_STORE_ITEM_SELL_NOTEMPTY"
+        "STR_HALS_STORE_ITEM_SELL_SOLD"
+        "STR_HALS_STORE_CHECKBOX_AVALIABLE"
+        "STR_HALS_STORE_BUTTON_SELL"
+        "STR_HALS_STORE_CHECKBOX_SELLFILTER"`
+    * Changed the no stock and too expensive filters have been combined into one: "Only show items avaliable for purchase"
+    * Added filter to only show saleable items.
+    * Added sell button (can only sell items that the trader sells)
+    * Progress bars show load change upon sell
+
+
 * **Added** "All" category to the dropdown box.
 * **Added** a button to alphabetise the listed store items.
 * **Fixed** issue where lbValue returned an incorrect value.
