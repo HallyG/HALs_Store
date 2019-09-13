@@ -366,7 +366,8 @@ switch (toLower _mode) do {
 				_sortDir = (_sortDir * -1) + 1;
 				private _str = ["ASC", "DESC"] select _sortDir;
 
-				_ctrlButton ctrlSetText (["↑", "↓"] select _sortDir);
+				_ctrlButton ctrlSetText (["\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa", "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_down_ca.paa"] select _sortDir);
+				_ctrlButton ctrlSetTooltip (["Sorted ascending.", "Sorted descending."] select _sortDir);
 				_ctrlButton setVariable ["dir", _sortDir];
 				_ctrlButton setVariable ["dirStr", _str];
 

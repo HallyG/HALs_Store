@@ -428,10 +428,35 @@ class RscItemButton: RscItemCtrlDefault {
 };
 
 class RscItemButtonClose: RscItemButton {
+	type = CT_ACTIVETEXT;
 	style = ST_CENTER + ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
 	colorActive[] = {1, 1, 1, 1};
-	color[] = {1, 1, 1, 0.5};
+	color[] = {1, 1, 1, 0.7};
+	text = "\a3\3DEN\Data\ControlsGroups\Tutorial\close_ca.paa"
+	tooltip = "Close";
 	colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R', 0])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0])", 0};
+};
+
+class RscItemButtonSort: RscItemButton {
+	type = CT_ACTIVETEXT;
+	style = 48;
+	//colorHover[] = {0.3, 0.4, 0, 1};
+	colorText[] = {1, 1, 1, 1};
+	color[] = {1, 1, 1, 1};
+	colorActive[] = {1, 1, 1, 1};
+	colorBackgroundActive[] = {0, 0, 0, 0};
+	colorDisabled[] = {1, 1, 1, 0.25};
+	shadow = 2;
+	tooltip = "Sorted ascending.";
+	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	soundClick[] = {"", 0.1, 1};
+	soundEnter[] = {"", 0.1, 1};
+	soundEscape[] = {"", 0.1, 1};
+	soundPush[] = {"", 0.1, 1};
+	text = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa";
+	tooltipColorShade[] = {0, 0, 0, 0.65};
+	tooltipColorText[] = {1, 1, 1, 1};
+	tooltipColorBox[] = {1, 1, 1, 0};
 };
 
 class RscItemButtonAction: RscItemButton {

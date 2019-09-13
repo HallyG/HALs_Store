@@ -222,9 +222,10 @@ class RscDisplayStore {
 					class Attributes {
 						align = "right";
 						font = "PuristaLight";
+						valign = "bottom"
 					};
 
-					sizeEx = FONT(0.8);
+					size = FONT(0.8);
 				};
 
 				class TitleText: RscItemText {
@@ -244,7 +245,6 @@ class RscDisplayStore {
 					y = 0;
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					text = "\a3\3DEN\Data\ControlsGroups\Tutorial\close_ca.paa";
 					action = "['onUnload'] call HALs_store_fnc_main;";
 				};
 
@@ -258,23 +258,16 @@ class RscDisplayStore {
 					colorBackground[] = {0, 0, 0, 0.95};
 				};
 
-				class ItemListboxSortButton: RscItemButtonAction {
+				class ItemListboxSortButton: RscItemButtonSort {
 					idc = IDC_LISTBOX_SORT;
 					x = GRID_X(pixelGridNoUIScale, 2, BUFFER_W + COMBO_W + SPACE_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					text = "↑";
 					action = "['button', ['sort', []]] call HALs_store_fnc_main;";
-					colorBackground[] = {0, 0, 0, 0};
-					colorBorder[] = {0, 0, 0, 1};
-					colorFocused[] = {0, 0, 0, 0};
-					colorShadow[] = {0, 0, 0, 0};
-					colorBackgroundFocused[] = {1, 1, 1, 0};
-					shadow = 2;
 					sizeEx = FONT(1);
-					font = "PuristaMedium";
-					tooltip = "Alphabetise the listbox";
+					color[] = {1, 1, 1, 0.7};
+					colorActive[] = {1, 1, 1, 1};
 				};
 
 				class ItemCheckbox1: RscItemCheckboxGreen {
