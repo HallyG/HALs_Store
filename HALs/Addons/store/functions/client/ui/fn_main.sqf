@@ -134,7 +134,6 @@ switch (toLower _mode) do {
 
 					_sellableItems = [];// [player] call HALs_store_fnc_getPlayerItems;
 					_items = _items select {(_x select 0) in _sellableItems};
-					hint str _items;
 				};
 
 				// Compatible items only
@@ -409,7 +408,7 @@ switch (toLower _mode) do {
 					[_trader, _classname, _amtRemoved] call HALs_store_fnc_updateStock;
 					[_unit, _total] call HALs_money_fnc_addFunds;
 					systemChat format ["x%1 %2(s) sold for %3 %4!", _amtRemoved, _className, _total, HALs_store_currencySymbol];
-				}/*
+				}*/
 			};
 
 			case ("sort"): {
