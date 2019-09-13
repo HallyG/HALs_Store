@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 1.4
+* **Added** French Translation (thanks to vbr74).
 * **Added** "All" category to the dropdown box.
 * **Added** a button to alphabetise the listed store items.
 * **Fixed** issue where lbValue returned an incorrect value.
@@ -11,6 +12,7 @@
 * **Updated** `dialog.hpp` by replacing Safezone value with pixelGridNoUIScale values.
 * **Updated** `dialog.hpp` by replacing magic numbers with MACROs.
 * **Updated** HALs file structure to be compatible with my other projects (moved `HALs\Core` to `HALs\Addons\Core`).
+* **Updated** tooltips to improve readability.
 * **NOTE** Purchasing items to nearby vehicles has been temporarily disabled in this build.
 ___
 ## Version 1.3
