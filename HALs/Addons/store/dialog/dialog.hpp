@@ -157,7 +157,7 @@ class RscDisplayStore {
 				    style = "16 + 512 + 0x01";
 				    colorBackground[] = {0, 0, 0, 0.7};
 					colorText[] = {1, 1, 1, 1};
-				    tooltip = "Number of items to buy";
+				    tooltip = "Number of Items.";
 				    sizeEx = FONT(0.9);
 				};
 

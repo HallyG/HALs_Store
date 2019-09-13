@@ -237,7 +237,7 @@ switch (toLower _mode) do {
 						_idx = _ctrlPurchase lbAdd _displayName;
 						_ctrlPurchase lbSetPicture [_idx, _picture];
 						_ctrlPurchase lbSetData [_idx, _object call BIS_fnc_netId];
-						_ctrlPurchase lbSetTooltip [_idx, format ["Purchase to %1", _displayName]];
+						_ctrlPurchase lbSetTooltip [_idx, format ["Purchase to %1.", _displayName]];
 					};
 				} count _containers;
 
