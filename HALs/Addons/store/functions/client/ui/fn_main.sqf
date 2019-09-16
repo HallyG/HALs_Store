@@ -2,6 +2,13 @@
 	Function: HALs_store_fnc_main
 	Author: HallyG
 	Handles the functionality of RscDisplayStore.
+	@todo
+	- Calculate total price of primary weapon
+	- Prevent selling a container that has items
+	- Calcualte accurate price of container
+	- Better gui for selling?
+	- Update listbox if sell selected and container gui changed
+
 
 	Argument(s):
 	0: Mode <STRING>
@@ -142,9 +149,12 @@ switch (toLower _mode) do {
 					_checkAvaliable cbSetChecked false;
 					_checkCompatible cbSetChecked false;
 
-					_sellableItems = [player] call HALs_store_fnc_getPlayerCargo;
-					_sellFactor = HALs_store_sellFactor min 1 max 0;
+					_containerObj = (CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data") call BIS_fnc_objectFromNetId;
+
+					_sellableItems = [_containerObj] call HALs_store_fnc_getContainerItems; //[player] call HALs_store_fnc_getPlayerCargo;
 					_items = _items select {(_x select 0) in _sellableItems};
+
+					_sellFactor = HALs_store_sellFactor min 1 max 0;
 					_items = _items apply {[_x select 0, floor ((_x select 1) * _sellFactor)]};
 				};
 
@@ -233,9 +243,15 @@ switch (toLower _mode) do {
 					_ctrl setVariable ["data", _data];
 					_ctrl setVariable ["text", _ctrl lbText _idx];
 
+					if (cbChecked CTRL(IDC_CHECKBOX+3)) then {
+						["listbox", ["update", []]] call  HALs_store_fnc_main
+					} else {
+
+						["progress", ["update", [_data, CTRL(IDC_LISTBOX) getVariable "data", CTRLT(IDC_EDIT) getVariable "amt"]]] call  HALs_store_fnc_main;
+						["button", ["enabled", []]] call  HALs_store_fnc_main;
+					};
+					
 					["text", ["update", ["cargo", [_data]]]] call HALs_store_fnc_main;
-					["progress", ["update", [_data, CTRL(IDC_LISTBOX) getVariable "data", CTRLT(IDC_EDIT) getVariable "amt"]]] call  HALs_store_fnc_main;
-					["button", ["enabled", []]] call  HALs_store_fnc_main;
 				}];
 			};
 
@@ -396,9 +412,10 @@ switch (toLower _mode) do {
 
 			case ("sell"): {
 				private _ctrlList = CTRL(IDC_LISTBOX);
+				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data";
 				private _classname = ((_ctrlList getVariable "data") splitString ":") param [0, ""];
 				private _price = _ctrlList getVariable "value";
-				private _sellData = [player, _classname, _price, CTRLT(IDC_EDIT) getVariable "amt"];
+				private _sellData = [player, _classname, _price, CTRLT(IDC_EDIT) getVariable "amt", _container call BIS_fnc_objectFromNetId];
 
 				_sellData remoteExecCall ["HALs_store_fnc_sell", 2];
 			};

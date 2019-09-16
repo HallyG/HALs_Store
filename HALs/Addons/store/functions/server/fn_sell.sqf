@@ -19,7 +19,8 @@ params [
 	["_unit", objNull, [objNull]],
 	["_classname", "", [""]],
 	["_price", 0, [0]],
-	["_amt", 0, [0]]
+	["_amt", 0, [0]],
+	["_container", objNull, [objNull]]
 ];
 
 if (!isServer) exitWith {};
@@ -27,6 +28,7 @@ if (isNull _unit) exitWith {};
 if (!alive _unit) exitWith {};
 if (_amt < 1) exitWith {};
 if (_classname isEqualTo "") exitWith {};
+if (isNull _container) exitWith {};
 
 try {
 	// Fetch current trader
@@ -39,24 +41,18 @@ try {
 
     // Check that player has the item
     // Remove items from unit
-	private _removed = false;
-	{
-		_removed = [_x, _classname] call HALs_store_fnc_removeContainerItem;
-		if (_removed) exitWith {};
-	} forEach [backpackContainer _unit, vestContainer _unit, uniformContainer  _unit];
+	private _amount = 0;
+	private _continue = true;
 
-	if (!_removed) then {
-		_removed = [_unit, _classname] call HALs_store_fnc_removePlayerItem;
+	for [{private _i = 0}, { _i < floor _amt && _continue}, {_i = _i + 1}] do {
+		private _removed = [_container, _classname] call HALs_store_fnc_removeContainerItem;
+		if (_removed) then {_amount = _amount + 1} else {_continue = false};
 	};
 
-	if (!_removed) then {
-		throw ["Unable to sell item."];
-	};
-
-    private _amount = floor 1;
-    private _total = (_price max 0) * _amount;
+	if (_amount < 1) then {throw ["Unable to sell item."]};
 
 	// Update unit's funds and trader's stock
+	private _total = (_price max 0) * _amount;
 	[_trader, _classname, _amount] call HALs_store_fnc_updateStock;
 	[_unit, _total] call HALs_money_fnc_addFunds;
 
