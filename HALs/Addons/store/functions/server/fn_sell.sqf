@@ -52,8 +52,8 @@ try {
 		throw ["COULD NOT REMOVE ITEM!"];
 	};
 
-    private _amount = floor _amt;
-    private _total = (_price max 0) * _amt;
+    private _amount = floor 1;
+    private _total = (_price max 0) * _amount;
 
 	// Update unit's funds and trader's stock
 	[_trader, _classname, _amount] call HALs_store_fnc_updateStock;
