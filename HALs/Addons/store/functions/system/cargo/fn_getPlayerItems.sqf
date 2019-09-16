@@ -1,6 +1,6 @@
 /*
 	Function: HALs_store_fnc_getPlayerItems
-	Author: HallyG
+	Author: ExileMod, HallyG
 	Returns all items equipped by a unit.
 
 	Argument(s):
