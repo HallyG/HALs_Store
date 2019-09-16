@@ -35,21 +35,22 @@ try {
 
     // Check if the trader will buy this item
 	private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-	if (_stock isEqualTo -1) then {throw ["THIS TRADER DOES NOT BUY THIS ITEM"]};
+	if (_stock isEqualTo -1) then {throw ["The trader will not buy this item."]};
 
     // Check that player has the item
     // Remove items from unit
 	private _removed = false;
 	{
 		_removed = [_x, _classname] call HALs_store_fnc_removeContainerItem;
-	} forEach [backpackContainer player, vestContainer player, uniformContainer  player];
+		if (_removed) exitWith {};
+	} forEach [backpackContainer _unit, vestContainer _unit, uniformContainer  _unit];
 
 	if (!_removed) then {
-		_removed = [player, _classname] call HALs_store_fnc_removePlayerItem;
+		_removed = [_unit, _classname] call HALs_store_fnc_removePlayerItem;
 	};
 
 	if (!_removed) then {
-		throw ["COULD NOT REMOVE ITEM!"];
+		throw ["Unable to sell item."];
 	};
 
     private _amount = floor 1;
@@ -59,7 +60,7 @@ try {
 	[_trader, _classname, _amount] call HALs_store_fnc_updateStock;
 	[_unit, _total] call HALs_money_fnc_addFunds;
 
-	private _message = format ["x%1 %2(s) %3", _amount, [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue, localize "STR_HALS_STORE_ITEM_SELL_SOLD"];
+	private _message = format ["x%1 %2(s) sold for %3 %4", _amount, [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue, _total, HALs_store_currencySymbol];
 
 	// Log sell
 	if (HALs_store_debug) then {

@@ -144,8 +144,9 @@ switch (toLower _mode) do {
 					_checkCompatible cbSetChecked false;
 
 					_sellableItems = [player] call HALs_store_fnc_getPlayerCargo;
+					_sellFactor = HALs_store_sellFactor min 1 max 0;
 					_items = _items select {(_x select 0) in _sellableItems};
-					_items = _items apply {[_x select 0, floor ((_x select 1) * HALs_store_sellFactor)]};
+					_items = _items apply {[_x select 0, floor ((_x select 1) * _sellFactor)]};
 				};
 
 				// Compatible items only (wont run if sale checkbox is checked)
