@@ -16,7 +16,7 @@ class cfgHALsStore {
 	containerTypes[] = {"LandVehicle", "Air", "Ship"};
 	containerRadius = 10;
 	currencySymbol = "$";
-	sellFactor = 1;
+	sellFactor = 0.5;
 	debug = 1;
 
 	class categories {
