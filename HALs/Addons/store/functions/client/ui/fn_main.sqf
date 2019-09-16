@@ -143,8 +143,9 @@ switch (toLower _mode) do {
 					_checkAvaliable cbSetChecked false;
 					_checkCompatible cbSetChecked false;
 
-					_sellableItems = [];
-					_items = _items select {(_x select 0) in _saleableItems};
+					_sellableItems = [player] call HALs_store_fnc_getPlayerCargo;
+					_items = _items select {(_x select 0) in _sellableItems};
+					_items = _items apply {[_x select 0, floor ((_x select 1) * HALs_store_sellFactor)]};
 				};
 
 				// Compatible items only (wont run if sale checkbox is checked)
@@ -342,8 +343,6 @@ switch (toLower _mode) do {
 				// Selling
 				if (cbChecked CTRL(IDC_CHECKBOX+3)) exitWith {
 					_ctrlButton ctrlEnable false;
-
-
 					_ctrlButtonSell ctrlEnable true;
 				};
 
@@ -397,6 +396,8 @@ switch (toLower _mode) do {
 				private _classname = ((_ctrlList getVariable "data") splitString ":") param [0, ""];
 				private _price = _ctrlList getVariable "value";
 				private _sellData = [player, _classname, _price, CTRLT(IDC_EDIT) getVariable "amt"];
+
+				_sellData remoteExecCall ["HALs_store_fnc_sell", 2];
 			};
 
 			case ("sort"): {

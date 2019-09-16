@@ -35,11 +35,23 @@ try {
 
     // Check if the trader will buy this item
 	private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-    if (_stock isEqualTo -1) then {throw [""]/* THIS TRADER DOES NOT BUY THIS ITEM */};
+	if (_stock isEqualTo -1) then {throw ["THIS TRADER DOES NOT BUY THIS ITEM"]};
 
     // Check that player has the item
     // Remove items from unit
-    
+	private _removed = false;
+	{
+		_removed = [_x, _classname] call HALs_store_fnc_removeContainerItem;
+	} forEach [backpackContainer player, vestContainer player, uniformContainer  player];
+
+	if (!_removed) then {
+		_removed = [player, _classname] call HALs_store_fnc_removePlayerItem;
+	};
+
+	if (!_removed) then {
+		throw ["COULD NOT REMOVE ITEM!"];
+	};
+
     private _amount = floor _amt;
     private _total = (_price max 0) * _amt;
 
