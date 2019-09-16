@@ -20,7 +20,7 @@ private _items = [];
 if (isNull _unit) exitWith {_items};
 
 private _slots = [];
-//_slots pushBack [uniform _unit, vest _unit, backpack _unit];
+_slots pushBack [uniform _unit, vest _unit, backpack _unit];
 _slots pushBack [primaryWeapon _unit];
 _slots pushBack primaryWeaponMagazine _unit;
 _slots pushBack primaryWeaponItems _unit;
