@@ -133,9 +133,8 @@ switch (toLower _mode) do {
 				private _checkSellable = CTRL(IDC_CHECKBOX + 3);
 
 				// Saleable items only
-				private _showAvaliable = cbChecked _checkAvaliable;
-				private _showCompatible = cbChecked _checkCompatible;
 				private _showSellable = cbChecked _checkSellable;
+
 
 				// Fetch the player's items
 				private _sellableItems = [];
@@ -150,7 +149,7 @@ switch (toLower _mode) do {
 				};
 
 				// Compatible items only (wont run if sale checkbox is checked)
-				if (_showCompatible) then {
+				if (cbChecked _checkCompatible) then {
 					_filterItems = [];
 
 					{_filterItems append (_x call HALs_store_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
@@ -161,6 +160,7 @@ switch (toLower _mode) do {
 				// Exit early if there are no items
 				if (count _items isEqualTo 0) exitWith {_ctrlList lbSetCurSel -1};
 
+				private _showAvaliable = cbChecked _checkAvaliable;
 				private _money = floor ([player] call HALs_money_fnc_getFunds);
 				{
 					_x params ["_classname", "_price"];
@@ -318,14 +318,13 @@ switch (toLower _mode) do {
 
 			case ("enabled"): {
 				private _ctrlButton = CTRLT(IDC_BUTTON_BUY);
-				private _ctrlButtonSell = CTRLT(IDC_BUTTON_SELL);
+				//private _ctrlButtonSell = CTRLT(IDC_BUTTON_SELL);
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _idx = _ctrlList getVariable ["idx", -1];
 
 				// No selection
 				if (_idx isEqualTo -1) exitWith {
 					_ctrlButton ctrlEnable false;
-					_ctrlButtonSell ctrlEnable false;
 				};
 
 				((_ctrlList lbData _idx) splitString ":") params [
@@ -338,17 +337,12 @@ switch (toLower _mode) do {
 				_amount = CTRLT(IDC_EDIT) getVariable ["amt", 1];
 				if (_stock < 1 ||  _amount < 1 || _amount > _stock) exitWith {
 					_ctrlButton ctrlEnable false;
-					_ctrlButtonSell ctrlEnable false;
 				};
 
 				// Selling
 				if (cbChecked CTRL(IDC_CHECKBOX+3)) exitWith {
-					_ctrlButton ctrlEnable false;
-					_ctrlButtonSell ctrlEnable true;
+					_ctrlButton ctrlEnable true;
 				};
-
-				// No selling
-				_ctrlButtonSell ctrlEnable false;
 
 				// Insufficient Funds check
 				_price = _ctrlList lbValue _idx;
@@ -382,6 +376,14 @@ switch (toLower _mode) do {
 				_ctrlButton ctrlEnable (_canEquip || _canEquipEmpty);
 			};
 
+			case ("pressed"): {
+				if (cbChecked CTRL(IDC_CHECKBOX+3)) then {
+					['button', ['sell', []]] call HALs_store_fnc_main;
+				} else {
+					['button', ['buy', []]] call HALs_store_fnc_main;
+				};
+			};
+
 			case ("buy"): {
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "data";
@@ -399,6 +401,12 @@ switch (toLower _mode) do {
 				private _sellData = [player, _classname, _price, CTRLT(IDC_EDIT) getVariable "amt"];
 
 				_sellData remoteExecCall ["HALs_store_fnc_sell", 2];
+			};
+
+			case ("change"): {
+				private _ctrlButton = CTRLT(IDC_BUTTON_BUY);
+				private _text = ["STR_HALS_STORE_BUTTON_PURCHASE", "STR_HALS_STORE_BUTTON_SELL"] select (cbChecked CTRL(IDC_CHECKBOX+3));
+				_ctrlButton ctrlSetText localize _text;
 			};
 
 			case ("sort"): {

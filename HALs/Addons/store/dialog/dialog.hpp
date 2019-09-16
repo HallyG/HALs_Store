@@ -169,11 +169,12 @@ class RscDisplayStore {
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					text = "$STR_HALS_STORE_BUTTON_PURCHASE";
 					sizeEx = FONT(1);
-					action = "['button', ['buy', []]] call HALs_store_fnc_main;";
+					action = "['button', ['pressed', []]] call HALs_store_fnc_main;";
 				};
 
-				class SellButton: RscItemButtonAction {
+				/*class SellButton: RscItemButtonAction {
 					idc = IDC_BUTTON_SELL;
+					fade = 1;
 					x = GRID_X(pixelGridNoUIScale, 2, BAR_W + SPACE_W);
 					y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H + SPACE_H + BAR_H);
 					w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
@@ -181,7 +182,7 @@ class RscDisplayStore {
 					text = "$STR_HALS_STORE_BUTTON_SELL"; //"$STR_HALS_STORE_BUTTON_SELL";
 					sizeEx = FONT(1);
 					action = "['button', ['sell', []]] call HALs_store_fnc_main;";
-				};
+				};*/
 			};
 		};
 
@@ -291,6 +292,7 @@ class RscDisplayStore {
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
+					onCheckedChanged = "['button', ['change', []]] call HALs_store_fnc_main;";
 				};
 
 				class ItemListbox: RscItemListBox {
