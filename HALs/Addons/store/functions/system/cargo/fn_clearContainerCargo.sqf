@@ -4,8 +4,7 @@
 	Removes all items from a container.
 
 	Argument(s):
-	0: Classname of the item to store in container <STRING>
-	1: Container object <OBJECT>
+	0: Container object <OBJECT>
 
 	Return Value:
 	None
