@@ -43,9 +43,9 @@ _data params ["_magazines", "_items", "_weapons", "_containers"];
 		_container addItemCargoGlobal [_subClassname, 1];
 	};
 
-    _evContainer = everyContainer _container;
-    _cnt = count _evContainer - 1;
-    _subContainer = _evContainer select _cnt select 1;
+    private _evContainer = everyContainer _container;
+    private _cnt = count _evContainer - 1;
+    private _subContainer = _evContainer select _cnt select 1;
 
     [_subContainer] call HALs_store_fnc_clearContainerCargo;
     [_subContainer, _subData] call HALs_store_fnc_addContainerCargo;
