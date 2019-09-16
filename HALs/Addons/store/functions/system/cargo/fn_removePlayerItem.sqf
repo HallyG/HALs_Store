@@ -1,3 +1,18 @@
+/*
+	Function: HALs_store_fnc_getPlayerItems
+	Author: HallyG
+	Returns an equipped item from the unit.
+
+	Argument(s):
+	0: Unit <OBJECT>
+    1: Classname <STRING>
+
+	Return Value:
+	None
+
+	Example:
+	[_unit] call HALs_store_fnc_getPlayerItems;
+__________________________________________________________________*/
 params [
     ["_unit", objNull, []],
     ["_classname", "", [""]]
@@ -6,7 +21,7 @@ params [
 if (isNull _unit) exitWith {false};
 if (_classname isEqualTo "") exitWith {false};
 
-_classnameLower = toLower _classname;
+private _classnameLower = toLower _classname;
 
 if (_classnameLower isEqualTo toLower uniform _unit) exitWith {
     removeUniform _unit; true

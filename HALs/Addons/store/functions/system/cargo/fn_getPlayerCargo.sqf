@@ -1,7 +1,7 @@
 /*
 	Function: HALs_store_fnc_getPlayerCargo
 	Author: HallyG
-	Returns the items equipped by a unit and those store in its uniform, vest
+	Returns the items equipped by a unit and those stored in its uniform, vest
     and backpack.
 
 	Argument(s):
@@ -13,7 +13,6 @@
 	Example:
 	[_unit] call HALs_store_fnc_getPlayerCargo;
 __________________________________________________________________*/
-
 params [
     ["_unit", objNull, []]
 ];
