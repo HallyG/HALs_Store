@@ -8,7 +8,7 @@
         "STR_HALS_STORE_CHECKBOX_AVALIABLE"
         "STR_HALS_STORE_BUTTON_SELL"
         "STR_HALS_STORE_CHECKBOX_SELLFILTER"`
-    * Changed the no stock and too expensive filters have been combined into one: "Only show items available for purchase"
+    * The no stock and too expensive filters have been combined into one: "Only show items available for purchase"
     * Added filter to enable selling (only sellable items in the current container (eg trader category) are shown).
         * You can only sell an item to a store if the store itself sells the item.
         * If you sell a weapon with attachments, the attachments won't be sold and are added to the container.
