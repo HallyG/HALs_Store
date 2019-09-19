@@ -12,7 +12,7 @@
     * Added filter to enable selling (only sellable items in the current container (eg trader category) are shown).
         * You can only sell an item to a store if the store itself sells the item.
         * If you sell a weapon with attachments, the attachments won't be sold and are added to the container.
-    * Global item sell factor is controlled by variable `HALs_store_sellFactor` whose default value is defined in `config.hpp`.
+    * Global item sell factor is controlled by the variable `HALs_store_sellFactor` whose default value is defined in `config.hpp`.
 
 * **Added** French Translation (thanks to vbr74).
 * **Added** "All" category to the dropdown box.
