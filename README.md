@@ -11,7 +11,7 @@
     </a>
 </p>
 <p align="center">
-    <sup><strong>Click to review the <a href="https://github.com/HallyG/HALs_Store/blob/sellItems/CHANGELOG.md">change log</a>.</strong></sup>
+    <sup><strong>Click to review the <a href="https://github.com/HallyG/HALs_Store/blob/v1.4/CHANGELOG.md">change log</a>.</strong></sup>
 </p>
 
 **HALs Store** is an Arma 3 script that provides the functionality to add configurable item stores (where you can buy and sell items) to your missions.
