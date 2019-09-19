@@ -30,9 +30,12 @@ _data params ["_magazines", "_items", "_weapons", "_containers"];
 	_container addItemCargoGlobal [_x select 0, _x select 1];
 } forEach _items;
 
-{
-    _container addWeaponWithAttachmentsCargoGlobal [_x, 1];
-} forEach _weapons;
+_weapons = _weapons select {count _x > 0};
+if (count _weapons > 0) then {
+    {
+        _container addWeaponWithAttachmentsCargoGlobal [_x, 1];
+    } forEach _weapons;
+};
 
 {
     _x params ["_subClassname", "_subData"];
