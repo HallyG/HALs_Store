@@ -12,7 +12,8 @@
     * Added filter to enable selling (only sellable items in the current container (eg trader category) are shown).
         * You can only sell an item to a store if the store itself sells the item.
         * If you sell a weapon with attachments, the attachments won't be sold and are added to the container.
-
+        
+* **Added** French Translation (thanks to vbr74).
 * **Added** "All" category to the dropdown box.
 * **Added** a button to alphabetise the listed store items.
 * **Fixed** issue where lbValue returned an incorrect value.
