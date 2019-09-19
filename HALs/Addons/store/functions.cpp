@@ -4,6 +4,18 @@ class HALs_store {
 		class initModule {postInit = 1;};
 	};
 
+	class Cargo {
+		file = "HALs\Addons\store\functions\system\cargo";
+		class addContainerCargo {};
+		class getContainerCargo {};
+		class getContainerItems {};
+		class getPlayerCargo {};
+		class getPlayerItems {};
+		class clearContainerCargo {};
+		class removeContainerItem {};
+		class removePlayerItem {};
+	};
+
 	class Client {
 		file = "HALs\Addons\store\functions\client";
 		class addAction {};
@@ -23,6 +35,7 @@ class HALs_store {
 		file = "HALs\Addons\store\functions\server";
 		class addTrader {};
 		class purchase {};
+		class sell {};
 	};
 
 	class Stock {
@@ -39,7 +52,7 @@ class HALs_store {
 		class canEquipItem {};
 		class equipItem {};
 	};
-	
+
 	class UI {
 		file = "HALs\Addons\store\functions\client\ui";
 		class main {};

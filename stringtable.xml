@@ -64,6 +64,16 @@
 		    <Spanish>comprado.</Spanish>
 		    <Italian></Italian>
 		</Key>
+        <!-- Thanks to JakeHekesFists -->
+        <Key ID="STR_HALS_STORE_ITEM_SELL_NOTEMPTY">
+			<Original>You cannot sell your %1 (%2) because it is not empty.</Original>
+			<English>You cannot sell your %1 (%2) because it is not empty.</English>
+		</Key>
+		<Key ID="STR_HALS_STORE_ITEM_SELL_SOLD">
+			<Original>Sold x%1 %2(s) for $%3.</Original>
+			<English>Sold x%1 %2(s) for $%3.</English>
+		</Key>
+
 	</Package>
 	<Package name="Dialog">
 	    <Key ID="STR_HALS_STORE_CHECKBOX_AFFORD">
@@ -75,6 +85,15 @@
 		    <Spanish>Mostrar solo objetos que pueda comprar.</Spanish>
 		    <Italian></Italian>
 		</Key>
+        <Key ID="STR_HALS_STORE_CHECKBOX_AVALIABLE">
+            <Original>Only show items that are avaliable for purchase.</Original>
+            <English>Only show items that are avaliable for purchase.</English>
+            <French></French>
+            <German></German>
+            <Russian></Russian>
+            <Spanish></Spanish>
+            <Italian></Italian>
+        </Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_STOCK">
 		    <Original>Only show items which are in stock.</Original>
 		    <English>Only show items which are in stock.</English>
@@ -93,6 +112,16 @@
 		    <Spanish>Mostrar solo objetos compatibles con armas equipadas.</Spanish>
 		    <Italian></Italian>
 		</Key>
+        <!-- SELL BOX -->
+        <Key ID="STR_HALS_STORE_CHECKBOX_SELLFILTER">
+            <Original>Only show items that the player can sell.</Original>
+            <English>Only show items that the player can sell.</English>
+        </Key>
+        <!-- SELL BUTTON -->
+        <Key ID="STR_HALS_STORE_BUTTON_SELL">
+            <Original>Sell</Original>
+            <English>Sell</English>
+        </Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_EQUIP">
 		    <Original>Equip item upon purchase (if possible).</Original>
 		    <English>Equip item upon purchase (if possible).</English>
@@ -111,6 +140,15 @@
 		    <Spanish>Compra</Spanish>
 		    <Italian></Italian>
 		</Key>
+        <Key ID="STR_HALS_STORE_BUTTON_SELL">
+            <Original>Purchase</Original>
+            <English>Purchase</English>
+            <French>Acheter</French>
+            <German>Kaufen</German>
+            <Russian></Russian>
+            <Spanish>Compra</Spanish>
+            <Italian></Italian>
+        </Key>
 		<Key ID="STR_HALS_STORE_TEXT_PRICE">
 		    <Original>Price</Original>
 		    <English>Price</English>

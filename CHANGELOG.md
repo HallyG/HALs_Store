@@ -1,6 +1,19 @@
 # Changelog
 
 ## Version 1.4
+* **Added** Selling.
+    * Stringtable items:
+        `"STR_HALS_STORE_ITEM_SELL_NOTEMPTY"
+        "STR_HALS_STORE_ITEM_SELL_SOLD"
+        "STR_HALS_STORE_CHECKBOX_AVALIABLE"
+        "STR_HALS_STORE_BUTTON_SELL"
+        "STR_HALS_STORE_CHECKBOX_SELLFILTER"`
+    * Changed the no stock and too expensive filters have been combined into one: "Only show items available for purchase"
+    * Added filter to enable selling (only sellable items in the current container (eg trader category) are shown).
+        * You can only sell an item to a store if the store itself sells the item.
+        * If you sell a weapon with attachments, the attachments won't be sold and are added to the container.
+    * Global item sell factor is controlled by variable `HALs_store_sellFactor` whose default value is defined in `config.hpp`.
+
 * **Added** French Translation (thanks to vbr74).
 * **Added** "All" category to the dropdown box.
 * **Added** a button to alphabetise the listed store items.
@@ -12,8 +25,6 @@
 * **Updated** `dialog.hpp` by replacing Safezone value with pixelGridNoUIScale values.
 * **Updated** `dialog.hpp` by replacing magic numbers with MACROs.
 * **Updated** HALs file structure to be compatible with my other projects (moved `HALs\Core` to `HALs\Addons\Core`).
-* **Updated** tooltips to improve readability.
-* **NOTE** Purchasing items to nearby vehicles has been temporarily disabled in this build.
 ___
 ## Version 1.3
 ### Additions
