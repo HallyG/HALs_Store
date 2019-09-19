@@ -8,11 +8,10 @@
         "STR_HALS_STORE_CHECKBOX_AVALIABLE"
         "STR_HALS_STORE_BUTTON_SELL"
         "STR_HALS_STORE_CHECKBOX_SELLFILTER"`
-    * Changed the no stock and too expensive filters have been combined into one: "Only show items avaliable for purchase"
-    * Added filter to only show saleable items.
-    * Added sell button (can only sell items that the trader sells)
-    * Progress bars show load change upon sell
-
+    * Changed the no stock and too expensive filters have been combined into one: "Only show items available for purchase"
+    * Added filter to enable selling (only sellable items in the current container (eg trader category) are shown).
+        * You can only sell an item to a store if the store itself sells the item.
+        * If you sell a weapon with attachments, the attachments won't be sold and are added to the container.
 
 * **Added** "All" category to the dropdown box.
 * **Added** a button to alphabetise the listed store items.
@@ -24,7 +23,6 @@
 * **Updated** `dialog.hpp` by replacing Safezone value with pixelGridNoUIScale values.
 * **Updated** `dialog.hpp` by replacing magic numbers with MACROs.
 * **Updated** HALs file structure to be compatible with my other projects (moved `HALs\Core` to `HALs\Addons\Core`).
-* **NOTE** Purchasing items to nearby vehicles has been temporarily disabled in this build.
 ___
 ## Version 1.3
 ### Additions

@@ -29,20 +29,17 @@ try {
                 if (_forEachIndex isEqualTo 0) then {
                     _weapon set [_forEachIndex, ""];
 
-                    /*private _items = _weapon select [1, count _weapon - 1];
-
+                    private _mags = _weapon select [4, 2];
                     {
-                            systemCHat str _x;
-                        //if (_forEachIndex in [3, 4]) then {
-                        //    if (count _x > 0) then {
-                        //        _magazines pushBack _x
-                        //    };
-                        //} else {
-                            if (count _x > 0) then {
-                                _items pushBack [_x, 1];
-                            };
-                        //}
-                    } forEach _items;*/
+                        _magazines pushBack _x
+                    } forEach (_mags select {count _x > 0});
+
+                    private _itemArr = _weapon;
+                    {
+                        if (!(_forEachIndex in [0, 4, 5]) && {count _x > 0}) then {
+                            _items pushBack [_x, 1];
+                        };
+                    } forEach _itemArr;
 
                     _weapons set [_curIndex, []];
                 } else {
