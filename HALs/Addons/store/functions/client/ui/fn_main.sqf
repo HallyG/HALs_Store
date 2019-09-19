@@ -184,11 +184,11 @@ switch (toLower _mode) do {
 
 					if (!(_showAvaliable && {_price > _money || _stock < 1})) then {
 						_cfg = _classname call HALs_fnc_getConfigClass;
-						_idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
 
+						private _idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
 						_ctrlList lbSetData [_idx, format ["%1:%2", _classname, _stock]];
-						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
+						_ctrlList lbSetValue [_idx, _price];
 						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
 
 						if (_price > _money && {!_showSellable}) then {
@@ -250,7 +250,7 @@ switch (toLower _mode) do {
 						["progress", ["update", [_data, CTRL(IDC_LISTBOX) getVariable "data", CTRLT(IDC_EDIT) getVariable "amt"]]] call  HALs_store_fnc_main;
 						["button", ["enabled", []]] call  HALs_store_fnc_main;
 					};
-					
+
 					["text", ["update", ["cargo", [_data]]]] call HALs_store_fnc_main;
 				}];
 			};
