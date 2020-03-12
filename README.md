@@ -1,18 +1,22 @@
-# HALs Store v1.3
-An ArmA 3 script which adds an equipment store to any mission. 
+<h1 align="center">HALs Store</h1>
+<p align="center">
+    <img src="https://i.imgur.com/oDomu4g.png">
+</p>
+<p align="center">
+    <a href="https://github.com/HallyG/HALs_Store/releases/latest">
+        <img src="https://img.shields.io/badge/Version-1.4.0-blue.svg?style=flat-square" alt="HALs Store Version">
+    </a>
+    <a href="https://github.com/HallyG/HALs_Store/blob/v1.4/LICENSE">
+        <img src="https://img.shields.io/badge/License-APL-red.svg?style=flat-square" alt="HALs Store License">
+    </a>
+</p>
+<p align="center">
+    <sup><strong>Click to review the <a href="https://github.com/HallyG/HALs_Store/blob/v1.4/CHANGELOG.md">change log</a>.</strong></sup>
+</p>
 
-## Important information regarding v1.3:
-Check the change log because the location of the config.hpp has changed!
+**HALs Store** is an Arma 3 script that provides the functionality to add configurable item stores (where you can buy and sell items) to your missions.
 
-## [Changelog](https://github.com/HallyG/HALs_Store/blob/master/CHANGELOG.md)
-## [WIKI](https://github.com/HallyG/HALs_Store/wiki) for documentation and help.
+## Documentation
+Please visit the [Wiki](https://github.com/HallyG/HALs_Store/wiki) for more information.
 
-![](http://i.imgur.com/Xj0dWjl.png)
-
-## Configuration
-[Example configuration](https://github.com/HallyG/HALs_Store/wiki/Configuration-Example)
-
-
-## Maintainers
-The people responsible for merging changes to this component or answering potential questions.
-* [HallyG](https://github.com/HallyG) (Author)
+[Example `config.hpp`](https://github.com/HallyG/HALs_Store/wiki/Configuration-Example)

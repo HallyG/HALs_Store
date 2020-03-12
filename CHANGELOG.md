@@ -1,5 +1,31 @@
 # Changelog
 
+## Version 1.4
+* **Added** Selling.
+    * Stringtable items:
+        `"STR_HALS_STORE_ITEM_SELL_NOTEMPTY"
+        "STR_HALS_STORE_ITEM_SELL_SOLD"
+        "STR_HALS_STORE_CHECKBOX_AVALIABLE"
+        "STR_HALS_STORE_BUTTON_SELL"
+        "STR_HALS_STORE_CHECKBOX_SELLFILTER"`
+    * The no stock and too expensive filters have been combined into one: "Only show items available for purchase"
+    * Added filter to enable selling (only sellable items in the current container (eg trader category) are shown).
+        * You can only sell an item to a store if the store itself sells the item.
+        * If you sell a weapon with attachments, the attachments won't be sold and are added to the container.
+    * Global item sell factor is controlled by the variable `HALs_store_sellFactor` whose default value is defined in `config.hpp`.
+
+* **Added** French Translation (thanks to vbr74).
+* **Added** "All" category to the dropdown box.
+* **Added** a button to alphabetise the listed store items.
+* **Fixed** issue where lbValue returned an incorrect value.
+* **Fixed** issue which displayed the incorrect description for a store item.
+* **Optimised** the functions: `HALs_store_fnc_main`, `HALs_store_fnc_getTraderStock` `HALs_store_fnc_setTraderStock` and  `HALs_store_fnc_updateStock`.
+* **Removed** the functions: `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot` and `HALs_store_fnc_addMoneyOnOpen`.
+* **Updated** `defines.hpp` by removing unused class definitions.
+* **Updated** `dialog.hpp` by replacing Safezone value with pixelGridNoUIScale values.
+* **Updated** `dialog.hpp` by replacing magic numbers with MACROs.
+* **Updated** HALs file structure to be compatible with my other projects (moved `HALs\Core` to `HALs\Addons\Core`).
+___
 ## Version 1.3
 ### Additions
 * ADDED: (Function) `HALs_store_fnc_addMoneyOnOpen`
@@ -12,8 +38,8 @@ ___
 * FIXED: The mass of items of containers within containers were not calculated.
 * FIXED: Edit box maximum characters set to 6 (credits to: R3vo).
 * FIXED: Players couldn't buy items in multiplayer (credits to: Antoine)
-* OPTIMIZED: Removed the creation of unneccesary private variables.
-* OPTIMIZED: `HALs_store_fnc_main`, `HALs_store_fnc_initModule`, `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot`
+* OPTIMISED: Removed the creation of unneccesary private variables.
+* OPTIMISED: `HALs_store_fnc_main`, `HALs_store_fnc_initModule`, `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot`
 
 ### Additions
 * ADDED: (Function) HALs_store_fnc_getItemType
