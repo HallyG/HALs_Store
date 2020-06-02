@@ -122,6 +122,10 @@ switch (_mode) do {
 					params ["_ctrl", "_idx"];
 
 					_data = (_ctrl lbData _idx) splitString ":";
+					if (!isNil {_data select 1}) then {
+						_data set [1, parseNumber (_data select 1)];
+					};
+					
 					_value = _ctrl lbValue _idx;
 					_amt = CTRLT(IDC_EDIT) getVariable ["amt", 1];
 
@@ -161,9 +165,7 @@ switch (_mode) do {
 				// Compatible items only (wont run if sale checkbox is checked)
 				if (cbChecked _checkCompatible) then {
 					_filterItems = [];
-
 					{_filterItems append (_x call HALs_store_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
-
 					_items = _items select {_x select 0 in _filterItems};
 				};
 	
@@ -173,7 +175,7 @@ switch (_mode) do {
 				private _showAvaliable = cbChecked _checkAvaliable;
 				private _money = floor ([player] call HALs_money_fnc_getFunds);
 				{
-					_x params ["_classname", "_price", ["_stock", 0]];
+					_x params ["_classname", "_price"];
 
 					_stock = 0;
 					if (_showSellable) then {
@@ -181,9 +183,6 @@ switch (_mode) do {
 					} else {
 						_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 					};
-					
-					
-					
 
 					if (!(_showAvaliable && {_price > _money || _stock < 1})) then {
 						_cfg = _classname call HALs_fnc_getConfigClass;
@@ -337,13 +336,12 @@ switch (_mode) do {
 				private _idx = _ctrlList getVariable ["idx", -1];
 				if (_idx isEqualTo -1) exitWith {_ctrlButton ctrlEnable false;};
 
-				(_ctrlList lbData _idx) params [
+				(_ctrlList getVariable "data") params [
 					["_classname", ""],
-					["_stock", ""]
+					["_stock", 0]
 				];
 
 				// Insufficient stock check
-				_stock = parseNumber _stock;
 				_amount = CTRLT(IDC_EDIT) getVariable ["amt", 1];
 				if (_stock < 1 ||  _amount < 1 || _amount > _stock) exitWith {
 					_ctrlButton ctrlEnable false;
@@ -397,7 +395,7 @@ switch (_mode) do {
 			case ("buy"): {
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container";
-				private _classname = ((_ctrlList getVariable "data") splitString ":") param [0, ""];
+				private _classname = (_ctrlList getVariable "data") param [0, ""];
 				private _purchaseData = [player, _classname, _ctrlList getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container, cbChecked CTRLT(IDC_CHECKBOX_BUY)];
 
 				_purchaseData remoteExecCall ["HALs_store_fnc_purchase", 2];
@@ -406,7 +404,7 @@ switch (_mode) do {
 			case ("sell"): {
 				private _ctrlList = CTRL(IDC_LISTBOX);
 				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container";
-				private _classname = ((_ctrlList getVariable "data") splitString ":") param [0, ""];
+				private _classname = (_ctrlList getVariable "data") param [0, ""];
 				private _price = _ctrlList getVariable "value";
 				private _sellData = [player, _classname, _price, CTRLT(IDC_EDIT) getVariable "amt", _container];
 
@@ -476,8 +474,8 @@ switch (_mode) do {
 							_ctrlText ctrlSetStructuredText parseText "";
 						};
 
-						private _dataArr = (_ctrlList lbData _idx) splitString ":";
-						private _stock = parseNumber (_dataArr param [1, ""]);
+						private _stock = (_ctrlList getVariable "data") param [1, 0];
+						systemChat str _Stock;
 						private _money = floor ([player] call HALs_money_fnc_getFunds);
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 
@@ -562,12 +560,11 @@ switch (_mode) do {
 							_ctrlText ctrlSetStructuredText parseText "";
 						};
 
-						((_ctrlList lbData _idx) splitString ":") params [
+						(_ctrlList getVariable "data") params [
 							["_classname", ""],
-							["_stock", ""]
+							["_stock", 0]
 						];
 
-						_stock = parseNumber _stock;
 						_config = _classname call HALs_fnc_getConfigClass;
 						_description = [
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
