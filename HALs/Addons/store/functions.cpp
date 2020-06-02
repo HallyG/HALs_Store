@@ -15,6 +15,13 @@ class HALs_store {
 		class removeContainerItem {};
 		class removePlayerItem {};
 	};
+	
+	class Hash {
+		file = "HALs\Addons\store\functions\system\hash";
+		class hashSet {};
+		class hashGet {};
+		class hashGetOrDefault {headerType = -1;};
+	};
 
 	class Client {
 		file = "HALs\Addons\store\functions\client";
