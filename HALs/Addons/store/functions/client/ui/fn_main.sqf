@@ -84,19 +84,30 @@ switch (_mode) do {
 		HALs_store_blur ppEffectAdjust [8];
 		HALs_store_blur ppEffectCommit 0.2;
 		
+		HALs_MAP_ITEM_PRICE = [];
+		HALs_MAP_ITEM_STOCK = [];
+		HALs_MAP_CATEGORY_ITEMS = [];
+		
 		// Process all items and store in trader
-		if (isNil {_trader getVariable "#items_all"}) then {
+		if (true) then {
 			private _items = [];
 			private _categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "categories");
-
+			
 			{
 				private _categoryItems = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x) apply {[configName _x, getNumber (_x >> "price") max 0]};
+				private _names = _categoryItems apply {_x select 0};
+				private _prices = _categoryItems apply {_x select 1};
+
+				[HALs_MAP_CATEGORY_ITEMS, _x, _names] call HALs_store_fnc_hashSet;
+				{
+					[HALs_MAP_ITEM_PRICE, _x select 0, _x select 1] call HALs_store_fnc_hashSet;
+				} forEach _categoryItems;
+				
 				_items append _categoryItems;
-				_trader setVariable ["#items_" + _x, _categoryItems];
 			} forEach _categories;
 
-			_trader setVariable ["#items_all", _items];
-			TEST_A = _items;
+
+			[HALs_MAP_CATEGORY_ITEMS, "all", _items apply {_x select 0}] call HALs_store_fnc_hashSet; //_trader setVariable ["#items_all", _items];
 		};
 
 		call HALs_store_fnc_eachFrame;
@@ -122,8 +133,10 @@ switch (_mode) do {
 					params ["_ctrl", "_idx"];
 
 					_data = (_ctrl lbData _idx) splitString ":";
-					if (!isNil {_data select 1}) then {
-						_data set [1, parseNumber (_data select 1)];
+					if (count _data > 0) then {
+						if (!isNil {_data select 1}) then {
+							_data set [1, parseNumber (_data select 1)];
+						};
 					};
 					
 					_value = _ctrl lbValue _idx;
@@ -148,7 +161,11 @@ switch (_mode) do {
 				private _checkCompatible = CTRL(IDC_CHECKBOX + 2);
 				private _showSellable = cbChecked CTRL(IDC_CHECKBOX + 3);
 				
-				private _items = _trader getVariable ["#items_" + (CTRL(IDC_COMBO_CATEGORY) getVariable "data"), []];
+				private _category = CTRL(IDC_COMBO_CATEGORY) getVariable "data";
+				private _items = [HALs_MAP_CATEGORY_ITEMS, _category, []] call HALs_store_fnc_hashGetOrDefault; ///_trader getVariable ["#items_" + (CTRL(IDC_COMBO_CATEGORY) getVariable "data"), []];
+				//private _prices = _items apply {};
+
+				//todo
 				private _sellableItems = [];
 				if (_showSellable) then {
 					_checkAvaliable cbSetChecked false;
@@ -156,17 +173,18 @@ switch (_mode) do {
 
 					_container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container";
 					_sellableItems = [_container] call HALs_store_fnc_getContainerItems;
-					_items = _items select {(_x select 0) in _sellableItems};
+					_items = _items arrayIntersect _sellableItems;
+					
 
-					_sellFactor = HALs_store_sellFactor min 1 max 0;
-					_items = _items apply {[_x select 0, floor ((_x select 1) * _sellFactor)]};
+					/*
+					_items = _items apply {[_x select 0, floor ((_x select 1) * _sellFactor)]};*/
 				};
 
 				// Compatible items only (wont run if sale checkbox is checked)
 				if (cbChecked _checkCompatible) then {
 					_filterItems = [];
 					{_filterItems append (_x call HALs_store_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
-					_items = _items select {_x select 0 in _filterItems};
+					_items = _items select {_x in _filterItems};
 				};
 	
 				// Exit early if there are no items
@@ -174,12 +192,20 @@ switch (_mode) do {
 
 				private _showAvaliable = cbChecked _checkAvaliable;
 				private _money = floor ([player] call HALs_money_fnc_getFunds);
+				private _sellFactor = HALs_store_sellFactor min 1 max 0;
 				{
-					_x params ["_classname", "_price"];
-
+					_classname = _x;
+					_price = [HALs_MAP_ITEM_PRICE, _x, 0] call HALs_store_fnc_hashGetOrDefault;
 					_stock = 0;
+					
 					if (_showSellable) then {
-						_stock = {_x isEqualTo _className} count _sellableItems;
+						_stock = {
+							_x isEqualTo _className
+						} count _sellableItems;
+						
+						
+						
+						_price = _price * _sellFactor;
 					} else {
 						_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 					};
@@ -198,7 +224,7 @@ switch (_mode) do {
 							_ctrlList lbSetSelectColorRight [_idx, [0.8, 0, 0, 1]];
 						};
 					};
-				} count _items;
+				} forEach _items;
 
 				lbSort [_ctrlList, CTRL(IDC_LISTBOX_SORT) getVariable ["dirStr", "ASC"]];
 				_ctrlList lbSetCurSel ((_ctrlList getVariable ["idx", -1]) max 0);
@@ -475,7 +501,6 @@ switch (_mode) do {
 						};
 
 						private _stock = (_ctrlList getVariable "data") param [1, 0];
-						systemChat str _Stock;
 						private _money = floor ([player] call HALs_money_fnc_getFunds);
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 
