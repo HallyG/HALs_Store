@@ -96,6 +96,7 @@ switch (_mode) do {
 			} forEach _categories;
 
 			_trader setVariable ["#items_all", _items];
+			TEST_A = _items;
 		};
 
 		call HALs_store_fnc_eachFrame;
@@ -138,7 +139,7 @@ switch (_mode) do {
 			};
 
 			case ("update"): {
-				private _ctrlList = CTRL(IDC_LISTBOX);
+				private _ctrlList = CTRL(IDC_LISTBOX); lbClear _ctrlList;
 				private _checkAvaliable = CTRL(IDC_CHECKBOX + 1);
 				private _checkCompatible = CTRL(IDC_CHECKBOX + 2);
 				private _showSellable = cbChecked CTRL(IDC_CHECKBOX + 3);
@@ -150,8 +151,7 @@ switch (_mode) do {
 					_checkCompatible cbSetChecked false;
 
 					_container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container";
-
-					_sellableItems = [_container] call HALs_store_fnc_getContainerItems; //[player] call HALs_store_fnc_getPlayerCargo;
+					_sellableItems = [_container] call HALs_store_fnc_getContainerItems;
 					_items = _items select {(_x select 0) in _sellableItems};
 
 					_sellFactor = HALs_store_sellFactor min 1 max 0;
@@ -164,21 +164,16 @@ switch (_mode) do {
 
 					{_filterItems append (_x call HALs_store_fnc_getCompatibleItems)} forEach [primaryWeapon player, handgunWeapon player, secondaryWeapon player];
 
-					_items = _items select {(_x select 0) in _filterItems};
+					_items = _items select {_x select 0 in _filterItems};
 				};
-
-
-				
-				lbClear _ctrlList;
-				
-				
+	
 				// Exit early if there are no items
 				if (count _items isEqualTo 0) exitWith {_ctrlList lbSetCurSel -1};
 
 				private _showAvaliable = cbChecked _checkAvaliable;
 				private _money = floor ([player] call HALs_money_fnc_getFunds);
 				{
-					_x params ["_classname", "_price"];
+					_x params ["_classname", "_price", ["_stock", 0]];
 
 					_stock = 0;
 					if (_showSellable) then {
@@ -186,6 +181,9 @@ switch (_mode) do {
 					} else {
 						_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 					};
+					
+					
+					
 
 					if (!(_showAvaliable && {_price > _money || _stock < 1})) then {
 						_cfg = _classname call HALs_fnc_getConfigClass;
