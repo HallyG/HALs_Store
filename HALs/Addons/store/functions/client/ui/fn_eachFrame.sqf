@@ -42,7 +42,7 @@ addMissionEventHandler ["EachFrame", {
 		_money = [player] call HALs_money_fnc_getFunds;
 		_oldMoney = missionNamespace getVariable ["#HALs_store_money", [player] call HALs_money_fnc_getFunds];
 
-		if (_money != HALs_store_oldMoney) then {
+		if (_money != _oldMoney) then {
 			missionNamespace setVariable ["#HALs_store_money", _money];
 			HALs_store_updated = true;
 		};
