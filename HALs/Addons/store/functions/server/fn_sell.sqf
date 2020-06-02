@@ -37,7 +37,14 @@ try {
 
     // Check if the trader will buy this item
 	private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-	if (_stock isEqualTo -1) then {throw ["The trader will not buy this item."]};
+	if (_stock isEqualTo -1) then {
+		// Try parent
+		_parent = _classname call HALs_store_fnc_getParentClassname;
+		_stock = [_trader, _parent] call HALs_store_fnc_getTraderStock;
+		if (_stock isEqualTo -1) then {
+			throw ["The trader will not buy this item."]
+		};
+	};
 
     // Check that player has the item
     // Remove items from unit
