@@ -36,6 +36,7 @@ class HALs_store {
 		class getItemStats {};
 		class getItemType {};
 		class getCargoMass {};
+		class getParentClassname {headerType = -1;};
 	};
 
 	class Server {
