@@ -1,7 +1,7 @@
 /*
 	Function: HALs_store_fnc_hashGet
-	Author: HallyG
-	
+	Author: NouberNou, HallyG
+	https://www.reddit.com/r/armadev/comments/3haiax/improving_the_speed_of_associative_maps_with/
 
 	Argument(s):
 	0: None
