@@ -57,5 +57,6 @@ class HALs_store {
 		file = "HALs\Addons\store\functions\client\ui";
 		class main {};
 		class update {};
+		class eachFrame {};
 	};
 };
