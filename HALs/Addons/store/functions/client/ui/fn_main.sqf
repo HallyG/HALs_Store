@@ -201,6 +201,7 @@ switch (_mode) do {
 				{
 					_classname = _x;
 					_price = [HALs_MAP_ITEM_PRICE, _x, 0] call HALs_store_fnc_hashGetOrDefault;
+					_priceSell = 0;
 					_stock = 0;
 					
 					if (_showSellable) then {
@@ -215,7 +216,7 @@ switch (_mode) do {
 							_price = [HALs_MAP_ITEM_PRICE, _parentClassname, 0] call HALs_store_fnc_hashGetOrDefault;
 						};
 
-						_price = _price * _sellFactor;
+						_priceSell = _price * _sellFactor;
 					} else {
 						_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
 					};
@@ -227,7 +228,7 @@ switch (_mode) do {
 						_ctrlList lbSetData [_idx, format ["%1:%2", _classname, _stock]];
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
 						_ctrlList lbSetValue [_idx, _price];
-						_ctrlList lbSetTextRight [_idx, format ["%1 %2", _price, HALs_store_currencySymbol]];
+						_ctrlList lbSetTextRight [_idx, format ["%1 %2", [_price, _priceSell] select _showSellable, HALs_store_currencySymbol]];
 
 						if (_price > _money && {!_showSellable}) then {
 							_ctrlList lbSetColorRight [_idx, [0.8, 0, 0, 1]];

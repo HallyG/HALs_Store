@@ -59,7 +59,8 @@ try {
 	if (_amount < 1) then {throw ["Unable to sell item."]};
 
 	// Update unit's funds and trader's stock
-	private _total = (_price max 0) * _amount;
+	private _sellFactor = HALs_store_sellFactor min 1 max 0;
+	private _total = (_price max 0) * _amount * _sellFactor;
 	[_trader, _classname, _amount] call HALs_store_fnc_updateStock;
 	[_unit, _total] call HALs_money_fnc_addFunds;
 
