@@ -7,8 +7,6 @@
 	- Prevent selling a container that has items
 	- Calcualte accurate price of container
 	- Better gui for selling?
-	- Update listbox if sell selected and container gui changed
-
 
 	Argument(s):
 	0: Mode <STRING>
@@ -43,20 +41,29 @@ switch (_mode) do {
 		_display setVariable ["ctrl_group_trader", _display displayCtrl IDC_GROUP_TRADER];
 		
 		CTRL(IDC_TITLE) ctrlSetText format ["%1", getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName")];
-
-		{
-			_x params ["_ctrl", "_tooltip"];
-
-			_ctrl ctrlSetTooltip (localize _tooltip);
-			_ctrl ctrlAddEventHandler ["CheckedChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
-		} forEach [
-			[CTRL(IDC_CHECKBOX + 1), "STR_HALS_STORE_CHECKBOX_AVALIABLE"],
-			[CTRL(IDC_CHECKBOX + 2), "STR_HALS_STORE_CHECKBOX_COMPATIBLE"],
-			[CTRL(IDC_CHECKBOX + 3), "STR_HALS_STORE_CHECKBOX_SELLFILTER"]
-		];
-
-		CTRLT(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["button", ["enabled", []]] call HALs_store_fnc_main}];
 		
+		CTRLT(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["button", ["enabled", []]] call HALs_store_fnc_main}];
+
+		CTRL(IDC_CHECKBOX + 1) ctrlAddEventHandler ["CheckedChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
+		CTRL(IDC_CHECKBOX + 1) ctrlSetTooltip (localize "STR_HALS_STORE_CHECKBOX_AVALIABLE");
+
+		CTRL(IDC_CHECKBOX + 2) ctrlAddEventHandler ["CheckedChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
+		CTRL(IDC_CHECKBOX + 2) ctrlSetTooltip (localize "STR_HALS_STORE_CHECKBOX_COMPATIBLE");
+		
+		CTRL(IDC_CHECKBOX + 3) ctrlAddEventHandler ["CheckedChanged", {}];
+		CTRL(IDC_CHECKBOX + 3) ctrlAddEventHandler ["CheckedChanged", {
+			params ["", "_checked"];
+			
+			_ctrlPurchase = CTRLT(IDC_BUY_ITEM_COMBO);
+			_txt = ["Purchase to %1.", "Sell to %1."] select _checked;
+			for [{private _i = 0}, {_i < lbSize _ctrlPurchase}, {_i = _i + 1}] do {
+				_ctrlPurchase lbSetTooltip [_i, format [_txt, _ctrlPurchase lbText _i]];
+			}; 
+			
+			["listbox", ["update", []]] call  HALs_store_fnc_main;
+		}];
+		CTRL(IDC_CHECKBOX + 3) ctrlSetTooltip (localize "STR_HALS_STORE_CHECKBOX_SELLFILTER");
+
 		["onInit"] call HALs_store_fnc_main;
 		
 		["listbox", ["init", []]] call  HALs_store_fnc_main;
@@ -83,20 +90,19 @@ switch (_mode) do {
 
 		HALs_store_blur ppEffectAdjust [8];
 		HALs_store_blur ppEffectCommit 0.2;
-		
-		HALs_MAP_ITEM_PRICE = [];
-		HALs_MAP_ITEM_STOCK = [];
-		HALs_MAP_CATEGORY_ITEMS = [];
-		
+
 		// Process all items and store in trader
 		if (true) then {
+			HALs_MAP_ITEM_PRICE = [];
+			HALs_MAP_CATEGORY_ITEMS = [];
+		
 			private _items = [];
 			private _categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "categories");
 			
 			{
 				private _categoryItems = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x) apply {[configName _x, getNumber (_x >> "price") max 0]};
 				private _names = _categoryItems apply {_x select 0};
-				private _prices = _categoryItems apply {_x select 1};
+				//private _prices = _categoryItems apply {_x select 1};
 
 				[HALs_MAP_CATEGORY_ITEMS, _x, _names] call HALs_store_fnc_hashSet;
 				{
@@ -106,8 +112,7 @@ switch (_mode) do {
 				_items append _categoryItems;
 			} forEach _categories;
 
-
-			[HALs_MAP_CATEGORY_ITEMS, "all", _items apply {_x select 0}] call HALs_store_fnc_hashSet; //_trader setVariable ["#items_all", _items];
+			[HALs_MAP_CATEGORY_ITEMS, "all", _items apply {_x select 0}] call HALs_store_fnc_hashSet;
 		};
 
 		call HALs_store_fnc_eachFrame;
@@ -162,10 +167,8 @@ switch (_mode) do {
 				private _showSellable = cbChecked CTRL(IDC_CHECKBOX + 3);
 				
 				private _category = CTRL(IDC_COMBO_CATEGORY) getVariable "data";
-				private _items = [HALs_MAP_CATEGORY_ITEMS, _category, []] call HALs_store_fnc_hashGetOrDefault; ///_trader getVariable ["#items_" + (CTRL(IDC_COMBO_CATEGORY) getVariable "data"), []];
-				//private _prices = _items apply {};
-
-				//todo
+				private _items = [HALs_MAP_CATEGORY_ITEMS, _category, []] call HALs_store_fnc_hashGetOrDefault;
+				
 				private _sellableItems = [];
 				if (_showSellable) then {
 					_checkAvaliable cbSetChecked false;
@@ -173,11 +176,13 @@ switch (_mode) do {
 
 					_container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container";
 					_sellableItems = [_container] call HALs_store_fnc_getContainerItems;
-					_items = _items arrayIntersect _sellableItems;
 					
-
-					/*
-					_items = _items apply {[_x select 0, floor ((_x select 1) * _sellFactor)]};*/
+					// Hacky af but basically allows base weapons
+					_items = _sellableItems select {
+						_x in _items || (_x call HALs_store_fnc_getParentClassname) in _items;
+					};
+					
+					_items = _items arrayIntersect _items;
 				};
 
 				// Compatible items only (wont run if sale checkbox is checked)
@@ -199,12 +204,17 @@ switch (_mode) do {
 					_stock = 0;
 					
 					if (_showSellable) then {
+						_parentClassname = _classname call HALs_store_fnc_getParentClassname;
+						
 						_stock = {
-							_x isEqualTo _className
+							_x isEqualTo _className || _x isEqualTo _parentClassname
 						} count _sellableItems;
 						
-						
-						
+						// Get price of the base class
+						if (_price isEqualTo 0) then {
+							_price = [HALs_MAP_ITEM_PRICE, _parentClassname, 0] call HALs_store_fnc_hashGetOrDefault;
+						};
+
 						_price = _price * _sellFactor;
 					} else {
 						_stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
@@ -295,7 +305,9 @@ switch (_mode) do {
 					[backpack player, "Backpack", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\backpack_ca.paa", backpackContainer player]
 				];
 				_containers append HALs_store_vehicles;
-
+				
+				
+				private _txt = ["Purchase to %1.", "Sell to %1."] select (cbChecked CTRL(IDC_CHECKBOX+3));
 				{
 					_x params ["_classname", "_displayName", "_picture", "_object"];
 
@@ -303,7 +315,7 @@ switch (_mode) do {
 						_idx = _ctrlPurchase lbAdd _displayName;
 						_ctrlPurchase lbSetPicture [_idx, _picture];
 						_ctrlPurchase lbSetData [_idx, _object call BIS_fnc_netId];
-						_ctrlPurchase lbSetTooltip [_idx, format ["Purchase to %1.", _displayName]];
+						_ctrlPurchase lbSetTooltip [_idx, format [_txt, _displayName]];
 					};
 				} count _containers;
 
