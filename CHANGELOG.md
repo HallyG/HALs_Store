@@ -4,7 +4,7 @@
 * **Added** support for Old Man's new money items: picking them up will add money to the player. Alter the money values in `HALs\Addons\money\functions\client\fn_client.sqf`.
 * **Added** `BIS_fnc_holdActionAdd` to replace the previously used `addAction`.
 * **Added** a textbox in the inventory screen to display the player's money.
-* **Added** final sell prices is now only calculated on the server.
+* **Chnaged** final sell prices are now only calculated on the server.
 * **Changed** some colours to match BIS GUI colour scheme.
 * **Changed** summary messages from buying and selling.
 * **Fixed** issue where a non-parent weapon could not be sold.
