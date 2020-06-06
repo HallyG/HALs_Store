@@ -64,11 +64,11 @@ try {
 	[_trader, _classname, _amount] call HALs_store_fnc_updateStock;
 	[_unit, _total] call HALs_money_fnc_addFunds;
 
-	private _message = format ["x%1 %2(s) sold for %3 %4", _amount, [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue, _total, HALs_store_currencySymbol];
+	private _message = format ["x%1 %2(s) sold for %3 %4.", _amount, [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue, _total, HALs_store_currencySymbol];
 
 	// Log sell
 	if (HALs_store_debug) then {
-		private _log = format ["%2(%1) sold %3 to (%4).", name _unit, getPlayerUID _unit, _message, _trader];
+		private _log = format ["%2(%1) %3 to (%4).", name _unit, getPlayerUID _unit, _message, _trader];
 		[_log] call HALs_fnc_log;
 	};
 
