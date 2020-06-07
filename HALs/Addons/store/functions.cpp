@@ -25,8 +25,8 @@ class HALs_store {
 
 	class Client {
 		file = "HALs\Addons\store\functions\client";
-		class addAction {};
 		class systemChat {};
+		class openStore {};
 	};
 
 	class Config {
@@ -42,6 +42,7 @@ class HALs_store {
 	class Server {
 		file = "HALs\Addons\store\functions\server";
 		class addTrader {};
+		class addActionTrader {};
 		class purchase {};
 		class sell {};
 	};

@@ -37,7 +37,6 @@ try {
 		true
 	] call HALs_fnc_sortArray;
 
-
 	private _classes = [];
 	private _stocks = [];
 	{
@@ -69,7 +68,8 @@ try {
 		clearBackpackCargoGlobal _trader;
 	};
 
-	[_trader] remoteExec ["HALs_store_fnc_addAction", 0, true];
+	_trader setVariable ["HALs_store_name", getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType >> "displayName"), true];
+	[_trader] call HALs_store_fnc_addActionTrader;
 	true
 } catch {
 	[_exception] call HALs_fnc_log;
