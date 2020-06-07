@@ -24,13 +24,15 @@
 #define ITEM_Y (BAR_H*2 + SPACE_H*2 + SPACE_H)
 #define PIC_H 21
 
+
+#define STORE_W (109)
+
 #define DIALOG_W (128)
 #define DIALOG_H (80)
-#define DIALOG_X (safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, DIALOG_W/2))
+#define DIALOG_X (safeZoneX + (safeZoneW / 2) - GRID_X(pixelGridNoUIScale, 2, STORE_W/2))
 #define DIALOG_Y (safeZoneY + (safeZoneH / 2) - GRID_Y(pixelGridNoUIScale, 2, DIALOG_H/2))
 
 // Item selection/information MACROs
-#define STORE_W (109)
 #define STORE_H (DIALOG_H)
 
 #define FUNDS_W (20)
@@ -65,6 +67,8 @@ class RscDisplayStore {
 				    w = GRID_X(pixelGridNoUIScale, 2, TRADER_W);
 				    h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 				    sizeEx = FONT(1);
+					colorBackground[] = {0.1, 0.1, 0.1, 1};
+					
 				};
 
 				class ContainerPictureBackground: RscItemText {
@@ -171,18 +175,6 @@ class RscDisplayStore {
 					sizeEx = FONT(1);
 					action = "['button', ['pressed', []]] call HALs_store_fnc_main;";
 				};
-
-				/*class SellButton: RscItemButtonAction {
-					idc = IDC_BUTTON_SELL;
-					fade = 1;
-					x = GRID_X(pixelGridNoUIScale, 2, BAR_W + SPACE_W);
-					y = GRID_Y(pixelGridNoUIScale, 2, TRADER_PIC_H + SPACE_H + BAR_H + SPACE_H + BAR_H);
-					w = GRID_X(pixelGridNoUIScale, 2, TRADER_W - BAR_W - SPACE_W);
-					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					text = "$STR_HALS_STORE_BUTTON_SELL"; //"$STR_HALS_STORE_BUTTON_SELL";
-					sizeEx = FONT(1);
-					action = "['button', ['sell', []]] call HALs_store_fnc_main;";
-				};*/
 			};
 		};
 
@@ -200,7 +192,7 @@ class RscDisplayStore {
 					y = 0;
 					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					colorBackground[] = {0.1,0.1,0.1,1};
+					colorBackground[] = {0.1, 0.1, 0.1, 1};
 				};
 
 				class StoreBackground: RscItemText {
@@ -259,7 +251,7 @@ class RscDisplayStore {
 					w = GRID_X(pixelGridNoUIScale, 2, COMBO_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					sizeEx = FONT(1);
-					colorBackground[] = {0, 0, 0, 0.95};
+					colorBackground[] = {0.1,0.1,0.1,1};
 				};
 
 				class ItemListboxSortButton: RscItemButtonSort {
