@@ -15,6 +15,13 @@ class HALs_store {
 		class removeContainerItem {};
 		class removePlayerItem {};
 	};
+	
+	class Hash {
+		file = "HALs\Addons\store\functions\system\hash";
+		class hashSet {};
+		class hashGet {};
+		class hashGetOrDefault {headerType = -1;};
+	};
 
 	class Client {
 		file = "HALs\Addons\store\functions\client";
@@ -29,6 +36,7 @@ class HALs_store {
 		class getItemStats {};
 		class getItemType {};
 		class getCargoMass {};
+		class getParentClassname {headerType = -1;};
 	};
 
 	class Server {
@@ -57,5 +65,6 @@ class HALs_store {
 		file = "HALs\Addons\store\functions\client\ui";
 		class main {};
 		class update {};
+		class eachFrame {};
 	};
 };

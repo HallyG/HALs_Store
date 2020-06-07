@@ -56,12 +56,12 @@
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_PURCHASED">
-		    <Original>purchased.</Original>
-		    <English>purchased.</English>
+		    <Original>purchased</Original>
+		    <English>purchased</English>
 		    <French>acheté</French>
-		    <German>gekauft.</German>
-		    <Russian>куплен.</Russian>
-		    <Spanish>comprado.</Spanish>
+		    <German>gekauft</German>
+		    <Russian>куплен</Russian>
+		    <Spanish>comprad</Spanish>
 		    <Italian></Italian>
 		</Key>
         <!-- Thanks to JakeHekesFists -->
