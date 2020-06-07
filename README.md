@@ -17,9 +17,9 @@
 **HALs Store** is an Arma 3 script that provides the functionality to add configurable item stores (where you can buy and sell items) to your missions.
 
 ## Documentation
-Please visit the [Wiki](https://github.com/HallyG/HALs_Store/wiki) for more information.
+Please visit the [wiki](https://github.com/HallyG/HALs_Store/wiki) for more information.
 
-[Example `config.hpp`](https://github.com/HallyG/HALs_Store/wiki/Configuration-Example)
+Find an example `config.hpp` [here](https://github.com/HallyG/HALs_Store/wiki/Configuration-Example).
 
 ## Download 
-[Download the lastest Example Mission](https://github.com/HallyG/HALs_Store/releases)
+Download the latest [Example Mission](https://github.com/HallyG/HALs_Store/releases).
