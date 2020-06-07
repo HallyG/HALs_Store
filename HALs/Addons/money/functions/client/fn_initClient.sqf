@@ -56,7 +56,7 @@ player addEventHandler ["InventoryOpened", {
 			while {ctrlShown _ctrl} do {
 				_ctrl ctrlSetStructuredText parseText format [
 					"<t align='right' shadow='1' font='RobotoCondensed' color='#aaffaa'>%1 %2</t>",
-					[player] call HALs_money_fnc_getFunds,
+					([player] call HALs_money_fnc_getFunds) toFixed 2,
 					HALs_store_currencySymbol
 				];
 				
