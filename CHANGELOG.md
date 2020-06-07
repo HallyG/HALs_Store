@@ -7,6 +7,7 @@
 * **Chnaged** final sell prices are now only calculated on the server.
 * **Changed** some colours to match BIS GUI colour scheme.
 * **Changed** summary messages from buying and selling.
+* **Fixed** minor issue with Russian translation (credits to: barman75).
 * **Fixed** issue where a non-parent weapon could not be sold.
 * **Fixed** issue where the players money was not updated will using the store.
 * **Fixed** issue where the tooltip for the trader's container dropdown box was not updated when the sell checkbox was checked.
@@ -50,7 +51,7 @@ ___
 ### Fixes
 * FIXED: The mass of items of containers within containers were not calculated.
 * FIXED: Edit box maximum characters set to 6 (credits to: R3vo).
-* FIXED: Players couldn't buy items in multiplayer (credits to: Antoine)
+* FIXED: Players couldn't buy items in multiplayer (credits to: Antoine).
 * OPTIMISED: Removed the creation of unneccesary private variables.
 * OPTIMISED: `HALs_store_fnc_main`, `HALs_store_fnc_initModule`, `HALs_store_fnc_blur`, `HALs_fnc_getModuleRoot`
 
