@@ -37,7 +37,14 @@ try {
 
     // Check if the trader will buy this item
 	private _stock = [_trader, _classname] call HALs_store_fnc_getTraderStock;
-	if (_stock isEqualTo -1) then {throw ["The trader will not buy this item."]};
+	if (_stock isEqualTo -1) then {
+		// Try parent
+		_parent = _classname call HALs_store_fnc_getParentClassname;
+		_stock = [_trader, _parent] call HALs_store_fnc_getTraderStock;
+		if (_stock isEqualTo -1) then {
+			throw ["The trader will not buy this item."]
+		};
+	};
 
     // Check that player has the item
     // Remove items from unit
@@ -52,15 +59,16 @@ try {
 	if (_amount < 1) then {throw ["Unable to sell item."]};
 
 	// Update unit's funds and trader's stock
-	private _total = (_price max 0) * _amount;
+	private _sellFactor = HALs_store_sellFactor min 1 max 0;
+	private _total = (_price max 0) * _amount * _sellFactor;
 	[_trader, _classname, _amount] call HALs_store_fnc_updateStock;
 	[_unit, _total] call HALs_money_fnc_addFunds;
 
-	private _message = format ["x%1 %2(s) sold for %3 %4", _amount, [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue, _total, HALs_store_currencySymbol];
+	private _message = format ["x%1 %2(s) sold for %3 %4.", _amount, [(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue, _total, HALs_store_currencySymbol];
 
 	// Log sell
 	if (HALs_store_debug) then {
-		private _log = format ["%2(%1) sold %3 to (%4).", name _unit, getPlayerUID _unit, _message, _trader];
+		private _log = format ["%2(%1) %3 to (%4).", name _unit, getPlayerUID _unit, _message, _trader];
 		[_log] call HALs_fnc_log;
 	};
 

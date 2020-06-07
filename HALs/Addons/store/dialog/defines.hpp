@@ -433,7 +433,7 @@ class RscItemButtonClose: RscItemButton {
 	colorActive[] = {1, 1, 1, 1};
 	color[] = {1, 1, 1, 0.7};
 	text = "\a3\3DEN\Data\ControlsGroups\Tutorial\close_ca.paa"
-	tooltip = "Close";
+	//tooltip = "Close";
 	colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R', 0])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0])", 0};
 };
 

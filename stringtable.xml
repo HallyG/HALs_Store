@@ -6,7 +6,7 @@
 		    <English>Store</English>
 		    <French>Magasin</French>
 		    <German>Geschäft</German>
-		    <Russian></Russian>
+		    <Russian>Магазин</Russian>
 		    <Spanish>Comprar</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -15,7 +15,7 @@
 		    <English>Item unavaliable.</English>
 		    <French>Item indisponible.</French>
 		    <German>Gegenstand nicht verfügbar.</German>
-		    <Russian></Russian>
+		    <Russian>Предмет недоступен</Russian>
 		    <Spanish>Objeto no disponible.</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -24,7 +24,7 @@
 		    <English>Insufficient stock.</English>
 		    <French>Stocks insufissant.</French>
 		    <German>Ausverkauft.</German>
-		    <Russian></Russian>
+		    <Russian>Товар закончился</Russian>
 		    <Spanish>Sin stock.</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -33,7 +33,7 @@
 		    <English>Insufficient funds.</English>
 		    <French>Fonds insufissant.</French>
 		    <German>Zu wenig Geld.</German>
-		    <Russian></Russian>
+		    <Russian>Недостаточно средств</Russian>
 		    <Spanish>Dinero insuficiente.</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -42,7 +42,7 @@
 		    <English>Unable to equip.</English>
 		    <French>Impossible de s'équiper.</French>
 		    <German>Ausrüsten fehlgeschlagen.</German>
-		    <Russian></Russian>
+		    <Russian>Невозможно экипировать</Russian>
 		    <Spanish>Imposible equipar.</Spanish>
 		    <Italian></Italian>
 		  </Key>
@@ -51,27 +51,29 @@
 		    <English>Insufficient cargo space.</English>
 		    <French>Pas assez d'espace disponible.</French>
 		    <German>Nicht genug Platz.</German>
-		    <Russian></Russian>
+		    <Russian>Не хватает места в инвентаре</Russian>
 		    <Spanish>Espacio insuficiente.</Spanish>
 		    <Italian></Italian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_PURCHASED">
-		    <Original>purchased.</Original>
-		    <English>purchased.</English>
+		    <Original>purchased</Original>
+		    <English>purchased</English>
 		    <French>acheté</French>
-		    <German>gekauft.</German>
-		    <Russian></Russian>
-		    <Spanish>comprado.</Spanish>
+		    <German>gekauft</German>
+		    <Russian>куплен</Russian>
+		    <Spanish>comprad</Spanish>
 		    <Italian></Italian>
 		</Key>
         <!-- Thanks to JakeHekesFists -->
         <Key ID="STR_HALS_STORE_ITEM_SELL_NOTEMPTY">
 			<Original>You cannot sell your %1 (%2) because it is not empty.</Original>
 			<English>You cannot sell your %1 (%2) because it is not empty.</English>
+      <Russian>Вы не можете продать %1 (%2), поскольку он не пустой.</Russian>
 		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_SELL_SOLD">
 			<Original>Sold x%1 %2(s) for $%3.</Original>
 			<English>Sold x%1 %2(s) for $%3.</English>
+      <Russian>Продано x%1 %2(s) за $%3.</Russian>
 		</Key>
 
 	</Package>
@@ -81,7 +83,7 @@
 		    <English>Only show items which the player can afford.</English>
 		    <French>Ne montrer que les items achetables.</French>
 		    <German>Zeige nur Gegenstände, die sich der Spieler leisten kann.</German>
-		    <Russian></Russian>
+		    <Russian>Показывать только предметы, на которые хватает денег</Russian>
 		    <Spanish>Mostrar solo objetos que pueda comprar.</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -90,7 +92,7 @@
             <English>Only show items that are avaliable for purchase.</English>
             <French></French>
             <German></German>
-            <Russian></Russian>
+            <Russian>Показывать только предметы, доступные к покупке.</Russian>
             <Spanish></Spanish>
             <Italian></Italian>
         </Key>
@@ -99,7 +101,7 @@
 		    <English>Only show items which are in stock.</English>
 		    <French>Ne montrer que les items en stock.</French>
 		    <German>Zeige nur Gegenstände, die auf Lager sind.</German>
-		    <Russian></Russian>
+		    <Russian>Показывать только предметы, доступные для продажи.</Russian>
 		    <Spanish>Mostrar solo objetos en stock.</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -108,7 +110,7 @@
 		    <English>Only show items compatible with the player's equipped weapons.</English>
 		    <French>Ne montrer que les items compatibles.</French>
 		    <German>Zeige nur Gegenstände, die mit der ausgerüsteten Waffe des Spielers kompatibel sind.</German>
-		    <Russian></Russian>
+		    <Russian>Показывать только предметы, совместимые с оружием игрока.</Russian>
 		    <Spanish>Mostrar solo objetos compatibles con armas equipadas.</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -116,18 +118,24 @@
         <Key ID="STR_HALS_STORE_CHECKBOX_SELLFILTER">
             <Original>Only show items that the player can sell.</Original>
             <English>Only show items that the player can sell.</English>
+            <Russian>Показывать только предметы, которые можно продать.</Russian>
         </Key>
         <!-- SELL BUTTON -->
         <Key ID="STR_HALS_STORE_BUTTON_SELL">
             <Original>Sell</Original>
             <English>Sell</English>
+            <French>Vendre</French>
+            <German>Verkaufen</German>
+            <Russian>Продать</Russian>
+            <Spanish>Vender</Spanish>
+            <Italian>Vendere</Italian>
         </Key>
 	    <Key ID="STR_HALS_STORE_CHECKBOX_EQUIP">
 		    <Original>Equip item upon purchase (if possible).</Original>
 		    <English>Equip item upon purchase (if possible).</English>
 		    <French>Equiper une fois acheter (si possible).</French>
 		    <German>Gegenstand beim Kauf ausrüsten (wenn möglich).</German>
-		    <Russian></Russian>
+		    <Russian>Экипировать после покупки (по возможности).</Russian>
 		    <Spanish>Equipar el articulo al comprar (si es posible).</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -136,25 +144,16 @@
 		    <English>Purchase</English>
 		    <French>Acheter</French>
 		    <German>Kaufen</German>
-		    <Russian></Russian>
+		    <Russian>Купить</Russian>
 		    <Spanish>Compra</Spanish>
 		    <Italian></Italian>
 		</Key>
-        <Key ID="STR_HALS_STORE_BUTTON_SELL">
-            <Original>Purchase</Original>
-            <English>Purchase</English>
-            <French>Acheter</French>
-            <German>Kaufen</German>
-            <Russian></Russian>
-            <Spanish>Compra</Spanish>
-            <Italian></Italian>
-        </Key>
 		<Key ID="STR_HALS_STORE_TEXT_PRICE">
 		    <Original>Price</Original>
 		    <English>Price</English>
 		    <French>Prix</French>
 		    <German>Preis</German>
-		    <Russian></Russian>
+		    <Russian>Цена</Russian>
 		    <Spanish>Precio</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -163,7 +162,7 @@
 		    <English>IN STOCK</English>
 		    <French>EN STOCK</French>
 		    <German>AUF LAGER</German>
-		    <Russian></Russian>
+		    <Russian>В ПРОДАЖЕ</Russian>
 		    <Spanish>EN STOCK</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -172,7 +171,7 @@
 		    <English>OUT OF STOCK.</English>
 		    <French>INDISPONIVLE.</French>
 		    <German>AUSVERKAUFT.</German>
-		    <Russian></Russian>
+		    <Russian>ЗАКОНЧИЛСЯ</Russian>
 		    <Spanish>FUERA DE STOCK.</Spanish>
 		    <Italian></Italian>
 		</Key>
@@ -181,7 +180,7 @@
 		    <English>%1¢ more required.</English>
 		    <French>%1¢ requis.</French>
 		    <German>%1¢ mehr benötigt.</German>
-		    <Russian></Russian>
+		    <Russian>Не хватает %1¢.</Russian>
 		    <Spanish>Se necesitan %1¢.</Spanish>
 		    <Italian></Italian>
 		</Key>

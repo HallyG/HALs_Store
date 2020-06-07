@@ -12,7 +12,6 @@
 	Example:
 	[] call HALs_store_fnc_initModule;
 __________________________________________________________________*/
-if (!hasInterface) exitWith {};
 if (!isNil "HALs_store_moduleInit") exitWith {};
 HALs_store_moduleInit = true;
 
@@ -26,4 +25,5 @@ HALs_store_moduleInit = true;
 	]
 ] call HALs_fnc_getModuleSettings;
 
+if (!hasInterface) exitWith {};
 [] call HALs_store_fnc_getItemStats;

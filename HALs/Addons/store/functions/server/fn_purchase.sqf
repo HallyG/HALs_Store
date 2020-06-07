@@ -97,14 +97,15 @@ try {
 
 	// Create message to display to _unit
 	private _message = format [
-		"x%1 %2(s) %3", _amtAdded,
+		"x%1 %2(s) %3 for %4 %5.", _amtAdded,
 		[(_classname call HALs_fnc_getConfigClass) >> "displayName", ""] call HALs_fnc_getConfigValue,
-		localize "STR_HALS_STORE_ITEM_PURCHASED"
+		localize "STR_HALS_STORE_ITEM_PURCHASED",
+		_total, HALs_store_currencySymbol
 	];
-
+	
 	// Log purchase
 	if (HALs_store_debug) then {
-		private _log = format ["%2(%1) purchased %3 from (%4).", name _unit, getPlayerUID _unit, _message, _trader];
+		private _log = format ["%2(%1) %3 from (%4).", name _unit, getPlayerUID _unit, _message, _trader];
 		[_log] call HALs_fnc_log;
 	};
 

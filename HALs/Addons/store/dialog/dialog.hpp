@@ -200,7 +200,7 @@ class RscDisplayStore {
 					y = 0;
 					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
-					colorBackground[] = {0, 0, 0, 0.7};
+					colorBackground[] = {0.1,0.1,0.1,1};
 				};
 
 				class StoreBackground: RscItemText {
@@ -209,7 +209,7 @@ class RscDisplayStore {
 					y = GRID_Y(pixelGridNoUIScale, 2, BAR_H + SPACE_H);
 					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, STORE_H - (BAR_H + SPACE_H));
-					colorBackground[] = {0, 0, 0, 0.7};
+					colorBackground[] = {0.05, 0.05, 0.05, 0.7};
 				};
 
 				class TitleFunds: RscItemStructuredText {
@@ -221,11 +221,10 @@ class RscDisplayStore {
 
 					class Attributes {
 						align = "right";
-						font = "PuristaLight";
-						valign = "bottom"
+						font = "PuristaMedium";
+						valign = "bottom";
+						shadow='0';
 					};
-
-					size = FONT(0.8);
 				};
 
 				class TitleText: RscItemText {
@@ -235,8 +234,11 @@ class RscDisplayStore {
 					w = GRID_X(pixelGridNoUIScale, 2, STORE_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					colorText[] = {0.95, 0.95, 0.95, 1};
+					colorShadow[] = {0,0,0,0.5};
 					sizeEx = FONT(1);
 					style = 0;
+					shadow = 1;
+					font = "RobotoCondensed";
 				};
 
 				class CloseButton: RscItemButtonClose {
@@ -246,6 +248,8 @@ class RscDisplayStore {
 					w = GRID_X(pixelGridNoUIScale, 2, BAR_W);
 					h = GRID_Y(pixelGridNoUIScale, 2, BAR_H);
 					action = "['onUnload'] call HALs_store_fnc_main;";
+					colorText[] = {1, 1, 1, 0.7};
+					color[] = {1, 1, 1, 0.7};
 				};
 
 				class ComboCategories: RscItemComboBox {

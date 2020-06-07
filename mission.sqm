@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=149;
+		nextID=170;
 	};
 	class MarkerIDProvider
 	{
@@ -16,7 +16,7 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5406.8545,21.398983,3869.511};
+		pos[]={5408.5083,16.388821,3876.3228};
 		dir[]={0.097776994,-0.60693955,0.78873456};
 		up[]={0.074671492,0.79473197,0.60234892};
 		aside[]={0.99242145,2.9428702e-007,-0.12302883};
@@ -26,13 +26,16 @@ binarizationWanted=0;
 addons[]=
 {
 	"A3_Supplies_F_Heli_CargoNets",
-	"A3_Characters_F"
+	"A3_Characters_F",
+	"A3_Characters_F_Mark",
+	"A3_Soft_F_Quadbike_01",
+	"A3_Missions_F_Oldman"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=2;
+		items=5;
 		class Item0
 		{
 			className="A3_Supplies_F_Heli";
@@ -44,6 +47,27 @@ class AddonsMetaData
 		{
 			className="A3_Characters_F";
 			name="Arma 3 Alpha - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item2
+		{
+			className="A3_Characters_F_Mark";
+			name="Arma 3 Marksmen - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item3
+		{
+			className="A3_Soft_F";
+			name="Arma 3 Alpha - Unarmored Land Vehicles";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item4
+		{
+			className="A3_Missions_F_Oldman";
+			name="Arma 3 Oldman - Playable Content";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -75,7 +99,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=2;
+		items=7;
 		class Item0
 		{
 			dataType="Object";
@@ -129,7 +153,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={5404.2251,5.0014391,3886.5759};
+						position[]={5405.4043,5.0014391,3884.9597};
 					};
 					side="West";
 					flags=7;
@@ -137,14 +161,131 @@ class Mission
 					{
 						isPlayer=1;
 					};
-					id=31;
-					type="B_Soldier_lite_F";
+					id=149;
+					type="B_HeavyGunner_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="speaker";
+							expression="_this setspeaker _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"STRING"
+										};
+									};
+									value="Male02ENG";
+								};
+							};
+						};
+						class Attribute1
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.95999998;
+								};
+							};
+						};
+						nAttributes=2;
+					};
 				};
 			};
 			class Attributes
 			{
 			};
-			id=30;
+			id=150;
+		};
+		class Item2
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={5405.8188,6.6262865,3889.6714};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=163;
+			type="B_G_Quadbike_01_F";
+		};
+		class Item3
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={5406.7114,5.2676353,3887.0576};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=166;
+			type="Item_Money";
+		};
+		class Item4
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={5407.3936,5.2676353,3887.4912};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=167;
+			type="Item_Money_roll";
+		};
+		class Item5
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={5407.2402,5.2676353,3887.1436};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=168;
+			type="Item_Money_stack";
+		};
+		class Item6
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={5406.9399,5.2676353,3887.6633};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=169;
+			type="Item_Money_bunch";
 		};
 	};
 };
