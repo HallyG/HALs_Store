@@ -18,7 +18,8 @@
 
 ## Documentation
 Please visit the [Wiki](https://github.com/HallyG/HALs_Store/wiki) for more information.
+
 [Example `config.hpp`](https://github.com/HallyG/HALs_Store/wiki/Configuration-Example)
 
 ## Download 
-[Example Mission](https://github.com/HallyG/HALs_Store/releases)
+[Download the lastest Example Mission](https://github.com/HallyG/HALs_Store/releases)
