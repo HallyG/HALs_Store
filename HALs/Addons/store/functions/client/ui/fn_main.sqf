@@ -602,7 +602,7 @@ switch (_mode) do {
 							["_classname", ""],
 							["_stock", 0]
 						];
-
+						
 						_config = _classname call HALs_fnc_getConfigClass;
 						_description = [
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
@@ -619,11 +619,13 @@ switch (_mode) do {
 							] select (_stock > 0)
 						};
 
+						private _doSell = cbChecked CTRL(IDC_CHECKBOX + 3);
+						_price = (_ctrlList lbValue _idx) * ([1, HALs_store_sellFactor min 1 max 0] select _doSell);
 						CTRL(IDC_ITEM_PICTURE) ctrlSetText (_ctrlList lbPicture _idx);
 						_ctrlText ctrlSetStructuredText parseText _description;
 						_ctrlTitle ctrlSetStructuredText parseText format [
 							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%2 %5</t><br/>%4",
-							_ctrlList lbText _idx, (_ctrlList lbValue _idx) call HALs_fnc_numberToString, toUpper localize "STR_HALS_STORE_TEXT_PRICE", _stockText, HALs_store_currencySymbol
+							_ctrlList lbText _idx, _price call HALs_fnc_numberToString, toUpper localize "STR_HALS_STORE_TEXT_PRICE", _stockText, HALs_store_currencySymbol
 						];
 
 						_ctrlTitle ctrlSetPositionH ctrlTextHeight _ctrlTitle;
