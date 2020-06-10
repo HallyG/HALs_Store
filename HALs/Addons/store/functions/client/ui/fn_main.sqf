@@ -153,9 +153,9 @@ switch (_mode) do {
 					_ctrl setVariable ["data", _data];
 					_ctrl setVariable ["value", _value];
 
-					["progress", ["stats", [_data]]] call  HALs_store_fnc_main;
-					["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
 					["text", ["update", ["buy", [_value, _amt]]]] call HALs_store_fnc_main;
+					["progress", ["stats", [_data]]] call  HALs_store_fnc_main; // this cause _value to become 0
+					["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
 					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _data, _amt]]] call  HALs_store_fnc_main;
 					["edit", ["update", []]] call  HALs_store_fnc_main;
 					["button", ["enabled", []]] call  HALs_store_fnc_main;
@@ -521,7 +521,7 @@ switch (_mode) do {
 						private _doSell = cbChecked CTRL(IDC_CHECKBOX + 3);
 						if (_doSell) then {
 							_sale = 0;
-							_price = _price;
+							_price = _price * (HALs_store_sellFactor min 1 max 0);
 						};
 
 						private _total = ceil (_amount * _price * (1 - _sale));
@@ -533,7 +533,7 @@ switch (_mode) do {
 							[
 								format ["- %1%2<br/>", _sale * 100, "%"],
 								""
-							] select (_sale in [0]),
+							] select (_sale isEqualTo 0),
 							format ["<t size='1.1' color='#%2'>%4 %1 %3</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (!_doSell && {_total > _money}), HALs_store_currencySymbol, ["-", "+"] select _doSell]
 						];
 
@@ -668,17 +668,16 @@ switch (_mode) do {
 					["_data", [], [[]]]
 				];
 
-				private _stats = [_data param [0, ""] call HALs_fnc_getConfigClass] call HALs_store_fnc_getItemStats;
+				private _cfg = (_data param [0, ""]) call HALs_fnc_getConfigClass;
+				private _stats = ([_cfg] call HALs_store_fnc_getItemStats);
 				{
 					_x params ["_ctrlBar", "_ctrlText"];
 					
-					_stat = _stats select _forEachIndex;
-
-					_progress = 0;
-					_fade = 1;
-					_text = "";
+					private _stat = _stats select _forEachIndex;
+					private _progress = 0;
+					private _fade = 1;
+					private _text = "";
 					
-
 					if (count _stat > 0) then {
 						_progress = _stat select 0;
 						_text =_stat select 1;
