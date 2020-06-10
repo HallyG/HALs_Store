@@ -37,10 +37,11 @@ switch (_mode) do {
 		disableSerialization;
 		uiNamespace setVariable ["HALs_store_display", _display];
 		
-		_display setVariable ["ctrl_group_items", _display displayCtrl IDC_GROUP_ITEMS];
-		_display setVariable ["ctrl_group_trader", _display displayCtrl IDC_GROUP_TRADER];
+		_display setVariable ["items_idc", _display displayCtrl IDC_GROUP_ITEMS];
+		_display setVariable ["trader_idc", _display displayCtrl IDC_GROUP_TRADER];
+		_display setVariable ["selected_idc", _display displayCtrl IDC_GROUP_SELECTED];
 		
-		CTRL(IDC_TITLE) ctrlSetText format ["%1", getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "displayName")];
+		(_display displayCtrl IDC_TITLE) ctrlSetText (_trader getVariable ["HALs_store_name", "Store"]);
 		
 		CTRLT(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["button", ["enabled", []]] call HALs_store_fnc_main}];
 
@@ -451,9 +452,8 @@ switch (_mode) do {
 			};
 
 			case ("change"): {
-				private _ctrlButton = CTRLT(IDC_BUTTON_BUY);
 				private _text = ["STR_HALS_STORE_BUTTON_PURCHASE", "STR_HALS_STORE_BUTTON_SELL"] select (cbChecked CTRL(IDC_CHECKBOX+3));
-				_ctrlButton ctrlSetText localize _text;
+				CTRLT(IDC_BUTTON_BUY) ctrlSetText localize _text;
 			};
 
 			case ("sort"): {
@@ -528,9 +528,9 @@ switch (_mode) do {
 						_ctrlText ctrlSetStructuredText parseText format [
 							"<t font ='PuristaMedium' align='right' shadow='2'>%1%2<br/>%3%4</t>",
 							format ["<t align='left' color='#%2'>x%1</t>", _amount, ['ffffff'/*'b2ec00'*/, 'ea0000'] select (_amount > _stock)],
-							format ["<t color='#aaffaa' shadow='1'>%1 %2</t>", _price, HALs_store_currencySymbol],
+							format ["<t color='#aaffaa'>%1 %2</t>", _price, HALs_store_currencySymbol],
 							[
-								format ["<t shadow='1'>%1%2</t><br/>", _sale * 100, "%"],
+								format ["- %1%2<br/>", _sale * 100, "%"],
 								""
 							] select (_sale in [0]),
 							format ["<t size='1.1' color='#%2'>%4 %1 %3</t>", _total call HALs_fnc_numberToString, ['b2ec00', 'ea0000'] select (!_doSell && {_total > _money}), HALs_store_currencySymbol, ["-", "+"] select _doSell]
@@ -583,17 +583,17 @@ switch (_mode) do {
 
 					case ("funds"): {
 						private _money = floor ([player] call HALs_money_fnc_getFunds);
-						CTRL(IDC_FUNDS) ctrlSetStructuredText parseText format ["<t valign='middle' align='right' color='#aaffaa'>%1 %2</t>", _money call HALs_fnc_numberToString, HALs_store_currencySymbol];
+						((uiNamespace getVariable ["HALs_store_display", displayNull]) displayCtrl IDC_FUNDS) ctrlSetStructuredText parseText format ["%1 %2", _money call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 
 					case ("item"): {
 						private _ctrlList = CTRL(IDC_LISTBOX);
-						private _ctrlTitle = CTRL(IDC_ITEM_TEXT);
-						private _ctrlText = CTRL(IDC_ITEM_TEXT_DES);
+						private _ctrlTitle = CTRLS(IDC_ITEM_TEXT);
+						private _ctrlText = CTRLS(IDC_ITEM_TEXT_DES);
 						private _idx = _ctrlList getVariable ["idx", -1];
 
 						if (_idx isEqualTo -1) exitWith {
-							CTRL(IDC_ITEM_PICTURE) ctrlSetText "";
+							CTRLS(IDC_ITEM_PICTURE) ctrlSetText "";
 							_ctrlTitle ctrlSetStructuredText parseText "";
 							_ctrlText ctrlSetStructuredText parseText "";
 						};
@@ -603,6 +603,7 @@ switch (_mode) do {
 							["_stock", 0]
 						];
 						
+						_sell = cbChecked CTRL(IDC_CHECKBOX + 3);
 						_config = _classname call HALs_fnc_getConfigClass;
 						_description = [
 							getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >>  CTRL(IDC_COMBO_CATEGORY) getVariable "data" >> _classname >> "description"),
@@ -610,7 +611,7 @@ switch (_mode) do {
 							[_config >> "descriptionShort", ""] call HALs_fnc_getConfigValue
 						] select {_x != ""} param [0, ""];
 
-						_stockText = if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
+						_stockText = if (_sell) then {
 							format ["<t shadow='2' font ='PuristaMedium' color='#A0DF3B'>%1</t>:  %2", "AVAILABLE", _stock call HALs_fnc_numberToString];
 						} else {
 							[
@@ -619,9 +620,9 @@ switch (_mode) do {
 							] select (_stock > 0)
 						};
 
-						private _doSell = cbChecked CTRL(IDC_CHECKBOX + 3);
-						_price = (_ctrlList lbValue _idx) * ([1, HALs_store_sellFactor min 1 max 0] select _doSell);
-						CTRL(IDC_ITEM_PICTURE) ctrlSetText (_ctrlList lbPicture _idx);
+						
+						_price = (_ctrlList lbValue _idx) * ([1, HALs_store_sellFactor min 1 max 0] select _sell);
+						CTRLS(IDC_ITEM_PICTURE) ctrlSetText (_ctrlList lbPicture _idx);
 						_ctrlText ctrlSetStructuredText parseText _description;
 						_ctrlTitle ctrlSetStructuredText parseText format [
 							"<t size='1.3' shadow='2' font ='PuristaMedium'>%1</t><br/><t shadow='2' font ='PuristaMedium'>%3</t>:  <t color='#aaffaa'>%2 %5</t><br/>%4",
@@ -635,14 +636,16 @@ switch (_mode) do {
 						private _y = (_pos select 1) + (_pos select 3) + pixelH * 4;
 						{
 							_x params ["_ctrlBar", "_ctrlBarText"];
+							
+							if (ctrlFade _ctrlBar < 1) then {
+								_ctrlBar ctrlSetPositionY _y;
+								_ctrlBarText ctrlSetPositionY _y;
+								_ctrlBar ctrlCommit 0;
+								_ctrlBarText ctrlCommit 0;
 
-							_ctrlBar ctrlSetPositionY _y;
-							_ctrlBarText ctrlSetPositionY _y;
-							_ctrlBar ctrlCommit 0;
-							_ctrlBarText ctrlCommit 0;
-
-							_y = _y + ((ctrlPosition _ctrlBar) select 3) + pixelH * 3;
-						} count (STAT_BARS select {ctrlFade (_x select 0) < 1});
+								_y = _y + ((ctrlPosition _ctrlBar) select 3) + pixelH * 3;
+							}
+						} forEach STAT_BARS;
 
 						_ctrlText ctrlSetPositionY _y;
 						_ctrlText ctrlSetPositionH (ctrlTextHeight _ctrlText);
@@ -685,7 +688,7 @@ switch (_mode) do {
 					_ctrlBar ctrlSetFade _fade;
 					_ctrlBar ctrlCommit 0;
 					
-					_ctrlText ctrlSetText _text;
+					_ctrlText ctrlSetText toUpper _text;
 					_ctrlText ctrlSetFade _fade;
 					_ctrlText ctrlCommit 0;
 				} forEach STAT_BARS;

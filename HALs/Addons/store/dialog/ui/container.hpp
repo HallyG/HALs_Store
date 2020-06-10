@@ -94,7 +94,7 @@ class PurchaseSummary: RscItemStructuredText {
 		shadow = 1;
 		font = "PuristaMedium";
     };
-    
+
 };
 
 class PurchaseCheckbox: RscItemCheckboxGreen {
@@ -123,6 +123,7 @@ class PurchaseAmountEdit: RscItemEdit {
 	
 	tooltip = "Number of Items.";
     sizeEx = FONT(0.9);
+	shadow = 2;
 	
     maxChars = 4;
     colorBackground[] = {0, 0, 0, 0.7};

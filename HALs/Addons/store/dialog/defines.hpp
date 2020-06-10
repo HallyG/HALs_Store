@@ -446,11 +446,11 @@ class RscItemButtonClose: RscItemButton {
 class RscItemButtonSort: RscItemButton {
 	type = CT_ACTIVETEXT;
 	style = 48;
-	//colorHover[] = {0.3, 0.4, 0, 1};
+	colorHover[] = {0.3, 0.4, 0, 1};
 	colorText[] = {1, 1, 1, 1};
 	color[] = {1, 1, 1, 1};
 	colorActive[] = {1, 1, 1, 1};
-	colorBackgroundActive[] = {0, 0, 0, 0};
+	//colorBackgroundActive[] = {0, 0, 0, 0};
 	colorDisabled[] = {1, 1, 1, 0.25};
 	shadow = 2;
 	tooltip = "Sorted ascending.";

@@ -17,24 +17,13 @@
 
 
 // General size MACROS
-#define STORE_W (109)
+#define STORE_W (105)
 #define DIALOG_W (128)
 #define DIALOG_H (80)
 #define DIALOG_X (safeZoneX + CENTER_GRID_X(safeZoneW, STORE_W)) //(safeZoneW / 2) - GRID_X(STORE_W/2))
 #define DIALOG_Y (safeZoneY + CENTER_GRID_Y(safeZoneH, DIALOG_H)) //(safeZoneH / 2) - GRID_Y(DIALOG_H/2))
 
 #define STORE_H (DIALOG_H)
-
-
-
-
-
-
-
-
-#define BAR_W 3
-#define BAR_H 3
-
 #define BUFFER_W 2
 #define BUFFER_H 2
 
@@ -43,20 +32,24 @@
 #define SPACE_W 1
 #define SPACE_H 1
 
-// Item Selection
-#define COMBO_W 35
-#define CARGO_W 18
-#define LIST_W (COMBO_W + SPACE_W*4 + BAR_W*4) //54
-
 // Title Bar
 #define FUNDS_W (20)
 #define FUNDS_H (BAR_H)
 #define FUNDS_X (STORE_W - BAR_W - FUNDS_W)
 
+// Item Selection
+#define BAR_W 3
+#define BAR_H 3
+#define COMBO_W 35
+#define CARGO_W 18
+#define LIST_W (COMBO_W + SPACE_W*4 + BAR_W*4) //54
+#define LIST_H (STORE_H - (BAR_H*2 + SPACE_H2*3 + SPACE_H)) 
+#define LIST_Y (BAR_H + SPACE_H2)
+
 // Selected Item 
 #define ITEM_W 52
-#define ITEM_X (LIST_W + BUFFER_W + BUFFER_W)
-#define ITEM_Y (BAR_H*2 + SPACE_H*2 + SPACE_H)
+#define ITEM_X (SPACE_W2 + LIST_W + SPACE_W)
+#define ITEM_Y (BAR_H*2 + SPACE_H2*4)
 #define PIC_H 21
 
 // Trader/Purchase information

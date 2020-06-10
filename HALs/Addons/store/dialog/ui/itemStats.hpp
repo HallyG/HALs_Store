@@ -28,7 +28,7 @@ class ItemDescriptionBackground: RscItemText {
 	x = 0;
 	y = GRID_Y(PIC_H + SPACE_H);
 	w = GRID_X(ITEM_W);
-	h = GRID_Y(STORE_H - (ITEM_Y + PIC_H + SPACE_H + BUFFER_H));
+	h = GRID_Y(STORE_H - (ITEM_Y + PIC_H + SPACE_H + SPACE_H2));
 
 	colorBackground[] = {0.05, 0.05, 0.05, 0.3};
 };
@@ -38,7 +38,7 @@ class ItemDescriptionGroup: RscItemCtrlGroup {
 	x = 0;
 	y = GRID_Y(PIC_H + SPACE_H);
 	w = GRID_X(ITEM_W);
-	h = GRID_Y(STORE_H - (ITEM_Y + PIC_H + SPACE_H + BUFFER_H));
+	h = GRID_Y(STORE_H - (ITEM_Y + PIC_H + SPACE_H + SPACE_H2));
 	
 	class controls {
 		class ItemText: RscItemStructuredText {
