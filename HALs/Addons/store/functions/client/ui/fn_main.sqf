@@ -79,6 +79,8 @@ switch (_mode) do {
 		uiNamespace setVariable ["HALs_store_display", displayNull];
 
 		player setVariable ["HALs_store_trader_current", nil, true];
+		HALs_MAP_ITEM_PRICE = nil;
+		HALs_MAP_CATEGORY_ITEMS = nil;
 		HALs_store_blur ppEffectAdjust [0];
 		HALs_store_blur ppEffectCommit 0.3;
 	};
@@ -102,10 +104,9 @@ switch (_mode) do {
 			
 			{
 				private _categoryItems = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x) apply {[configName _x, getNumber (_x >> "price") max 0]};
-				private _names = _categoryItems apply {_x select 0};
 				//private _prices = _categoryItems apply {_x select 1};
 
-				[HALs_MAP_CATEGORY_ITEMS, _x, _names] call HALs_store_fnc_hashSet;
+				[HALs_MAP_CATEGORY_ITEMS, _x, _categoryItems apply {_x select 0}] call HALs_store_fnc_hashSet;
 				{
 					[HALs_MAP_ITEM_PRICE, _x select 0, _x select 1] call HALs_store_fnc_hashSet;
 				} forEach _categoryItems;
@@ -137,12 +138,12 @@ switch (_mode) do {
 
 				_ctrlList ctrlAddEventHandler ["LBSelChanged", {
 					params ["_ctrl", "_idx"];
-
-					_data = (_ctrl lbData _idx) splitString ":";
-					if (count _data > 0) then {
-						if (!isNil {_data select 1}) then {
-							_data set [1, parseNumber (_data select 1)];
-						};
+			
+					_data = _ctrl lbData _idx;
+					_data = if (_data isEqualTo "") then {
+						[]
+					} else {
+						parseSimpleArray _data;
 					};
 					
 					_value = _ctrl lbValue _idx;
@@ -165,13 +166,13 @@ switch (_mode) do {
 				private _ctrlList = CTRL(IDC_LISTBOX); lbClear _ctrlList;
 				private _checkAvaliable = CTRL(IDC_CHECKBOX + 1);
 				private _checkCompatible = CTRL(IDC_CHECKBOX + 2);
-				private _showSellable = cbChecked CTRL(IDC_CHECKBOX + 3);
+				private _sell = cbChecked CTRL(IDC_CHECKBOX + 3);
 				
 				private _category = CTRL(IDC_COMBO_CATEGORY) getVariable "data";
 				private _items = [HALs_MAP_CATEGORY_ITEMS, _category, []] call HALs_store_fnc_hashGetOrDefault;
 				
 				private _sellableItems = [];
-				if (_showSellable) then {
+				if (_sell) then {
 					_checkAvaliable cbSetChecked false;
 					_checkCompatible cbSetChecked false;
 
@@ -205,7 +206,7 @@ switch (_mode) do {
 					_priceSell = 0;
 					_stock = 0;
 					
-					if (_showSellable) then {
+					if (_sell) then {
 						_parentClassname = _classname call HALs_store_fnc_getParentClassname;
 						
 						_stock = {
@@ -225,13 +226,13 @@ switch (_mode) do {
 					if (!(_showAvaliable && {_price > _money || _stock < 1})) then {
 						_cfg = _classname call HALs_fnc_getConfigClass;
 
-						private _idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
-						_ctrlList lbSetData [_idx, format ["%1:%2", _classname, _stock]];
+						_idx = _ctrlList lbAdd (getText (_cfg >> "displayName"));
+						_ctrlList lbSetData [_idx, str [_classname, _stock]];
 						_ctrlList lbSetPicture [_idx, getText (_cfg >> "picture")];
 						_ctrlList lbSetValue [_idx, _price];
-						_ctrlList lbSetTextRight [_idx, format ["%1 %2", [_price, _priceSell] select _showSellable, HALs_store_currencySymbol]];
+						_ctrlList lbSetTextRight [_idx, format ["%1 %2", [_price, _priceSell] select _sell, HALs_store_currencySymbol]];
 
-						if (_price > _money && {!_showSellable}) then {
+						if (_price > _money && {!_sell}) then {
 							_ctrlList lbSetColorRight [_idx, [0.8, 0, 0, 1]];
 							_ctrlList lbSetSelectColorRight [_idx, [0.8, 0, 0, 1]];
 						};
