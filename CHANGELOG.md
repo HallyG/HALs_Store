@@ -5,6 +5,7 @@
 * **Changed** the example mission to demonstrate picking up money and different stores.
 * **Added** `HALs_store_fnc_openStore` - open the store without using the addAction.
 * **Added** `HALs_store_fnc_addActionTrader` - remoteExec the open store BIS_fnc_holdActionAdd to all clients.
+* **Added** new setting `oldManItemsPrice` to `HALs\Addons\Money\config.hpp` - this array controls the price of the money inventory items added in the Old Man update: `"Money_bunch"`, `"Money_roll"`, `"Money_stack"` and `"Money"`.
 
 ## Version 1.4.1
 * **Added** support for Old Man's new money items: picking them up will add money to the player. Alter the money values in `HALs\Addons\money\functions\client\fn_client.sqf`.

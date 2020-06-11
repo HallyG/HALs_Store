@@ -13,5 +13,6 @@ class HALs_money {
 		file = "HALs\Addons\money\functions\server";
 		class addFunds {};
 		class getFunds {};
+		class initServer {};
 	};
 };
