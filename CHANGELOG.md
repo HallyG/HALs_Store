@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.4.2
+* **Changed** the store's visuals to minimise empty space and colours to match BIS' colour scheme.
+* **Changed** the example mission to demonstrate picking up money and different stores.
+* **Added** `HALs_store_fnc_openStore` - open the store without using the addAction.
+* **Added** `HALs_store_fnc_addActionTrader` - remoteExec the open store BIS_fnc_holdActionAdd to all clients.
+
 ## Version 1.4.1
 * **Added** support for Old Man's new money items: picking them up will add money to the player. Alter the money values in `HALs\Addons\money\functions\client\fn_client.sqf`.
 * **Added** `BIS_fnc_holdActionAdd` to replace the previously used `addAction`.
