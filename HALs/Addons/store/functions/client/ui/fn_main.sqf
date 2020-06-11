@@ -42,36 +42,13 @@ switch (_mode) do {
 		_display setVariable ["selected_idc", _display displayCtrl IDC_GROUP_SELECTED];
 		
 		(_display displayCtrl IDC_TITLE) ctrlSetText (_trader getVariable ["HALs_store_name", "Store"]);
-		
-		CTRLT(IDC_CHECKBOX_BUY) ctrlAddEventHandler ["CheckedChanged", {["button", ["enabled", []]] call HALs_store_fnc_main}];
-
-		CTRL(IDC_CHECKBOX + 1) ctrlAddEventHandler ["CheckedChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
-		CTRL(IDC_CHECKBOX + 1) ctrlSetTooltip (localize "STR_HALS_STORE_CHECKBOX_AVALIABLE");
-
-		CTRL(IDC_CHECKBOX + 2) ctrlAddEventHandler ["CheckedChanged", {["listbox", ["update", []]] call  HALs_store_fnc_main}];
-		CTRL(IDC_CHECKBOX + 2) ctrlSetTooltip (localize "STR_HALS_STORE_CHECKBOX_COMPATIBLE");
-		
-		CTRL(IDC_CHECKBOX + 3) ctrlAddEventHandler ["CheckedChanged", {}];
-		CTRL(IDC_CHECKBOX + 3) ctrlAddEventHandler ["CheckedChanged", {
-			params ["", "_checked"];
-			
-			_ctrlPurchase = CTRLT(IDC_BUY_ITEM_COMBO);
-			_txt = ["Purchase to %1.", "Sell to %1."] select _checked;
-			for [{private _i = 0}, {_i < lbSize _ctrlPurchase}, {_i = _i + 1}] do {
-				_ctrlPurchase lbSetTooltip [_i, format [_txt, _ctrlPurchase lbText _i]];
-			}; 
-			
-			["listbox", ["update", []]] call  HALs_store_fnc_main;
-		}];
-		CTRL(IDC_CHECKBOX + 3) ctrlSetTooltip (localize "STR_HALS_STORE_CHECKBOX_SELLFILTER");
 
 		["onInit"] call HALs_store_fnc_main;
-		
-		["listbox", ["init", []]] call  HALs_store_fnc_main;
-		["combobox", ["init", []]] call  HALs_store_fnc_main;
-		["edit", ["init", []]] call  HALs_store_fnc_main;
-		["text", ["init", []]] call  HALs_store_fnc_main;
-		["combobox", ["update", []]] call  HALs_store_fnc_main;
+		["listbox", ["init", []]] call HALs_store_fnc_main;
+		["combobox", ["init", []]] call HALs_store_fnc_main;
+		["edit", ["init", []]] call HALs_store_fnc_main;
+		["text", ["init", []]] call HALs_store_fnc_main;
+		//["combobox", ["update", []]] call HALs_store_fnc_main;
 	};
 
 	case ("onUnload"): {
@@ -154,11 +131,11 @@ switch (_mode) do {
 					_ctrl setVariable ["value", _value];
 
 					["text", ["update", ["buy", [_value, _amt]]]] call HALs_store_fnc_main;
-					["progress", ["stats", [_data]]] call  HALs_store_fnc_main; // this cause _value to become 0
-					["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
-					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _data, _amt]]] call  HALs_store_fnc_main;
-					["edit", ["update", []]] call  HALs_store_fnc_main;
-					["button", ["enabled", []]] call  HALs_store_fnc_main;
+					["progress", ["stats", [_data]]] call HALs_store_fnc_main; // this cause _value to become 0
+					["text", ["update", ["item", []]]] call HALs_store_fnc_main;
+					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _data, _amt]]] call HALs_store_fnc_main;
+					["edit", ["update", []]] call HALs_store_fnc_main;
+					["button", ["enabled", []]] call HALs_store_fnc_main;
 				}];
 			};
 
@@ -257,7 +234,7 @@ switch (_mode) do {
 					params ["_ctrl", "_idx"];
 
 					_ctrl setVariable ["data", _ctrl lbData _idx];
-					["listbox", ["update", []]] call  HALs_store_fnc_main
+					["listbox", ["update", []]] call HALs_store_fnc_main
 				}];
 
 				private _cfg = missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore";
@@ -284,14 +261,16 @@ switch (_mode) do {
 					_ctrl setVariable ["text", _ctrl lbText _idx];
 
 					if (cbChecked CTRL(IDC_CHECKBOX+3)) then {
-						["listbox", ["update", []]] call  HALs_store_fnc_main
+						["listbox", ["update", []]] call HALs_store_fnc_main
 					} else {
-						["progress", ["update", [_data, CTRL(IDC_LISTBOX) getVariable "data", CTRLT(IDC_EDIT) getVariable "amt"]]] call  HALs_store_fnc_main;
-						["button", ["enabled", []]] call  HALs_store_fnc_main;
+						["progress", ["update", [_data, CTRL(IDC_LISTBOX) getVariable "data", CTRLT(IDC_EDIT) getVariable "amt"]]] call HALs_store_fnc_main;
+						["button", ["enabled", []]] call HALs_store_fnc_main;
 					};
 
 					["text", ["update", ["cargo", [_data]]]] call HALs_store_fnc_main;
 				}];
+				
+				["combobox", ["update", []]] call HALs_store_fnc_main;
 			};
 
 			case ("update"): {
@@ -307,6 +286,8 @@ switch (_mode) do {
 					[vest player, "Vest", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\vest_ca.paa", vestContainer player],
 					[backpack player, "Backpack", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\backpack_ca.paa", backpackContainer player]
 				];
+				
+				private _vehicles = [];
 				_containers append HALs_store_vehicles;
 				
 				
@@ -314,7 +295,7 @@ switch (_mode) do {
 				{
 					_x params ["_classname", "_displayName", "_picture", "_object"];
 
-					if (count _x > 0 && !isNull _object && {_classname != ""}) then {
+					if (count _x > 0 && {!isNull _object && {_classname != ""}}) then {
 						_idx = _ctrlPurchase lbAdd _displayName;
 						_ctrlPurchase lbSetPicture [_idx, _picture];
 						_ctrlPurchase lbSetData [_idx, _object call BIS_fnc_netId];
@@ -343,12 +324,12 @@ switch (_mode) do {
 					_ctrl setVariable ["amt", _amt];
 
 					_listbox = CTRL(IDC_LISTBOX);
-					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _listbox getVariable "data", _amt]]] call  HALs_store_fnc_main;
-					["text", ["update", ["buy", [_listbox getVariable "value", _amt]]]] call  HALs_store_fnc_main;
-					["button", ["enabled", []]] call  HALs_store_fnc_main;
+					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _listbox getVariable "data", _amt]]] call HALs_store_fnc_main;
+					["text", ["update", ["buy", [_listbox getVariable "value", _amt]]]] call HALs_store_fnc_main;
+					["button", ["enabled", []]] call HALs_store_fnc_main;
 				}];
 
-				["edit", ["update", []]] call  HALs_store_fnc_main;
+				["edit", ["update", []]] call HALs_store_fnc_main;
 			};
 
 			case ("update"): {
@@ -453,8 +434,16 @@ switch (_mode) do {
 			};
 
 			case ("change"): {
-				private _text = ["STR_HALS_STORE_BUTTON_PURCHASE", "STR_HALS_STORE_BUTTON_SELL"] select (cbChecked CTRL(IDC_CHECKBOX+3));
+				params ["", "_checked"];
+				
+				private _text = ["STR_HALS_STORE_BUTTON_PURCHASE", "STR_HALS_STORE_BUTTON_SELL"] select _checked;
 				CTRLT(IDC_BUTTON_BUY) ctrlSetText localize _text;
+				
+				_ctrlPurchase = CTRLT(IDC_BUY_ITEM_COMBO);
+				_txt = ["Purchase to %1.", "Sell to %1."] select _checked;
+				for [{private _i = 0}, {_i < lbSize _ctrlPurchase}, {_i = _i + 1}] do {
+					_ctrlPurchase lbSetTooltip [_i, format [_txt, _ctrlPurchase lbText _i]];
+				}; 
 			};
 
 			case ("sort"): {
@@ -489,9 +478,9 @@ switch (_mode) do {
 
 			case ("init"): {
 				["text", ["update", ["buy", [CTRL(IDC_LISTBOX) getVariable "value", CTRLT(IDC_EDIT) getVariable "amt"]]]] call HALs_store_fnc_main;
-				["text", ["update", ["cargo", []]]] call  HALs_store_fnc_main;
-				["text", ["update", ["funds", []]]] call  HALs_store_fnc_main;
-				["text", ["update", ["item", []]]] call  HALs_store_fnc_main;
+				["text", ["update", ["cargo", []]]] call HALs_store_fnc_main;
+				["text", ["update", ["funds", []]]] call HALs_store_fnc_main;
+				["text", ["update", ["item", []]]] call HALs_store_fnc_main;
 			};
 
 			case ("update"): {
@@ -515,7 +504,7 @@ switch (_mode) do {
 						};
 
 						private _stock = (_ctrlList getVariable "data") param [1, 0];
-						private _money = floor ([player] call HALs_money_fnc_getFunds);
+						private _money = floor ([player] call HALs_money_fnc_getFunds);  //@todo
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 
 						private _doSell = cbChecked CTRL(IDC_CHECKBOX + 3);

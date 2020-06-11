@@ -106,6 +106,7 @@ class PurchaseCheckbox: RscItemCheckboxGreen {
     h = GRID_Y(BAR_H);
 	
     tooltip = "$STR_HALS_STORE_CHECKBOX_EQUIP";
+	onCheckedChanged = "['button', ['enabled', []]] call HALs_store_fnc_main;";
     colorBackground[] = {0, 0, 0, 0.7};
     colorBackgroundHover[] = {0, 0, 0, 0.7};
     colorBackgroundFocused[] = {0, 0, 0, 0.7};

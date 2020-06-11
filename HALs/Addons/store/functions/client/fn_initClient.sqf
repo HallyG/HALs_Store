@@ -14,4 +14,4 @@
 __________________________________________________________________*/
 if (!hasInterface) exitWith {};
 
-call HALs_store_fnc_getItemStats;
+[] call HALs_store_fnc_getItemStats;

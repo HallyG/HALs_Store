@@ -23,29 +23,34 @@ class ItemListboxSortButton: RscItemButtonSort {
 	colorBackground[] = {1, 1, 1, 1};
 };
 
-class ItemCheckbox1: RscItemCheckboxGreen {
+class ItemCheckboxAvailable: RscItemCheckboxGreen {
 	idc = IDC_CHECKBOX + 1;
 	x = GRID_X(SPACE_W2 + COMBO_W + SPACE_W*2 + BAR_W);
 	y = CURRENT_Y;
 	w = GRID_X(BAR_W);
 	h = GRID_Y(BAR_H);
+	onCheckedChanged = "['listbox', ['update', []]] call HALs_store_fnc_main;";
+	tooltip = "$STR_HALS_STORE_CHECKBOX_AVALIABLE";
 };
 
-class ItemCheckbox2: RscItemCheckboxGreen {
+class ItemCheckboxCompatible: RscItemCheckboxGreen {
 	idc = IDC_CHECKBOX + 2;
 	x = GRID_X(SPACE_W2 + COMBO_W + SPACE_W*3 + BAR_W*2);
 	y = CURRENT_Y;
 	w = GRID_X(BAR_W);
 	h = GRID_Y(BAR_H);
+	onCheckedChanged = "['listbox', ['update', []]] call HALs_store_fnc_main;";
+	tooltip = "$STR_HALS_STORE_CHECKBOX_COMPATIBLE";
 };
 
-class ItemCheckbox3: RscItemCheckboxGreen {
+class ItemCheckboxSell: RscItemCheckboxGreen {
 	idc = IDC_CHECKBOX + 3;
 	x = GRID_X(SPACE_W2 + COMBO_W + SPACE_W*4 + BAR_W*3);
 	y = CURRENT_Y;
 	w = GRID_X(BAR_W);
 	h = GRID_Y(BAR_H);
-	onCheckedChanged = "['button', ['change', []]] call HALs_store_fnc_main;";
+	onCheckedChanged = "['button', ['change', _this]] call HALs_store_fnc_main; ['listbox', ['update', []]] call HALs_store_fnc_main;";
+	tooltip = "$STR_HALS_STORE_CHECKBOX_SELLFILTER";
 };
 
 class ItemListbox: RscItemListBox {
