@@ -4,35 +4,49 @@
 	Returns and sets the settings for a module.
 	
 	Argument(s):
-	0: Component name. <STRING>
+	0: Component name <STRING>
+	1: Prefix <STRING>
+	2: Settings <ARRAY> (see example)
 	
 	Return Value:
-	File path <STRING>
+	None
 	
 	Example:
 	[
-		"HALs_money",
+		["CfgHALsTimeAcceleration"],
+		"HALs_timeAcceleration_",
 		[
 			["multiplierDawn", 9, {_this max 1}],
 			["multiplierDay", 18, {_this max 1}],
 			["multiplierDusk", 9, {_this max 1}],
-			["multiplierNight", 30, {_this max 1}]
+			["multiplierNight", 30, {_this max 1}],
+			["debug", 0, {_this isEqualTo 1}]
 		]
 	] call HALs_fnc_getModuleSettings;
 __________________________________________________________________*/
 params [
-	["_component", "", [""]],
+	["_component", [""], [[]]],
+	["_prefix", "HALs_", [""]],
 	["_settings", [], [[]]]
 ];
 
-private _configname = format ["cfg%1", (_component splitString "_") joinstring ""];
+private _configPath = missionConfigFile >> "cfgHALsAddons";
+{_configPath = _configPath >> _x} forEach _component;
 
 {
-	_x params ["_setting", "_default", "_code"];
-	
-	private _value = [missionConfigFile >> "cfgHALsAddons" >> _configname >> _setting, _default] call HALs_fnc_getConfigValue;
-	missionNamespace setVariable [
-		format ["%1_%2", _component, _setting],
-		_value call _code
+	_x params [
+		["_setting", "", [""]],
+		"_default",
+		["_code", {_this}, [{}]],
+		["_broadcast", false, [false]]
 	];
-} count _settings
+
+	if (count _setting > 0) then {
+		private _value = [_configPath >> _setting, _default] call HALs_fnc_getConfigValue;
+		missionNamespace setVariable [
+			format ["%1%2", _prefix, _setting],
+			_value call _code,
+			_broadcast
+		];
+	};
+} forEach _settings;
