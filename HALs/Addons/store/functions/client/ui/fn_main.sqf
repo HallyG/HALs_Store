@@ -6,7 +6,6 @@
 	- Calculate total price of primary weapon
 	- Prevent selling a container that has items
 	- Calcualte accurate price of container
-	- Better gui for selling?
 
 	Argument(s):
 	0: Mode <STRING>
@@ -44,11 +43,6 @@ switch (_mode) do {
 		(_display displayCtrl IDC_TITLE) ctrlSetText (_trader getVariable ["HALs_store_name", "Store"]);
 
 		["onInit"] call HALs_store_fnc_main;
-		["listbox", ["init", []]] call HALs_store_fnc_main;
-		["combobox", ["init", []]] call HALs_store_fnc_main;
-		["edit", ["init", []]] call HALs_store_fnc_main;
-		["text", ["init", []]] call HALs_store_fnc_main;
-		//["combobox", ["update", []]] call HALs_store_fnc_main;
 	};
 
 	case ("onUnload"): {
@@ -56,8 +50,9 @@ switch (_mode) do {
 		uiNamespace setVariable ["HALs_store_display", displayNull];
 
 		player setVariable ["HALs_store_trader_current", nil, true];
-		HALs_MAP_ITEM_PRICE = nil;
-		HALs_MAP_CATEGORY_ITEMS = nil;
+		HALs_store_item_price = nil;
+		HALs_store_category_items = nil;
+		HALs_store_vehicles = nil;
 		HALs_store_blur ppEffectAdjust [0];
 		HALs_store_blur ppEffectCommit 0.3;
 	};
@@ -70,30 +65,40 @@ switch (_mode) do {
 
 		HALs_store_blur ppEffectAdjust [8];
 		HALs_store_blur ppEffectCommit 0.2;
-
+		
+		// Get all nearby vehicles that we can sell to
+		private _vehicles = ([_trader] call HALs_store_getNearbyVehicles) apply {
+			[typeOf _x, format ["%1 (%2m)", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), (_x distance2D _trader) toFixed 0], "", _x]	
+		};
+		HALs_store_vehicles = _vehicles;
+		
 		// Process all items and store in trader
 		if (true) then {
-			HALs_MAP_ITEM_PRICE = [];
-			HALs_MAP_CATEGORY_ITEMS = [];
+			HALs_store_item_price = [];
+			HALs_store_category_items = [];
 		
 			private _items = [];
 			private _categories = getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _trader getVariable ["HALs_store_trader_type", ""] >> "categories");
 			
 			{
 				private _categoryItems = "true" configClasses (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x) apply {[configName _x, getNumber (_x >> "price") max 0]};
-				//private _prices = _categoryItems apply {_x select 1};
-
-				[HALs_MAP_CATEGORY_ITEMS, _x, _categoryItems apply {_x select 0}] call HALs_store_fnc_hashSet;
+				[HALs_store_category_items, _x, _categoryItems apply {_x select 0}] call HALs_store_fnc_hashSet;
+				
 				{
-					[HALs_MAP_ITEM_PRICE, _x select 0, _x select 1] call HALs_store_fnc_hashSet;
+					[HALs_store_item_price, _x select 0, _x select 1] call HALs_store_fnc_hashSet;
 				} forEach _categoryItems;
 				
 				_items append _categoryItems;
 			} forEach _categories;
 
-			[HALs_MAP_CATEGORY_ITEMS, "all", _items apply {_x select 0}] call HALs_store_fnc_hashSet;
+			[HALs_store_category_items, "all", _items apply {_x select 0}] call HALs_store_fnc_hashSet;
 		};
 
+		["listbox", ["init", []]] call HALs_store_fnc_main;
+		["combobox", ["init", []]] call HALs_store_fnc_main;
+		["edit", ["init", []]] call HALs_store_fnc_main;
+		["text", ["init", []]] call HALs_store_fnc_main;
+		["combobox", ["update", []]] call HALs_store_fnc_main;
 		call HALs_store_fnc_eachFrame;
 	};
 	
@@ -146,7 +151,7 @@ switch (_mode) do {
 				private _sell = cbChecked CTRL(IDC_CHECKBOX + 3);
 				
 				private _category = CTRL(IDC_COMBO_CATEGORY) getVariable "data";
-				private _items = [HALs_MAP_CATEGORY_ITEMS, _category, []] call HALs_store_fnc_hashGetOrDefault;
+				private _items = [HALs_store_category_items, _category, []] call HALs_store_fnc_hashGetOrDefault;
 				
 				private _sellableItems = [];
 				if (_sell) then {
@@ -175,11 +180,11 @@ switch (_mode) do {
 				if (count _items isEqualTo 0) exitWith {_ctrlList lbSetCurSel -1};
 
 				private _showAvaliable = cbChecked _checkAvaliable;
-				private _money = floor ([player] call HALs_money_fnc_getFunds);
+				private _money = [player] call HALs_money_fnc_getFunds;
 				private _sellFactor = HALs_store_sellFactor min 1 max 0;
 				{
 					_classname = _x;
-					_price = [HALs_MAP_ITEM_PRICE, _x, 0] call HALs_store_fnc_hashGetOrDefault;
+					_price = [HALs_store_item_price, _x, 0] call HALs_store_fnc_hashGetOrDefault;
 					_priceSell = 0;
 					_stock = 0;
 					
@@ -192,7 +197,7 @@ switch (_mode) do {
 						
 						// Get price of the base class
 						if (_price isEqualTo 0) then {
-							_price = [HALs_MAP_ITEM_PRICE, _parentClassname, 0] call HALs_store_fnc_hashGetOrDefault;
+							_price = [HALs_store_item_price, _parentClassname, 0] call HALs_store_fnc_hashGetOrDefault;
 						};
 
 						_priceSell = _price * _sellFactor;
@@ -269,29 +274,25 @@ switch (_mode) do {
 
 					["text", ["update", ["cargo", [_data]]]] call HALs_store_fnc_main;
 				}];
-				
-				["combobox", ["update", []]] call HALs_store_fnc_main;
 			};
 
 			case ("update"): {
 				private _ctrlPurchase = CTRLT(IDC_BUY_ITEM_COMBO);
 				lbClear _ctrlPurchase;
 
+				private _traderHasContainer = ["LandVehicle", "Air", "Ship", "Car_F", "ReammoBox_F"] findIf {typeOf _trader isKindOf [_x, configFile >> "cfgVehicles"]} > -1;
 				private _containers = [
 					[
-						[typeOf _trader, "Trader", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\face_ca.paa", _trader],
-						[]
-					] select (_trader isKindOf "Man"),
+						[],
+						[typeOf _trader, "Trader", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\face_ca.paa", _trader]
+					] select _traderHasContainer,
 					[uniform player, "Uniform", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\uniform_ca.paa", uniformContainer player],
 					[vest player, "Vest", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\vest_ca.paa", vestContainer player],
 					[backpack player, "Backpack", "a3\ui_f\data\gui\Rsc\RscDisplayArsenal\backpack_ca.paa", backpackContainer player]
 				];
-				
-				private _vehicles = [];
+
 				_containers append HALs_store_vehicles;
-				
-				
-				private _txt = ["Purchase to %1.", "Sell to %1."] select (cbChecked CTRL(IDC_CHECKBOX+3));
+				//private _txt = ["Purchase to %1.", "Sell to %1."] select (cbChecked CTRL(IDC_CHECKBOX+3));
 				{
 					_x params ["_classname", "_displayName", "_picture", "_object"];
 
@@ -299,9 +300,9 @@ switch (_mode) do {
 						_idx = _ctrlPurchase lbAdd _displayName;
 						_ctrlPurchase lbSetPicture [_idx, _picture];
 						_ctrlPurchase lbSetData [_idx, _object call BIS_fnc_netId];
-						_ctrlPurchase lbSetTooltip [_idx, format [_txt, _displayName]];
+						//_ctrlPurchase lbSetTooltip [_idx, format [_txt, _displayName]];
 					};
-				} count _containers;
+				} forEach _containers;
 
 				_ctrlPurchase lbSetCurSel ((_ctrlPurchase getVariable ["idx", -1]) max 0);
 			};
@@ -377,7 +378,7 @@ switch (_mode) do {
 				// Insufficient Funds check
 				_price = _ctrlList lbValue _idx;
 				_sale = (1 - (_trader getVariable ["HALs_store_trader_sale", 0])) min 1 max 0;
-				_money = floor ([player] call HALs_money_fnc_getFunds);
+				_money = [player] call HALs_money_fnc_getFunds;
 
 				if (_price * _amount * _sale > _money) exitWith {
 					_ctrlButton ctrlEnable false;
@@ -439,11 +440,11 @@ switch (_mode) do {
 				private _text = ["STR_HALS_STORE_BUTTON_PURCHASE", "STR_HALS_STORE_BUTTON_SELL"] select _checked;
 				CTRLT(IDC_BUTTON_BUY) ctrlSetText localize _text;
 				
-				_ctrlPurchase = CTRLT(IDC_BUY_ITEM_COMBO);
-				_txt = ["Purchase to %1.", "Sell to %1."] select _checked;
-				for [{private _i = 0}, {_i < lbSize _ctrlPurchase}, {_i = _i + 1}] do {
-					_ctrlPurchase lbSetTooltip [_i, format [_txt, _ctrlPurchase lbText _i]];
-				}; 
+				//_ctrlPurchase = CTRLT(IDC_BUY_ITEM_COMBO);
+				//_txt = ["Purchase to %1.", "Sell to %1."] select _checked;
+				//for [{private _i = 0}, {_i < lbSize _ctrlPurchase}, {_i = _i + 1}] do {
+				//	_ctrlPurchase lbSetTooltip [_i, format [_txt, _ctrlPurchase lbText _i]];
+				//}; 
 			};
 
 			case ("sort"): {
@@ -504,7 +505,7 @@ switch (_mode) do {
 						};
 
 						private _stock = (_ctrlList getVariable "data") param [1, 0];
-						private _money = floor ([player] call HALs_money_fnc_getFunds);  //@todo
+						private _money = [player] call HALs_money_fnc_getFunds;
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 
 						private _doSell = cbChecked CTRL(IDC_CHECKBOX + 3);
@@ -572,7 +573,7 @@ switch (_mode) do {
 					};
 
 					case ("funds"): {
-						private _money = floor ([player] call HALs_money_fnc_getFunds);
+						private _money = [player] call HALs_money_fnc_getFunds;
 						((uiNamespace getVariable ["HALs_store_display", displayNull]) displayCtrl IDC_FUNDS) ctrlSetStructuredText parseText format ["%1 %2", _money call HALs_fnc_numberToString, HALs_store_currencySymbol];
 					};
 

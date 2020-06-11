@@ -1,4 +1,5 @@
 /*
+	@todo
 	Function: HALs_store_fnc_addTrader
 	Author: HallyG
 	Initialises a trader.
@@ -28,8 +29,8 @@ try {
 	if (_traderType isEqualTo "") then {throw ["No Trader type", __LINE__]};
 	if (!isClass (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType)) then {throw ["Invalid Trader type", __LINE__]};
 
-	private _type = {typeOf _trader isKindOf [_x, configFile >> "cfgVehicles"]} count ["CAManBase", "Car_F", "ReammoBox_F"];
-	if (_type isEqualto 0) then {throw ["Trader is not TypeOf: ['CAManBase', 'Car_F', 'ReammoBox_F']", __LINE__]};
+	//private _type = {typeOf _trader isKindOf [_x, configFile >> "cfgVehicles"]} count ["CAManBase", "Car_F", "ReammoBox_F"];
+	//if (_type isEqualto 0) then {throw ["Trader is not TypeOf: ['CAManBase', 'Car_F', 'ReammoBox_F']", __LINE__]};
 
 	private _categories = [
 		getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType >> "categories"),

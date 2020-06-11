@@ -13,6 +13,7 @@
 	[] call HALs_store_fnc_initServer;
 __________________________________________________________________*/
 if (!isServer) exitWith {};
+if (!isNil "HALs_store_debug") exitWith {};
 
 [
 	["CfgHALsStore"],
@@ -26,19 +27,13 @@ if (!isServer) exitWith {};
 	]
 ] call HALs_fnc_getModuleSettings;
 
-/*missionNamespace setVariable ["HALs_store_getNearbyVehicles", compileFinal '
+missionNamespace setVariable ["HALs_store_getNearbyVehicles", compileFinal '
 	params [
 		["_trader", objNull, [objNull]],
-		["_types", HALs_store_containerTypes, [[]]],
-		["_radius", HALs_store_containerRadius, [0]],
+		["_types", ["LandVehicle", "Air", "Ship"], [[]]],
+		["_radius", HALs_store_containerRadius, [0]]
 	];
 
-	private _vehicles = nearestObjects [_this, _types, _radius, true];
-	_vehicles = _vehicles select {local _x && {abs speed _x < 1 && {alive _x && isNil {_x getVariable "HALs_store_trader_type"}}}};
-
-	_vehicles apply {
-		_type = typeOf _x;
-		//"a3\ui_f\data\gui\Rsc\RscDisplayGarage\car_ca.paa"
-		[_type, format ["%1 (%2m)", getText(configFile >> "cfgVehicles" >> _type >> "displayName"), (_x distance2D _trader) toFixed 0], "", _x]	
-	}
-', true];*/
+	private _vehicles = nearestObjects [_trader, _types, _radius, true];
+	_vehicles select {local _x && {abs speed _x < 1 && {alive _x && isNil {_x getVariable "HALs_store_trader_type"}}}};
+', true];

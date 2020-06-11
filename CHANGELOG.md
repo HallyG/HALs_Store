@@ -3,6 +3,7 @@
 ## Version 1.4.2
 * **Changed** the store's visuals to minimise empty space and colours to match BIS' colour scheme.
 * **Changed** the example mission to demonstrate picking up money and different stores.
+* **Changed** trader can be any type not just "CAManBase", "ReammoBox_F" or "Car_F".
 * **Added** `HALs_store_fnc_openStore` - open the store without using the addAction.
 * **Added** `HALs_store_fnc_addActionTrader` - remoteExec the open store BIS_fnc_holdActionAdd to all clients.
 * **Added** new setting `oldManItemsPrice` to `HALs\Addons\Money\config.hpp` - this array controls the price of the money inventory items added in the Old Man update: `"Money_bunch"`, `"Money_roll"`, `"Money_stack"` and `"Money"`.
