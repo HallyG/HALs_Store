@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=336;
+		nextID=339;
 	};
 	class MarkerIDProvider
 	{
@@ -16,11 +16,11 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=4;
+		nextID=8;
 	};
 	class Camera
 	{
-		pos[]={5405.6748,19.837799,3861.6567};
+		pos[]={5400.0869,18.368858,3873.1299};
 		dir[]={0.29004341,-0.52486354,0.80037642};
 		up[]={0.17883453,0.85117275,0.49349731};
 		aside[]={0.94024503,1.5284168e-006,-0.34073299};
@@ -549,7 +549,7 @@ class Mission
 		class Item5
 		{
 			dataType="Trigger";
-			position[]={5406.2861,5,3880.2256};
+			position[]={5400.8965,5,3884.6013};
 			class Attributes
 			{
 				condition="true";
@@ -1298,7 +1298,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5404.2979,5.4070597,3894.074};
-						angles[]={-0,3.1415927,0};
+						angles[]={0,3.1415927,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1555,7 +1555,8 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={5406.27,5.0014391,3880.4207};
+						position[]={5400.8774,5.0014391,3884.7212};
+						angles[]={0,0.89565438,0};
 					};
 					side="West";
 					flags=7;
@@ -1585,7 +1586,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5419.9092,5.219584,3885.4666};
-						angles[]={-0,6.2381382,0};
+						angles[]={0,6.2381382,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1603,7 +1604,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5424.5313,5.5826859,3888.2246};
-						angles[]={-0,1.0106329,0};
+						angles[]={0,1.0106329,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1621,7 +1622,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5421.8999,5.5826859,3890.8547};
-						angles[]={-0,0.49160689,0};
+						angles[]={0,0.49160689,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1639,7 +1640,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5417.584,5.2599349,3880.8105};
-						angles[]={-0,5.789484,0};
+						angles[]={0,5.789484,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1657,7 +1658,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5420.7993,5.2632289,3883.7456};
-						angles[]={-0,0.83330745,0};
+						angles[]={0,0.83330745,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1675,7 +1676,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5418.2651,5.0271649,3881.3958};
-						angles[]={-0,3.8141029,0};
+						angles[]={0,3.8141029,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1693,7 +1694,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5418.7539,5.2734971,3880.4177};
-						angles[]={-0,0.11046189,0};
+						angles[]={0,0.11046189,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1711,7 +1712,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5420.9243,5.0993757,3884.2476};
-						angles[]={-0,3.6260786,0};
+						angles[]={0,3.6260786,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1729,7 +1730,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5426.022,5.5826859,3884.6458};
-						angles[]={-0,1.5482816,0};
+						angles[]={0,1.5482816,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1747,7 +1748,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5420.7891,5.6506743,3883.6487};
-						angles[]={-0,0.81698865,0};
+						angles[]={0,0.81698865,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1766,7 +1767,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={5425.897,5.3445024,3882.7656};
-						angles[]={-0,2.3088787,0};
+						angles[]={0,2.3088787,0};
 					};
 					side="Empty";
 					flags=4;
@@ -1998,7 +1999,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={5417.583,5.4850001,3886.1169};
-				angles[]={-0,1.989712,0};
+				angles[]={0,1.989712,0};
 			};
 			side="Empty";
 			flags=4;
@@ -2454,7 +2455,7 @@ class Mission
 			class Item9
 			{
 				linkID=9;
-				item0=187;
+				item0=188;
 				item1=185;
 				class CustomData
 				{
@@ -2464,8 +2465,8 @@ class Mission
 			class Item10
 			{
 				linkID=10;
-				item0=188;
-				item1=185;
+				item0=190;
+				item1=189;
 				class CustomData
 				{
 					type="Sync";
@@ -2474,8 +2475,8 @@ class Mission
 			class Item11
 			{
 				linkID=11;
-				item0=190;
-				item1=189;
+				item0=189;
+				item1=186;
 				class CustomData
 				{
 					type="Sync";
@@ -2484,8 +2485,8 @@ class Mission
 			class Item12
 			{
 				linkID=12;
-				item0=189;
-				item1=186;
+				item0=335;
+				item1=334;
 				class CustomData
 				{
 					type="Sync";
@@ -2494,8 +2495,8 @@ class Mission
 			class Item13
 			{
 				linkID=13;
-				item0=335;
-				item1=334;
+				item0=332;
+				item1=333;
 				class CustomData
 				{
 					type="Sync";
@@ -2504,8 +2505,8 @@ class Mission
 			class Item14
 			{
 				linkID=14;
-				item0=332;
-				item1=333;
+				item0=333;
+				item1=334;
 				class CustomData
 				{
 					type="Sync";
@@ -2514,8 +2515,8 @@ class Mission
 			class Item15
 			{
 				linkID=15;
-				item0=333;
-				item1=334;
+				item0=334;
+				item1=327;
 				class CustomData
 				{
 					type="Sync";
@@ -2524,8 +2525,8 @@ class Mission
 			class Item16
 			{
 				linkID=16;
-				item0=334;
-				item1=327;
+				item0=335;
+				item1=185;
 				class CustomData
 				{
 					type="Sync";
@@ -2534,7 +2535,7 @@ class Mission
 			class Item17
 			{
 				linkID=17;
-				item0=335;
+				item0=187;
 				item1=185;
 				class CustomData
 				{
