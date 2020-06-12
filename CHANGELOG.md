@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 1.4.2
+## Version 1.5.0
 * **Changed** the store's visuals to minimise empty space and colours to match BIS' colour scheme.
 * **Changed** the example mission to demonstrate picking up money and different stores.
 * **Changed** trader can be any type not just "CAManBase", "ReammoBox_F" or "Car_F".

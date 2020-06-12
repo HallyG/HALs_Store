@@ -1,10 +1,10 @@
 <h1 align="center">HALs Store</h1>
 <p align="center">
-    <img src="https://i.imgur.com/ICUuKxY.png">
+    <img src="https://i.imgur.com/YRHy6UX.png">
 </p>
 <p align="center">
     <a href="https://github.com/HallyG/HALs_Store/releases/latest">
-        <img src="https://img.shields.io/badge/Version-1.4.2-blue.svg?style=flat-square" alt="HALs Store Version">
+        <img src="https://img.shields.io/badge/Version-1.5.0-blue.svg?style=flat-square" alt="HALs Store Version">
     </a>
     <a href="https://github.com/HallyG/HALs_Store/blob/master/LICENSE">
         <img src="https://img.shields.io/badge/License-APL-red.svg?style=flat-square" alt="HALs Store License">
