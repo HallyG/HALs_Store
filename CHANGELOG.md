@@ -2,7 +2,7 @@
 
 ## Version 1.5.0
 * **Changed** the store's visuals to minimise empty space and colours to match BIS' colour scheme.
-* **Changed** the example mission to demonstrate picking up money and different stores.
+* **Changed** the example mission to demonstrate picking up money and using different stores.
 * **Changed** trader can be any type not just "CAManBase", "ReammoBox_F" or "Car_F".
 * **Added** button to the store to open the Usage page on the repository's wiki.
 * **Added** `HALs_store_fnc_openStore` - open the store without using the addAction.
