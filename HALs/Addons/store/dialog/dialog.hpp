@@ -40,7 +40,7 @@ class RscDisplayStore {
 		class TitleFunds: RscItemStructuredText {
 			idc = IDC_FUNDS;
 
-			x = DIALOG_X + GRID_X(STORE_W - BAR_W - FUNDS_W);
+			x = DIALOG_X + GRID_X(STORE_W - BAR_W - BAR_W - FUNDS_W);
 			y = DIALOG_Y;
 			w = GRID_X(FUNDS_W);
 			h = GRID_Y(FUNDS_H);
@@ -71,6 +71,35 @@ class RscDisplayStore {
 			shadow = 1;
 		};
 
+		class HelpButton {
+			idc = -1;
+			x = DIALOG_X + GRID_X(STORE_W - BAR_W - BAR_W);
+			y = DIALOG_Y;
+			w = GRID_X(BAR_W);
+			h = GRID_Y(BAR_H);
+			
+			type = 11;
+			style = 48;
+			colorText[] = {1, 1, 1, 0.7};
+			color[] = {1, 1, 1, 0.7};
+			colorActive[] = {1,1,1,1};
+			colorDisabled[] = {1,1,1,0.25};
+			soundEnter[] = {"",0.1,1};
+			soundPush[] = {"",0.1,1};
+			soundClick[] = {"",0.1,1};
+			soundEscape[] = {"",0.1,1};
+			text = "\a3\Ui_f\data\GUI\RscCommon\RscDebugConsole\biki_ca.paa";
+			default = 0;
+			font = "RobotoCondensed";
+			shadow = 2;
+			sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+			url = "https://github.com/HallyG/HALs_Store/wiki/Usage";
+			tooltip = "Open the Usage page on the wiki."
+			tooltipColorShade[] = {0, 0, 0, 0.65};
+			tooltipColorText[] = {1, 1, 1, 1};
+			tooltipColorBox[] = {1, 1, 1, 0};
+		};
+		
 		class ContainerGroup: RscItemCtrlGroupNoScrollbars {
 			idc = IDC_GROUP_TRADER;
 			x = TRADER_X;
