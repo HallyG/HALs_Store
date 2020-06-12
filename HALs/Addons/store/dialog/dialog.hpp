@@ -103,7 +103,7 @@ class RscDisplayStore {
 		class ContainerGroup: RscItemCtrlGroupNoScrollbars {
 			idc = IDC_GROUP_TRADER;
 			x = TRADER_X;
-			y = TRADER_Y;
+			y = DIALOG_Y + GRID_Y(BAR_H + SPACE_H2);
 			w = GRID_X(TRADER_W);
 			h = GRID_Y(TRADER_H);
 			
