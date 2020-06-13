@@ -10,17 +10,34 @@ class ComboCategories: RscItemComboBox {
 	colorBackground[] = {0.1, 0.1, 0.1, 1};
 };
 
-class ItemListboxSortButton: RscItemButtonSort {
+class ItemCheckboxSort: RscItemCheckboxGreen {
 	idc = IDC_LISTBOX_SORT;
 	x = GRID_X(SPACE_W2 + COMBO_W + SPACE_W);
 	y = CURRENT_Y;
 	w = GRID_X(BAR_W);
 	h = GRID_Y(BAR_H);
-	action = "['button', ['sort', []]] call HALs_store_fnc_main;";
+	onCheckedChanged = "['listbox', ['sort', _this]] call HALs_store_fnc_main;";
 	sizeEx = FONT(1);
 	color[] = {1, 1, 1, 0.7};
 	colorActive[] = {1, 1, 1, 1};
-	colorBackground[] = {1, 1, 1, 1};
+	colorFocused[] = {1, 1, 1, 1};
+	colorPressed[] = {1, 1, 1, 1};
+	style = 48;
+	colorHover[] = {1, 1, 1, 1};
+	colorText[] = {1, 1, 1, 1};
+	colorDisabled[] = {1, 1, 1, 0.25};
+	shadow = 2;
+	tooltip = "Sorted ascending."; //TODO tooltip
+	textureUnchecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa";
+	textureChecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_down_ca.paa";
+	textureFocusedUnchecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa";
+	textureFocusedChecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_down_ca.paa";
+	textureHoverUnchecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa";
+	textureHoverChecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_down_ca.paa";
+	texturePressedUnchecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa";
+	texturePressedChecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_down_ca.paa";
+	textureDisabledUnchecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa";
+	textureDisabledChecked = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_down_ca.paa";	
 };
 
 class ItemCheckboxAvailable: RscItemCheckboxGreen {
