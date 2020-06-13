@@ -136,9 +136,9 @@ switch (_mode) do {
 					_ctrl setVariable ["value", _value];
 
 					["text", ["update", ["buy", [_value, _amt]]]] call HALs_store_fnc_main;
-					["progress", ["stats", [_data]]] call HALs_store_fnc_main; // this cause _value to become 0
+					["progressStats", [_data]] call HALs_store_fnc_main; // this cause _value to become 0
 					["text", ["update", ["item", []]]] call HALs_store_fnc_main;
-					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _data, _amt]]] call HALs_store_fnc_main;
+					["progressLoad", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _data, _amt]] call HALs_store_fnc_main;
 					["edit", ["update", []]] call HALs_store_fnc_main;
 					["button", ["enabled", []]] call HALs_store_fnc_main;
 				}];
@@ -268,7 +268,7 @@ switch (_mode) do {
 					if (cbChecked CTRL(IDC_CHECKBOX+3)) then {
 						["listbox", ["update", []]] call HALs_store_fnc_main
 					} else {
-						["progress", ["update", [_data, CTRL(IDC_LISTBOX) getVariable "data", CTRLT(IDC_EDIT) getVariable "amt"]]] call HALs_store_fnc_main;
+						["progressLoad", [_data, CTRL(IDC_LISTBOX) getVariable "data", CTRLT(IDC_EDIT) getVariable "amt"]] call HALs_store_fnc_main;
 						["button", ["enabled", []]] call HALs_store_fnc_main;
 					};
 
@@ -325,7 +325,7 @@ switch (_mode) do {
 					_ctrl setVariable ["amt", _amt];
 
 					_listbox = CTRL(IDC_LISTBOX);
-					["progress", ["update", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _listbox getVariable "data", _amt]]] call HALs_store_fnc_main;
+					["progressLoad", [CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container", _listbox getVariable "data", _amt]] call HALs_store_fnc_main;
 					["text", ["update", ["buy", [_listbox getVariable "value", _amt]]]] call HALs_store_fnc_main;
 					["button", ["enabled", []]] call HALs_store_fnc_main;
 				}];
@@ -408,43 +408,22 @@ switch (_mode) do {
 			};
 
 			case ("pressed"): {
+				private _ctrlList = CTRL(IDC_LISTBOX);
+				private _classname = (_ctrlList getVariable "data") param [0, ""];
+				// Unit, classname, price, amount, container
+				private _data = [player, _classname, _ctrlList getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container"];
+
 				if (cbChecked CTRL(IDC_CHECKBOX+3)) then {
-					['button', ['sell', []]] call HALs_store_fnc_main;
+					_data remoteExecCall ["HALs_store_fnc_sell", 2, false];
 				} else {
-					['button', ['buy', []]] call HALs_store_fnc_main;
+					_data pushBack cbChecked CTRLT(IDC_CHECKBOX_BUY);
+					_data remoteExecCall ["HALs_store_fnc_purchase", 2, false];
 				};
-			};
-
-			case ("buy"): {
-				private _ctrlList = CTRL(IDC_LISTBOX);
-				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container";
-				private _classname = (_ctrlList getVariable "data") param [0, ""];
-				private _purchaseData = [player, _classname, _ctrlList getVariable "value", CTRLT(IDC_EDIT) getVariable "amt", _container, cbChecked CTRLT(IDC_CHECKBOX_BUY)];
-
-				_purchaseData remoteExecCall ["HALs_store_fnc_purchase", 2];
-			};
-
-			case ("sell"): {
-				private _ctrlList = CTRL(IDC_LISTBOX);
-				private _container = CTRLT(IDC_BUY_ITEM_COMBO) getVariable "container";
-				private _classname = (_ctrlList getVariable "data") param [0, ""];
-				private _price = _ctrlList getVariable "value";
-				private _sellData = [player, _classname, _price, CTRLT(IDC_EDIT) getVariable "amt", _container];
-
-				_sellData remoteExecCall ["HALs_store_fnc_sell", 2];
 			};
 
 			case ("change"): {
 				params ["", "_checked"];
-				
-				private _text = ["STR_HALS_STORE_BUTTON_PURCHASE", "STR_HALS_STORE_BUTTON_SELL"] select _checked;
-				CTRLT(IDC_BUTTON_BUY) ctrlSetText localize _text;
-				
-				//_ctrlPurchase = CTRLT(IDC_BUY_ITEM_COMBO);
-				//_txt = ["Purchase to %1.", "Sell to %1."] select _checked;
-				//for [{private _i = 0}, {_i < lbSize _ctrlPurchase}, {_i = _i + 1}] do {
-				//	_ctrlPurchase lbSetTooltip [_i, format [_txt, _ctrlPurchase lbText _i]];
-				//}; 
+				CTRLT(IDC_BUTTON_BUY) ctrlSetText localize (["STR_HALS_STORE_BUTTON_PURCHASE", "STR_HALS_STORE_BUTTON_SELL"] select _checked);
 			};
 
 			case ("sort"): {
@@ -647,90 +626,81 @@ switch (_mode) do {
 		};
 	};
 
-	case ("progress"): {
-		params ["_mode", "_this"];
 
-		switch (toLower _mode) do {
-			params ["_mode", "_this"];
+	case "progressStats": {
+		params [
+			["_data", [], [[]]]
+		];
 
-			case ("stats"): {
-				params [
-					["_data", [], [[]]]
-				];
-
-				private _cfg = (_data param [0, ""]) call HALs_fnc_getConfigClass;
-				private _stats = ([_cfg] call HALs_store_fnc_getItemStats);
-				{
-					_x params ["_ctrlBar", "_ctrlText"];
+		private _cfg = (_data param [0, ""]) call HALs_fnc_getConfigClass;
+		private _stats = ([_cfg] call HALs_store_fnc_getItemStats);
+		
+		{
+			_x params ["_ctrlBar", "_ctrlText"];
+		
+			_stat = _stats select _forEachIndex;
+			if (count _stat > 0) then {
+				_ctrlBar progressSetPosition (_stat select 0);
+				_ctrlBar ctrlSetFade 0;
+				_ctrlBar ctrlCommit 0;
 					
-					private _stat = _stats select _forEachIndex;
-					private _progress = 0;
-					private _fade = 1;
-					private _text = "";
+				_ctrlText ctrlSetText toUpper (_stat select 1);
+				_ctrlText ctrlSetFade 0;
+				_ctrlText ctrlCommit 0;	
+			} else {
+				_ctrlBar progressSetPosition 0;
+				_ctrlBar ctrlSetFade 1;
+				_ctrlBar ctrlCommit 0;
 					
-					if (count _stat > 0) then {
-						_progress = _stat select 0;
-						_text =_stat select 1;
-						_fade = 0;
-					};
-
-					_ctrlBar progressSetPosition _progress;
-					_ctrlBar ctrlSetFade _fade;
-					_ctrlBar ctrlCommit 0;
-					
-					_ctrlText ctrlSetText toUpper _text;
-					_ctrlText ctrlSetFade _fade;
-					_ctrlText ctrlCommit 0;
-				} forEach STAT_BARS;
+				_ctrlText ctrlSetText "";
+				_ctrlText ctrlSetFade 1;
+				_ctrlText ctrlCommit 0;	
 			};
+		} forEach STAT_BARS;
+	};
 
-			case ("update"): {
-				params [
-					["_container", objNull, [objNull]],
-					["_data", [], [[]]],
-					["_amount", 1, [1]]
-				];
+	case "progressLoad": {
+		params [
+			["_container", objNull, [objNull]],
+			["_data", [], [[]]],
+			["_amount", 1, [1]]
+		];
 
-				private _bar = CTRLT(IDC_PROGRESS_LOAD);
-				private _barNew = CTRLT(IDC_PROGRESS_NEWLOAD);
-
-				if (isNull _container) exitWith {
-					_bar progressSetPosition 0;
-					_barNew progressSetPosition 0;
-				};
-
-				private _classname = _data param [0, ""];
-				private _currentLoad = [_container] call HALs_store_fnc_getCargoMass;
-				private _maxLoad = 1 max getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
-				
-				if (_classname isEqualTo "" || cbChecked CTRL(IDC_CHECKBOX + 3)) exitWith {
-					_bar progressSetPosition (_currentLoad / _maxLoad);
-					_barNew progressSetPosition 0;
-				};
-
-				// Check if it's a backpack with items
-				private _load = _classname call HALs_store_fnc_getItemMass;
-				if ([_classname] call HALs_store_fnc_getItemType isEqualTo 3) then {
-					_arrayCargo = [];
-
-					{
-						_arrayCargo append (("true" configClasses _x) apply {
-							[(configName _x) select [4], getNumber (_x >> "count")]
-						});
-					} forEach ("true" configClasses (configFile >> "CfgVehicles" >> _classname));
-
-					{
-						_load = _load + ((_x select 0) call HALs_store_fnc_getItemMass) * (_x select 1);
-					} forEach _arrayCargo;
-				};
-
-				private _progress = linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
-				private _colour = [[0.9, 0, 0, 0.6], [0, 0.9, 0, 0.6]] select (_container canAdd [_classname, _amount]);
-
-				_bar progressSetPosition (_currentLoad / _maxLoad);
-				_barNew progressSetPosition _progress;
-				_barNew ctrlSetTextColor _colour;
-			};
+		if (isNull _container) exitWith {
+			CTRLT(IDC_PROGRESS_LOAD) progressSetPosition 0;
+			CTRLT(IDC_PROGRESS_NEWLOAD) progressSetPosition 0;
 		};
+		
+		_bar = CTRLT(IDC_PROGRESS_LOAD);
+		_barNew = CTRLT(IDC_PROGRESS_NEWLOAD);
+		
+
+		private _classname = _data param [0, ""];
+		_currentLoad = [_container] call HALs_store_fnc_getCargoMass;
+		_maxLoad = 1 max getNumber (configFile >> "CfgVehicles" >> typeOf _container >> "maximumLoad");
+	
+		if (_classname isEqualTo "" || cbChecked CTRL(IDC_CHECKBOX + 3)) exitWith {
+			_bar progressSetPosition (_currentLoad / _maxLoad);
+			_barNew progressSetPosition 0;
+		};
+	
+		// Check if it's a backpack with items
+		_load = _classname call HALs_store_fnc_getItemMass;
+		if ([_classname] call HALs_store_fnc_getItemType isEqualTo 3) then {
+			_arrayCargo = [];
+			
+			{
+				_arrayCargo append (("true" configClasses _x) apply {
+					[(configName _x) select [4], getNumber (_x >> "count")]
+				});
+			} forEach ("true" configClasses (configFile >> "CfgVehicles" >> _classname));
+
+			{_load = _load + ((_x select 0) call HALs_store_fnc_getItemMass) * (_x select 1)} forEach _arrayCargo;
+		};
+
+		_colour = [[0.9, 0, 0, 0.6], [0, 0.9, 0, 0.6]] select (_container canAdd [_classname, _amount]);
+		_bar progressSetPosition (_currentLoad / _maxLoad);
+		_barNew progressSetPosition linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
+		_barNew ctrlSetTextColor _colour;
 	};
 };
