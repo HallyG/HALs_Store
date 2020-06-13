@@ -460,7 +460,8 @@ switch (_mode) do {
 						private _money = [player] call HALs_money_fnc_getFunds;
 						private _sale = (_trader getVariable ["HALs_store_trader_sale", 0]) min 1 max 0;
 						private _sell = cbChecked CTRL(IDC_CHECKBOX + 3);
-						_total = _amount * _price * ([1 - _sale, HALs_store_sellFactor min 1 max 0] select _sell);
+						_price = _price * ([1, HALs_store_sellFactor min 1 max 0] select _sell);
+						_total = _amount * _price * ([1 - _sale, 1] select _sell);
 
 						private _ctrlText = CTRLT(IDC_ITEM);
 						_ctrlText ctrlSetStructuredText parseText format [
@@ -510,7 +511,7 @@ switch (_mode) do {
 					};
 
 					case ("funds"): {
-						private _money = [player] call HALs_money_fnc_getFunds;
+						private _money = ([player] call HALs_money_fnc_getFunds) call HALs_fnc_numberToString;
 						((uiNamespace getVariable ["HALs_store_display", displayNull]) displayCtrl IDC_FUNDS) ctrlSetStructuredText parseText (_money call HALs_store_fnc_formatMoney);
 					};
 
@@ -619,10 +620,18 @@ switch (_mode) do {
 			{_load = _load + ((_x select 0) call HALs_store_fnc_getItemMass) * (_x select 1)} forEach _arrayCargo;
 		};
 
-		_colour = [[0.9, 0, 0, 0.6], [0, 0.9, 0, 0.6]] select (_container canAdd [_classname, _amount]);
-		_bar progressSetPosition (_currentLoad / _maxLoad);
-		_barNew progressSetPosition linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
-		_barNew ctrlSetTextColor _colour;
+		if (cbChecked CTRL(IDC_CHECKBOX + 3)) then {
+			//_barNew progressSetPosition (_currentLoad / _maxLoad);
+			//_barNew ctrlSetTextColor [0.9, 0.9, 0.9, 0.9];
+			//_bar progressSetPosition linearConversion [0, _maxLoad, _currentLoad + (_load * _amount * -1), 0, 1, true];
+			//_bar ctrlSetTextColor [0, 0.9, 0, 0.6];
+		} else {
+			_colour = [[0.9, 0, 0, 0.6], [0, 0.9, 0, 0.6]] select (_container canAdd [_classname, _amount]);
+			_bar ctrlSetTextColor [0.9, 0.9, 0.9, 0.9];
+			_bar progressSetPosition (_currentLoad / _maxLoad);
+			_barNew progressSetPosition linearConversion [0, _maxLoad, _currentLoad + (_load * _amount), 0, 1, true];
+			_barNew ctrlSetTextColor _colour;
+		};
 	};
 
 	case "progressStats": {
