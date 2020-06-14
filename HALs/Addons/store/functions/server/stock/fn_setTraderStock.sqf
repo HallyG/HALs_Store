@@ -29,7 +29,7 @@ private _idx = _stocks find (toLower _classname);
 
 if (_idx isEqualTo -1) exitWith {false};
 private _stock = _stocks select (_idx + 1);
-_stocks set [(_idx + 1), 0 max (_stock + _amount) min 999999];
+_stocks set [(_idx + 1), 0 max (_stock + _amount)];
 _trader setVariable ["HALs_store_trader_stocks", _stocks, true];
 
 true

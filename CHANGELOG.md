@@ -1,6 +1,7 @@
 # Changelog
 
 ## Version 1.5.0
+* **Changed** stock and starting funds can now be greater than 999,999 (previous hard cap).
 * **Changed** the store's visuals to minimise empty space and colours to match BIS' colour scheme.
 * **Changed** the example mission to demonstrate picking up money and different stores.
 * **Changed** trader can be any type not just "CAManBase", "ReammoBox_F" or "Car_F".
