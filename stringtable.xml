@@ -10,6 +10,15 @@
 		    <Spanish>Comprar</Spanish>
 		    <Italian></Italian>
 		</Key>
+		<Key ID="STR_HALS_STORE_OPEN_ACTION"> 
+		    <Original>open the %1</Original> <!--e.g. open the Weapons Store-->
+		    <English>open the %1</English>
+		    <French></French>
+		    <German></German>
+		    <Russian></Russian>
+		    <Spanish></Spanish>
+		    <Italian></Italian>
+		</Key>
 		<Key ID="STR_HALS_STORE_ITEM_UNAVALIABLE">
 		    <Original>Item unavaliable.</Original>
 		    <English>Item unavaliable.</English>

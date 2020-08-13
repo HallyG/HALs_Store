@@ -5,7 +5,6 @@
 
 	Argument(s):
 	0: Trader <OBJECT>
-
 	Return Value:
 	None
 
@@ -22,7 +21,7 @@ if (isNil {_trader getVariable "HALs_store_trader_type"}) exitWith {};
 
 [
 	_trader,
-	_trader getVariable ["HALs_store_name", localize "STR_HALS_STORE_ACTION"],
+	format [localize "STR_HALS_STORE_OPEN_ACTION", _trader getVariable ["HALs_store_name", localize "STR_HALS_STORE_ACTION"]],
 	"\a3\Ui_F_Oldman\Data\IGUI\Cfg\HoldActions\holdAction_market_ca.paa",
 	"\a3\Ui_F_Oldman\Data\IGUI\Cfg\HoldActions\holdAction_market_ca.paa",
 	"alive _target && _this distance _target < 3 && isNull objectParent _this",
@@ -31,16 +30,7 @@ if (isNil {_trader getVariable "HALs_store_trader_type"}) exitWith {};
 	{},
 	{
 		params ["_trader", "_caller", "_actionId", "_arguments"];
+
 		[_trader, _caller] call HALs_store_fnc_openStore;
 	}, {}, [], 0.5, nil, false, false
 ] remoteExecCall ["BIS_fnc_holdActionAdd", 0, _trader];
-
-
-
-
-
-
-
-
-
-
