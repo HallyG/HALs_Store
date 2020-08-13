@@ -4,10 +4,11 @@
 	Handles the sell transcations on the server.
 
 	Argument(s):
-	0: Seller <OBJECT>
+	0: Player <OBJECT>
 	1: Item Classname <STRING>
 	3: Item price <NUMBER>
 	4: Number of items <NUMBER>
+	5: Container <OBJECT>
 
 	Return Value:
 	None
@@ -29,6 +30,7 @@ if (!alive _unit) exitWith {};
 if (_amt < 1) exitWith {};
 if (_classname isEqualTo "") exitWith {};
 if (isNull _container) exitWith {};
+if (_price < 0) exitWith {};
 
 try {
 	// Fetch current trader

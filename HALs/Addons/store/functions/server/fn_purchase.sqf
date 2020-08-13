@@ -4,7 +4,7 @@
 	Handles the purchase transcations on the server.
 
 	Argument(s):
-	0: Buyer <OBJECT>
+	0: Player <OBJECT>
 	1: Item Classname <STRING>
 	3: Item price <NUMBER>
 	4: Number of items <NUMBER>
@@ -30,6 +30,7 @@ if (!isServer) exitWith {};
 if (isNull _unit) exitWith {};
 if (!alive _unit) exitWith {};
 if (_amt < 1) exitWith {};
+if (_price < 0) exitWith {};
 
 try {
 	// Fetch current trader
