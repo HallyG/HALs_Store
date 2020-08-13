@@ -1,18 +1,21 @@
 /*
 	Function: HALs_store_fnc_addActionTrader
 	Author: HallyG
-	RemoteExec BIS_fnc_holdActionAdd to all clients.
+	RemoteExec BIS_fnc_holdActionAdd to all targets.
 
 	Argument(s):
 	0: Trader <OBJECT>
+	1: Target <ARRAY, GROUP, NUMBER, OBJECT, SIDE, STRING> (Default: 0)
+
 	Return Value:
 	None
 
 	Example:
-	[unit1] call HALs_store_fnc_addActionTrader;
+	[unit1, 0] call HALs_store_fnc_addActionTrader;
 __________________________________________________________________*/
 params [
-	["_trader", objNull, [objNull]]
+	["_trader", objNull, [objNull]],
+	["_target", 0, [0, objNull, "", sideUnknown, grpNull, []]]
 ];
 
 if (!isServer) exitWith {};
@@ -33,4 +36,4 @@ if (isNil {_trader getVariable "HALs_store_trader_type"}) exitWith {};
 
 		[_trader, _caller] call HALs_store_fnc_openStore;
 	}, {}, [], 0.5, nil, false, false
-] remoteExecCall ["BIS_fnc_holdActionAdd", 0, _trader];
+] remoteExecCall ["BIS_fnc_holdActionAdd", _target, _trader];
