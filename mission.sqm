@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=8;
+		nextID=14;
 	};
 	class Camera
 	{
 		pos[]={5400.0869,18.368858,3873.1299};
-		dir[]={0.29004341,-0.52486354,0.80037642};
-		up[]={0.17883453,0.85117275,0.49349731};
-		aside[]={0.94024503,1.5284168e-006,-0.34073299};
+		dir[]={0.52127606,-0.51436371,0.68110949};
+		up[]={0.31263524,0.85755759,0.40849662};
+		aside[]={0.79417819,1.5310943e-006,-0.60781556};
 	};
 };
 binarizationWanted=0;
@@ -1474,7 +1474,6 @@ class Mission
 							flags=7;
 							class Attributes
 							{
-								init="if (isServer) then { " \n " [this, ""weapon""] call HALs_store_fnc_addTrader; " \n "  " \n " this enableSimulation false; " \n " this allowDamage false; " \n " this setUnitLoadout [[],[],[],[""U_I_C_Soldier_Para_1_F"",[]],[],[],""H_MilCap_grn"","""",[],[""ItemMap"","""","""",""ItemCompass"",""ItemWatch"",""""]];   " \n " this setname ""Dembe Inouyie""; " \n " this setface ""AfricanHead_03""; " \n " this setpitch 1;" \n "" \n "}; [this,""LEAN_ON_TABLE"", ""ASIS"", pointer] call BIS_fnc_ambientAnim;";
 								name="trader1";
 							};
 							id=179;
@@ -1867,7 +1866,6 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="if (isServer) then {[this, ""navigation""] call HALs_store_fnc_addTrader; this enableSimulation false; this allowDamage false; this setCaptive true}; [this,""GUARD"", ""ASIS""] call BIS_fnc_ambientAnim;" \n "";
 						name="trader2";
 					};
 					id=327;
