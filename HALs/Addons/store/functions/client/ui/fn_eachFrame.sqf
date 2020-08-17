@@ -13,7 +13,7 @@
 	[] call HALs_store_fnc_eachFrame;
 __________________________________________________________________*/
 if (!hasInterface) exitWith {};
-if (!isNil "HALs_store_updated") exitWith {};
+if (!isNil {missionNamespace getVariable "#HALs_store_money"}) exitWith {};
 
 missionNamespace setVariable ["HALs_store_updated", false];
 missionNamespace setVariable ["#HALs_store_money", [player] call HALs_money_fnc_getFunds];

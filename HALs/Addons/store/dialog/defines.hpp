@@ -374,8 +374,10 @@ class RscItemComboBox {
 	colorSelect2Right[] = {0, 0, 0, 1};
 	colorSelectRight[] = {0, 0, 0, 1};
 	colorSelectBackground[] = {0.95, 0.95, 0.95, 1};
-	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
-	arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+	arrowEmpty = "\a3\3DEN\Data\Controls\ctrlCombo\arrowEmpty_ca.paa";
+    arrowFull = "\a3\3DEN\Data\Controls\ctrlCombo\arrowFull_ca.paa";
+	//arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+	//arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
 	font = "RobotoCondensed";
 	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 	soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse", 0.1, 1};
@@ -386,6 +388,10 @@ class RscItemComboBox {
 	tooltipColorBox[] = {0, 0, 0, 0};
 
 	class ComboScrollBar: ScrollBar {
+		arrowEmpty = "\a3\3DEN\Data\Controls\ctrlDefault\arrowEmpty_ca.paa";
+        arrowFull = "\a3\3DEN\Data\Controls\ctrlDefault\arrowFull_ca.paa";
+        border = "\a3\3DEN\Data\Controls\ctrlDefault\border_ca.paa";
+        thumb = "\a3\3DEN\Data\Controls\ctrlDefault\thumb_ca.paa";
 		color[] = {1, 1, 1, 1};
 	};
 };
@@ -435,28 +441,6 @@ class RscItemButtonClose: RscItemButton {
 	text = "\a3\3DEN\Data\ControlsGroups\Tutorial\close_ca.paa"
 	//tooltip = "Close";
 	colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R', 0])","(profilenamespace getvariable ['GUI_BCG_RGB_G',0])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0])", 0};
-};
-
-class RscItemButtonSort: RscItemButton {
-	type = CT_ACTIVETEXT;
-	style = 48;
-	//colorHover[] = {0.3, 0.4, 0, 1};
-	colorText[] = {1, 1, 1, 1};
-	color[] = {1, 1, 1, 1};
-	colorActive[] = {1, 1, 1, 1};
-	colorBackgroundActive[] = {0, 0, 0, 0};
-	colorDisabled[] = {1, 1, 1, 0.25};
-	shadow = 2;
-	tooltip = "Sorted ascending.";
-	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-	soundClick[] = {"", 0.1, 1};
-	soundEnter[] = {"", 0.1, 1};
-	soundEscape[] = {"", 0.1, 1};
-	soundPush[] = {"", 0.1, 1};
-	text = "\a3\ui_f\data\gui\rsc\rscdisplaymultiplayer\arrow_up_ca.paa";
-	tooltipColorShade[] = {0, 0, 0, 0.65};
-	tooltipColorText[] = {1, 1, 1, 1};
-	tooltipColorBox[] = {1, 1, 1, 0};
 };
 
 class RscItemButtonAction: RscItemButton {

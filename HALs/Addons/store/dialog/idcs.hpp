@@ -1,10 +1,13 @@
 #define GET_DISPLAY (uiNamespace getVariable ["HALs_store_display", displayNull])
-#define CTRL(IDC) ((GET_DISPLAY getVariable ["ctrl_group_items", controlNull]) controlsGroupCtrl IDC)
-#define CTRLT(IDC) ((GET_DISPLAY getVariable ["ctrl_group_trader", controlNull]) controlsGroupCtrl IDC)
+#define CTRL(IDC) ((GET_DISPLAY getVariable ["items_idc", controlNull]) controlsGroupCtrl IDC)
+#define CTRLT(IDC) ((GET_DISPLAY getVariable ["trader_idc", controlNull]) controlsGroupCtrl IDC)
+#define CTRLS(IDC) ((GET_DISPLAY getVariable ["selected_idc", controlNull]) controlsGroupCtrl IDC)
 
 #define IDD_DISPLAY_STORE 85999
 #define IDC_GROUP_ITEMS  75000
 #define IDC_GROUP_TRADER 75001
+#define IDC_GROUP_SELECTED 75002
+
 
 #define IDC_STATS_PROGRESS_1  75410
 #define IDC_STATS_PROGRESS_TEXT_1  75411
@@ -18,11 +21,11 @@
 #define IDC_STATS_PROGRESS_TEXT_5  75451
 
 #define STAT_BARS [\
-    [CTRL(IDC_STATS_PROGRESS_1), CTRL(IDC_STATS_PROGRESS_TEXT_1)],\
-    [CTRL(IDC_STATS_PROGRESS_2), CTRL(IDC_STATS_PROGRESS_TEXT_2)],\
-    [CTRL(IDC_STATS_PROGRESS_3), CTRL(IDC_STATS_PROGRESS_TEXT_3)],\
-    [CTRL(IDC_STATS_PROGRESS_4), CTRL(IDC_STATS_PROGRESS_TEXT_4)],\
-    [CTRL(IDC_STATS_PROGRESS_5), CTRL(IDC_STATS_PROGRESS_TEXT_5)]\
+    [CTRLS(IDC_STATS_PROGRESS_1), CTRLS(IDC_STATS_PROGRESS_TEXT_1)],\
+    [CTRLS(IDC_STATS_PROGRESS_2), CTRLS(IDC_STATS_PROGRESS_TEXT_2)],\
+    [CTRLS(IDC_STATS_PROGRESS_3), CTRLS(IDC_STATS_PROGRESS_TEXT_3)],\
+    [CTRLS(IDC_STATS_PROGRESS_4), CTRLS(IDC_STATS_PROGRESS_TEXT_4)],\
+    [CTRLS(IDC_STATS_PROGRESS_5), CTRLS(IDC_STATS_PROGRESS_TEXT_5)]\
 ]
 
 #define IDC_LISTBOX 75010

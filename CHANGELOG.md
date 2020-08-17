@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 1.5.0
+* **Added** the store's action name (new `stringtable.xml` entry: `STR_HALS_STORE_OPEN_ACTION`).
+* **Added** button to the store to open the Usage page on the repository's wiki.
+* **Added** `HALs_store_fnc_openStore` - open the store without using the addAction.
+* **Added** `HALs_store_fnc_addActionTrader` - Add an open store action to all targets.
+* **Added** new setting `oldManItemsPrice` to `HALs\Addons\Money\config.hpp` - this array controls the price of the money inventory items added in the Old Man update: `"Money_bunch"`, `"Money_roll"`, `"Money_stack"` and `"Money"`.
+* **Changed** `HALs_store_fnc_addTrader` now accepts a target parameter which determines who can use (the addAction) the trader. By default, all players will have the addAction.
+* **Changed** stock and starting funds can now be greater than 999,999 (previous hard cap).
+* **Changed** the store's visuals to minimise empty space and changed colours to match BIS' colour scheme.
+* **Changed** the example mission to demonstrate picking up money and different stores.
+* **Changed** trader can be any type not just "CAManBase", "ReammoBox_F" or "Car_F".
+
 ## Version 1.4.1
 * **Added** support for Old Man's new money items: picking them up will add money to the player. Alter the money values in `HALs\Addons\money\functions\client\fn_client.sqf`.
 * **Added** `BIS_fnc_holdActionAdd` to replace the previously used `addAction`.

@@ -94,7 +94,7 @@ switch (_itemCategory) do {
 			case "LaserDesignator",
 			case "Binocular": {_canAdd = (binocular _unit) isEqualTo ""};
 			default {
-				_canAdd = !(_classname in (assignedItems player apply {toLower _x}))
+				_canAdd = !(_classname in (assignedItems _unit apply {toLower _x}))
 			};
 		};
 	};

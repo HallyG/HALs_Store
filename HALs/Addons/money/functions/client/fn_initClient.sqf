@@ -1,21 +1,20 @@
 /*
 	Function: HALs_money_fnc_init
 	Author: HallyG
+	Client initialisation.
+
+	Argument(s):
+	0: None
+
+	Return Value:
+	None
 
 	Example:
-	[] spawn HALs_money_fnc_initModule;
+	[] call HALs_money_fnc_initModule;
 __________________________________________________________________*/
 if (!hasInterface) exitWith {};
-if (!isNil "HALs_money_debug") exitWith {};
 
-["HALs_money",
-	[
-		["startingFunds", 1000, {_this max 0 min 999999}],
-		["startingBalance", 0, {_this max 0 min 999999}],
-		["debug", 0, {_this isEqualTo 1}]
-	]
-] call HALs_fnc_getModuleSettings;
-
+// Add starting money to player
 [player, HALs_money_startingFunds] call HALs_money_fnc_addFunds;
 
 // Add money when player picks up money
@@ -24,18 +23,19 @@ player addEventHandler ["Take", {
 	
 	private _money = 0;
 	switch (_item) do {
-		case "Money_bunch": {_money = 50};
-		case "Money_roll": {_money = 150};
-		case "Money_stack": {_money = 300};
-		case "Money": {_money = 600};
+		case "Money_bunch": {_money = HALs_money_oldManItemsPrice select 0};
+		case "Money_roll": {_money = HALs_money_oldManItemsPrice select 1};
+		case "Money_stack": {_money = HALs_money_oldManItemsPrice select 2};
+		case "Money": {_money = HALs_money_oldManItemsPrice select 3};
 	};
 
 	if (_money > 0) then {
 		player removeItem _item;
 		[player, _money] call HALs_money_fnc_addFunds;
 	};
-}];
+}];		
 
+// Display money in the player's inventory
 player addEventHandler ["InventoryOpened", {
 	_h = [] spawn {
 		disableSerialization;

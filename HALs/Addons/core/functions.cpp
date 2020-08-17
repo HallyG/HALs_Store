@@ -16,8 +16,8 @@ class HALs {
 
 	class Config {
 		file = "HALs\Addons\core\functions\config";
-		class getConfigClass {};
-		class getConfigValue {};
+		class getConfigClass {headerType=-1;};
+		class getConfigValue {headerType=-1;};
 		class getModuleSettings {};
 	};
 };

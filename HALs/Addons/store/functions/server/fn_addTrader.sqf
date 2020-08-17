@@ -6,6 +6,8 @@
 	Argument(s):
 	0: Trader object <OBJECT>
 	1: Trader type <STRING>
+	2: Trader target (Default: 0) <ARRAY, GROUP, NUMBER, OBJECT, SIDE, STRING>
+		The trader is avaliable to all of these targets.
 
 	Return Value:
 	<BOOLEAN>
@@ -15,7 +17,8 @@
 __________________________________________________________________*/
 params [
 	["_trader", objNull, [objNull]],
-	["_traderType", "", [""]]
+	["_traderType", "", [""]],
+	["_target", 0, [0, objNull, "", sideUnknown, grpNull, []]]
 ];
 
 if (!isServer) exitWith {false};
@@ -28,15 +31,14 @@ try {
 	if (_traderType isEqualTo "") then {throw ["No Trader type", __LINE__]};
 	if (!isClass (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType)) then {throw ["Invalid Trader type", __LINE__]};
 
-	private _type = {typeOf _trader isKindOf [_x, configFile >> "cfgVehicles"]} count ["CAManBase", "Car_F", "ReammoBox_F"];
-	if (_type isEqualto 0) then {throw ["Trader is not TypeOf: ['CAManBase', 'Car_F', 'ReammoBox_F']", __LINE__]};
+	//private _type = {typeOf _trader isKindOf [_x, configFile >> "cfgVehicles"]} count ["CAManBase", "Car_F", "ReammoBox_F"];
+	//if (_type isEqualto 0) then {throw ["Trader is not TypeOf: ['CAManBase', 'Car_F', 'ReammoBox_F']", __LINE__]};
 
 	private _categories = [
 		getArray (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType >> "categories"),
 		{getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "categories" >> _x >> "displayname")},
 		true
 	] call HALs_fnc_sortArray;
-
 
 	private _classes = [];
 	private _stocks = [];
@@ -55,8 +57,7 @@ try {
 			_classes pushBack _x;
 			_stocks pushBack toLower _x;
 			_stocks pushBack (getNumber (_configCategory >> _x >> "stock") max 0);
-			nil
-		} count _items;
+		} forEach _items;
 	} forEach _categories;
 
 	_trader setVariable ["HALs_store_trader_type", _traderType, true];
@@ -69,7 +70,8 @@ try {
 		clearBackpackCargoGlobal _trader;
 	};
 
-	[_trader] remoteExec ["HALs_store_fnc_addAction", 0, true];
+	_trader setVariable ["HALs_store_name", getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType >> "displayName"), true];
+	[_trader, _target] call HALs_store_fnc_addActionTrader;
 	true
 } catch {
 	[_exception] call HALs_fnc_log;
