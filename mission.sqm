@@ -16,21 +16,20 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=14;
+		nextID=22;
 	};
 	class Camera
 	{
-		pos[]={5400.0869,18.368858,3873.1299};
-		dir[]={0.52127606,-0.51436371,0.68110949};
-		up[]={0.31263524,0.85755759,0.40849662};
-		aside[]={0.79417819,1.5310943e-006,-0.60781556};
+		pos[]={5406.8535,16.242563,3877.938};
+		dir[]={0.30883306,-0.59027994,0.74592394};
+		up[]={0.22581303,0.8071875,0.54540873};
+		aside[]={0.92401314,1.8439023e-006,-0.38257003};
 	};
 };
 binarizationWanted=0;
 addons[]=
 {
 	"A3_Soft_F_Gamma_SUV_01",
-	"A3_Modules_F_ObjectModifiers",
 	"A3_Modules_F_Intel",
 	"A3_Missions_F_Oldman",
 	"A3_Misc_F_Helpers",
@@ -168,7 +167,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=23;
+		items=22;
 		class Item0
 		{
 			dataType="Object";
@@ -187,77 +186,6 @@ class Mission
 			type="C_SUV_01_F";
 		};
 		class Item1
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={5405.8569,5,3895.927};
-			};
-			id=181;
-			type="ModuleDoorOpen_F";
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="ModuleDoorOpen_F_Hatch";
-					expression="_this setVariable ['Hatch',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="-1";
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="ModuleDoorOpen_F_Door";
-					expression="_this setVariable ['Door',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="1";
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="ModuleDoorOpen_F_Radius";
-					expression="_this setVariable ['Radius',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=15;
-						};
-					};
-				};
-				nAttributes=3;
-			};
-		};
-		class Item2
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -480,7 +408,7 @@ class Mission
 				nAttributes=11;
 			};
 		};
-		class Item3
+		class Item2
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -532,7 +460,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item4
+		class Item3
 		{
 			dataType="Trigger";
 			position[]={5403.0957,5,3893.0364};
@@ -546,7 +474,7 @@ class Mission
 			id=184;
 			type="EmptyDetector";
 		};
-		class Item5
+		class Item4
 		{
 			dataType="Trigger";
 			position[]={5400.8965,5,3884.6013};
@@ -563,7 +491,7 @@ class Mission
 			id=185;
 			type="EmptyDetectorArea10x10";
 		};
-		class Item6
+		class Item5
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -786,7 +714,7 @@ class Mission
 				nAttributes=11;
 			};
 		};
-		class Item7
+		class Item6
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -838,7 +766,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item8
+		class Item7
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -890,7 +818,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item9
+		class Item8
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -942,7 +870,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item10
+		class Item9
 		{
 			dataType="Trigger";
 			position[]={5408.356,5,3895.082};
@@ -955,7 +883,7 @@ class Mission
 			id=190;
 			type="EmptyDetector";
 		};
-		class Item11
+		class Item10
 		{
 			dataType="Layer";
 			name="Weapon Store";
@@ -1205,6 +1133,74 @@ class Mission
 					};
 					id=177;
 					type="Land_Cargo_House_V2_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="DoorStates";
+							expression="['init',_this,_value] call bis_fnc_3DENAttributeDoorStates;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"ARRAY"
+										};
+									};
+									class value
+									{
+										items=3;
+										class Item0
+										{
+											class data
+											{
+												class type
+												{
+													type[]=
+													{
+														"SCALAR"
+													};
+												};
+												value=2;
+											};
+										};
+										class Item1
+										{
+											class data
+											{
+												class type
+												{
+													type[]=
+													{
+														"SCALAR"
+													};
+												};
+												value=0;
+											};
+										};
+										class Item2
+										{
+											class data
+											{
+												class type
+												{
+													type[]=
+													{
+														"SCALAR"
+													};
+												};
+												value=0;
+											};
+										};
+									};
+								};
+							};
+						};
+						nAttributes=1;
+					};
 				};
 				class Item16
 				{
@@ -1328,7 +1324,7 @@ class Mission
 							flags=7;
 							class Attributes
 							{
-								init="if (isServer) then {this enableSimulation false; this allowDamage false; this setCaptive true}; [this,""STAND"", ""ASIS""] call BIS_fnc_ambientAnim;" \n "";
+								init="if (isServer) then { " \n " private _unit = this; " \n " _unit enableSimulation false; " \n " _unit allowDamage false; " \n " _unit setCaptive true; " \n "  " \n " [_unit, ""STAND"", ""ASIS""] remoteExecCall [""BIS_fnc_ambientAnim"", 0, true]; " \n "};";
 							};
 							id=196;
 							type="I_G_Soldier_F";
@@ -1402,7 +1398,7 @@ class Mission
 							flags=7;
 							class Attributes
 							{
-								init="if (isServer) then {this enableSimulation false; this allowDamage false; this setCaptive true}; [this,""GUARD"", ""ASIS""] call BIS_fnc_ambientAnim;" \n "";
+								init="if (isServer) then { " \n " private _unit = this; " \n " _unit enableSimulation false; " \n " _unit allowDamage false; " \n " _unit setCaptive true; " \n "  " \n " [_unit, ""GUARD"", ""ASIS""] remoteExecCall [""BIS_fnc_ambientAnim"", 0, true]; " \n "};";
 							};
 							id=198;
 							type="I_G_Soldier_F";
@@ -1531,9 +1527,9 @@ class Mission
 				};
 			};
 			id=206;
-			atlOffset=-4.3266773;
+			atlOffset=0.50394773;
 		};
-		class Item12
+		class Item11
 		{
 			dataType="Marker";
 			position[]={5405.2969,5,3895.8931};
@@ -1542,7 +1538,7 @@ class Mission
 			type="loc_Tourism";
 			id=248;
 		};
-		class Item13
+		class Item12
 		{
 			dataType="Group";
 			side="West";
@@ -1572,7 +1568,7 @@ class Mission
 			};
 			id=249;
 		};
-		class Item14
+		class Item13
 		{
 			dataType="Layer";
 			name="Navigation Store";
@@ -1838,7 +1834,7 @@ class Mission
 			id=324;
 			atlOffset=0.02112484;
 		};
-		class Item15
+		class Item14
 		{
 			dataType="Marker";
 			position[]={5427.4282,5,3881.4009};
@@ -1847,7 +1843,7 @@ class Mission
 			type="loc_Tourism";
 			id=325;
 		};
-		class Item16
+		class Item15
 		{
 			dataType="Group";
 			side="Independent";
@@ -1919,7 +1915,7 @@ class Mission
 			};
 			id=326;
 		};
-		class Item17
+		class Item16
 		{
 			dataType="Group";
 			side="Independent";
@@ -1938,7 +1934,7 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="if (isServer) then {this enableSimulation false; this allowDamage false; this setCaptive true}; [this, selectRandom [""SIT_U1"", ""SIT_U2"", ""SIT_U3""], ""ASIS"", box1] call BIS_fnc_ambientAnim;" \n "";
+						init="if (isServer) then { " \n " private _unit = this; " \n " _unit enableSimulation false; " \n " _unit allowDamage false; " \n " _unit setCaptive true; " \n "  " \n " [_unit, selectRandom [""SIT_U1"", ""SIT_U2"", ""SIT_U3""], ""ASIS"", box1] remoteExecCall [""BIS_fnc_ambientAnim"", 0, true]; " \n "};";
 					};
 					id=329;
 					type="I_G_Survivor_F";
@@ -1991,7 +1987,7 @@ class Mission
 			};
 			id=330;
 		};
-		class Item18
+		class Item17
 		{
 			dataType="Object";
 			class PositionInfo
@@ -2009,7 +2005,7 @@ class Mission
 			type="Sign_Pointer_F";
 			atlOffset=0.00040006638;
 		};
-		class Item19
+		class Item18
 		{
 			dataType="Trigger";
 			position[]={5423.3662,5,3883.4839};
@@ -2023,7 +2019,7 @@ class Mission
 			id=332;
 			type="EmptyDetector";
 		};
-		class Item20
+		class Item19
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -2075,7 +2071,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item21
+		class Item20
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -2298,7 +2294,7 @@ class Mission
 				nAttributes=11;
 			};
 		};
-		class Item22
+		class Item21
 		{
 			dataType="Logic";
 			class PositionInfo
