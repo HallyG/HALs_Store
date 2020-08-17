@@ -1,5 +1,4 @@
 /*
-	@todo
 	Function: HALs_store_fnc_addTrader
 	Author: HallyG
 	Initialises a trader.
@@ -7,6 +6,8 @@
 	Argument(s):
 	0: Trader object <OBJECT>
 	1: Trader type <STRING>
+	2: Trader target (Default: 0) <ARRAY, GROUP, NUMBER, OBJECT, SIDE, STRING>
+		The trader is avaliable to all of these targets.
 
 	Return Value:
 	<BOOLEAN>
@@ -16,7 +17,8 @@
 __________________________________________________________________*/
 params [
 	["_trader", objNull, [objNull]],
-	["_traderType", "", [""]]
+	["_traderType", "", [""]],
+	["_target", 0, [0, objNull, "", sideUnknown, grpNull, []]]
 ];
 
 if (!isServer) exitWith {false};
@@ -55,8 +57,7 @@ try {
 			_classes pushBack _x;
 			_stocks pushBack toLower _x;
 			_stocks pushBack (getNumber (_configCategory >> _x >> "stock") max 0);
-			nil
-		} count _items;
+		} forEach _items;
 	} forEach _categories;
 
 	_trader setVariable ["HALs_store_trader_type", _traderType, true];
@@ -70,7 +71,7 @@ try {
 	};
 
 	_trader setVariable ["HALs_store_name", getText (missionConfigFile >> "cfgHALsAddons" >> "cfgHALsStore" >> "stores" >> _traderType >> "displayName"), true];
-	[_trader] call HALs_store_fnc_addActionTrader;
+	[_trader, _target] call HALs_store_fnc_addActionTrader;
 	true
 } catch {
 	[_exception] call HALs_fnc_log;

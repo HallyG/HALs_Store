@@ -1531,7 +1531,7 @@ class Mission
 				};
 			};
 			id=206;
-			atlOffset=0.50394773;
+			atlOffset=-4.3266773;
 		};
 		class Item12
 		{
